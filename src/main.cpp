@@ -3,6 +3,10 @@
 #include <SFML/System.hpp>
 #include <SFML/Network.hpp>
 #include "Blackened-Soil/Vector2D.h"
+#include "Blackened-Soil/GameObject.h"
+#include <vector>
+
+std::vector<GameObject> dorian;
 
 int main() {
     sf::ContextSettings settings;
@@ -26,6 +30,16 @@ int main() {
     shape[2].color = sf::Color::Black;
     shape[3].color = sf::Color::Red;
 
+    GameObject a1;
+    GameObject a2;
+
+    *a1.obj = shape;
+    *a2.obj = shape2;
+
+
+
+    dorian.push_back(a1);
+    dorian.push_back(a2);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -36,8 +50,10 @@ int main() {
 
         window.clear();
 
-        window.draw(shape);
-        window.draw(shape2);
+        for (auto i : dorian) {
+            i.update();
+            //window.draw(*i.obj);
+        }
 
         window.display();
     }

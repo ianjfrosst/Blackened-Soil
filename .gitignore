@@ -27,10 +27,6 @@
 *.out
 *.app
 
-
-cmake/
-CMakeLists.txt
-
 .idea
 .idea/
 .idea/*

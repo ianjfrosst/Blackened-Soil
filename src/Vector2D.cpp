@@ -4,6 +4,10 @@ Vector2D::Vector2D(double nX, double nY) {
     SetXY(nX, nY);
 }
 
+Vector2D::Vector2D(sf::Vector2f v) {
+    SetXY(v.x, v.y);
+}
+
 void Vector2D::SetXY(double nX = 0.0, double nY = 0.0) {
     x = nX;
     y = nY;

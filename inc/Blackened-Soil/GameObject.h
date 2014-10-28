@@ -5,10 +5,14 @@
 
 class GameObject {
 public:
-    sf::CircleShape obj;
-    sf::Vector2f& pos;// = obj.position;
+    sf::Drawable* obj;
+    Vector2D pos;// = obj.position;
     Vector2D vel;
     Vector2D acc;
+
+    GameObject() {}
+
+    void update();
 
     
 };
