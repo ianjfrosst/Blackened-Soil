@@ -1,0 +1,18 @@
+﻿Build started 10/28/2014 9:41:52 AM.
+     1>Project "C:\Users\Owner\Documents\Visual Studio 2012\Projects\Blackened-Soil\Blackened-Soil\Blackened-Soil.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SFML-2.1\include" /I"C:\Users\Owner\ICS4UG summative\Blackened-Soil\inc\Blackened-Soil" /ZI /nologo /W3 /WX- /Od /Oy- /D SFML_STATIC /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt "..\..\..\..\..\ICS4UG summative\Blackened-Soil\src\GameObject.cpp" "..\..\..\..\..\ICS4UG summative\Blackened-Soil\src\main.cpp" "..\..\..\..\..\ICS4UG summative\Blackened-Soil\src\Vector2D.cpp" main.cpp
+         main.cpp
+     1>c:\users\owner\ics4ug summative\blackened-soil\inc\blackened-soil\gameobject.h(3): fatal error C1083: Cannot open include file: 'Blackened-Soil/Vector2D.h': No such file or directory
+         Vector2D.cpp
+     1>c:\users\owner\ics4ug summative\blackened-soil\src\vector2d.cpp(1): fatal error C1083: Cannot open include file: 'Blackened-Soil/Vector2D.h': No such file or directory
+         main.cpp
+     1>c:\users\owner\ics4ug summative\blackened-soil\src\main.cpp(5): fatal error C1083: Cannot open include file: 'Blackened-Soil/Vector2D.h': No such file or directory
+         GameObject.cpp
+     1>c:\users\owner\ics4ug summative\blackened-soil\src\gameobject.cpp(1): fatal error C1083: Cannot open include file: 'Blackened-Soil/GameObject.h': No such file or directory
+         Generating Code...
+     1>Done Building Project "C:\Users\Owner\Documents\Visual Studio 2012\Projects\Blackened-Soil\Blackened-Soil\Blackened-Soil.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.49
