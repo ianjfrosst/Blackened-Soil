@@ -29,7 +29,10 @@
 
 .idea/
 
-Debug/
-*.vcxproj*
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
 
+*.vcxproj*
 .DS_Store
