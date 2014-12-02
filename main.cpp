@@ -2,8 +2,8 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Network.hpp>
-#include "Blackened-Soil/Vector2D.h"
-#include "Blackened-Soil/GameObject.h"
+#include "Vector2D.h"
+#include "GameObject.h"
 #include <vector>
 
 std::vector<GameObject> dorian;
@@ -23,8 +23,7 @@ int main() {
     shape[1].position = sf::Vector2f(0, 300);
     shape[2].position = sf::Vector2f(300, 300);
     shape[3].position = sf::Vector2f(300, 0);
-
-
+    
     shape[0].color = sf::Color::Black;
     shape[1].color = sf::Color::Red;
     shape[2].color = sf::Color::Black;
@@ -35,8 +34,6 @@ int main() {
 
     *a1.obj = shape;
     *a2.obj = shape2;
-
-
 
     dorian.push_back(a1);
     dorian.push_back(a2);

@@ -36,3 +36,5 @@
 
 *.vcxproj*
 .DS_Store
+
+*.dll

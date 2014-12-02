@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Blackened-Soil/Vector2D.h"
+#include "Vector2D.h"
 #include <SFML/Graphics.hpp>
 
 class GameObject {

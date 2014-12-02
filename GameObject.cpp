@@ -1,4 +1,4 @@
-#include "Blackened-Soil/GameObject.h"
+#include "GameObject.h"
 
 void GameObject::update() {
     vel += acc;
