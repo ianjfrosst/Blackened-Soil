@@ -27,14 +27,9 @@
 *.out
 *.app
 
-.idea
 .idea/
-.idea/*
 
-*idea
-*idea/
-*idea/*
-
-Debug*/
+Debug/
 *.vcxproj*
 
+.DS_Store
