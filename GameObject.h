@@ -6,13 +6,14 @@
 class GameObject {
 public:
     sf::Drawable* obj;
-    Vector2D pos;// = obj.position;
+    Vector2D pos;
     Vector2D vel;
     Vector2D acc;
 
     GameObject() {}
 
-    void update();
+    virtual void update();
+	virtual void draw(sf::RenderWindow window);
 
     
 };
