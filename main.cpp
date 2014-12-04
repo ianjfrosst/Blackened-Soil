@@ -10,8 +10,7 @@
 int main() {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(800,600,32), "SFML TEST", sf::Style::Default, settings);
-
+    sf::RenderWindow window(sf::VideoMode(800,600,16), "SFML TEST", sf::Style::Default, settings);
 	sandSystem sand;
 	sand.populate();
 

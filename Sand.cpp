@@ -2,10 +2,20 @@
 
 void sandSystem::populate() {
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
-		for (int o = SAND_SYSTEM_Y; o > SAND_SYSTEM_Y/2; --o) {
-			 staticSand[i][o].r = i % 255;
-			 staticSand[i][o].b = o % 255;
+		for (int o = SAND_SYSTEM_Y; o > SAND_SYSTEM_Y/4; --o) {
+			staticSand[i][o] = sf::Color::Red;
 		}
+	}
+
+	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
+
+	}
+
+}
+
+void sandSystem::update () {
+	for (int i = 0; i < activeSandParts.size(); i++) {
+		activeSandParts[i].pos += activeSandParts[i].vel;
 	}
 }
 
@@ -18,9 +28,9 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 		}
 	}
 
-	//for (sandPart i : activeSandParts) {
-	//	out.setPixel(i.pos.x, i.pos.y, i.col);
-	//}
+	for (int i = 0; i < activeSandParts.size(); i++) {
+		out.setPixel(activeSandParts[i].pos.x, activeSandParts[i].pos.y, activeSandParts[i].col);
+	}
 
 	sf::Texture outTex;
 	outTex.loadFromImage(out);

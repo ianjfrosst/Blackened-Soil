@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <stack>
 
-#define SAND_SYSTEM_X 800
-#define SAND_SYSTEM_Y 600
+#define SAND_SYSTEM_X 200
+#define SAND_SYSTEM_Y 200
 
 struct sandPart {
 public :
@@ -24,4 +24,5 @@ public :
 	sandSystem(){}
 	void render (sf::RenderWindow &window, Vector2D scrollPos);
 	void populate ();
+	void update ();
 };
