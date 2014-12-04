@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <stack>
 
-#define SAND_SYSTEM_X 1920
-#define SAND_SYSTEM_Y 1080
+#define SAND_SYSTEM_X 800
+#define SAND_SYSTEM_Y 600
 
 struct sandPart {
 public :

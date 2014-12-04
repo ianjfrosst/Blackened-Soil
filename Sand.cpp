@@ -2,7 +2,7 @@
 
 void sandSystem::populate() {
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
-		for (int o = 0; o < SAND_SYSTEM_Y; ++o) {
+		for (int o = SAND_SYSTEM_Y; o > SAND_SYSTEM_Y/2; --o) {
 			 staticSand[i][o].r = i % 255;
 			 staticSand[i][o].b = o % 255;
 		}
@@ -18,9 +18,9 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 		}
 	}
 
-	for (sandPart i : activeSandParts) {
-		out.setPixel(i.pos.x, i.pos.y, i.col);
-	}
+	//for (sandPart i : activeSandParts) {
+	//	out.setPixel(i.pos.x, i.pos.y, i.col);
+	//}
 
 	sf::Texture outTex;
 	outTex.loadFromImage(out);
