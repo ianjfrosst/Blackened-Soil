@@ -15,7 +15,6 @@ public :
 };
 
 class sandSystem {
-	// A nullptr signals the top of the pile.
 	sf::Color staticSand[SAND_SYSTEM_X][SAND_SYSTEM_Y];
 	std::vector<sandPart> activeSandParts;
 
