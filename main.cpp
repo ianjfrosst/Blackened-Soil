@@ -9,7 +9,6 @@
 
 int main() {
     sf::ContextSettings settings;
-
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(1000,650,32), "SFML TEST", sf::Style::Default, settings);
 
@@ -20,20 +19,10 @@ int main() {
 	sf::Sprite sprite;
 	sprite.setTexture(t);
 
-    shape[0].position = sf::Vector2f(0, 0);
-    shape[1].position = sf::Vector2f(0, 300);
-    shape[2].position = sf::Vector2f(300, 300);
-    shape[3].position = sf::Vector2f(300, 0);
-    
-    shape[0].color = sf::Color::Black;
-    shape[1].color = sf::Color::Red;
-    shape[2].color = sf::Color::Black;
-    shape[3].color = sf::Color::Red;
-
-	sandSystem sand();
+	sandSystem sand;
 
 	sand.populate();
-	sand.render();
+	sand.render(window, Vector2D(0,0));
 
     while (window.isOpen()) {
 		sf::Event event;

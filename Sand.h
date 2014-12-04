@@ -22,6 +22,7 @@ class sandSystem {
 
 
 public :
-	void render (sf::RenderWindow, Vector2D scrollPos);
+	sandSystem(){}
+	void render (sf::RenderWindow &window, Vector2D scrollPos);
 	void populate ();
 };

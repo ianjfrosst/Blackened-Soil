@@ -9,7 +9,7 @@ void sandSystem::populate() {
 	}
 }
 
-void sandSystem::render(sf::RenderWindow window, Vector2D scrollPos) {
+void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 	sf::Image out;
 	out.create(SAND_SYSTEM_X,SAND_SYSTEM_Y);
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
