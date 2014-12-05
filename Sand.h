@@ -21,5 +21,6 @@ public :
 	sandSystem(){}
 	void render (sf::RenderWindow &window, Vector2D scrollPos);
 	void populate ();
-	void update ();
+	void update (Vector2D grav);
+
 };

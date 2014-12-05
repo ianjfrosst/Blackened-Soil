@@ -24,6 +24,7 @@ int main() {
 
         window.clear();
 		//std::cout << "Does this work\n";
+		sand.update(Vector2D(0,-1));
 		sand.render(window, Vector2D(100,100));
 
         window.display();
