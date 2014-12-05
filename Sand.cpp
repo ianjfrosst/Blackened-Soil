@@ -28,9 +28,9 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 		}
 	}
 
-	for (int i = 0; i < activeSandParts.size(); i++) {
+	/*for (int i = 0; i < activeSandParts.size(); i++) {
 		out.setPixel(activeSandParts[i].pos.x, activeSandParts[i].pos.y, activeSandParts[i].col);
-	}
+	}*/
 
 	sf::Texture outTex;
 	outTex.loadFromImage(out);

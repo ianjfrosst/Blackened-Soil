@@ -21,9 +21,10 @@ int main() {
 				window.close();
 		}
 
-        window.clear();
 
-		sand.render(window, Vector2D(0,0));
+        window.clear();
+		//std::cout << "Does this work\n";
+		sand.render(window, Vector2D(100,100));
 
         window.display();
     }
