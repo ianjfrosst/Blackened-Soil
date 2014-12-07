@@ -27,10 +27,14 @@
 *.out
 *.app
 
-.idea
 .idea/
-.idea/*
 
-*idea
-*idea/
-*idea/*
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+
+*.vcxproj*
+.DS_Store
+
+*.dll

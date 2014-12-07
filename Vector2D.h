@@ -16,6 +16,7 @@ public:
 
     double GetDir();
     double GetMag();
+	double GetSqrMag();
 
     Vector2D& operator+=(const Vector2D& v);
     Vector2D& operator-=(const Vector2D& v);
