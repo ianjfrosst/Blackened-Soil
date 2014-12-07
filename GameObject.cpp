@@ -7,6 +7,6 @@ void GameObject::update() {
 }
 
 // Default implementation of draw. Overridable
-void GameObject::draw(sf::RenderWindow window) {
-	window.draw(*obj);
+void GameObject::draw(sf::RenderWindow &window) {
+	window.draw(spr);
 }

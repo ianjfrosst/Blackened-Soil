@@ -1,26 +1,20 @@
 #include "Sand.h"
 
-void sandSystem::populate() {
+void sandSystem::populate(int sandHeight) {
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
-		int j = 0;
-		for (j = 0; j < SAND_SYSTEM_Y; ++j) {
-			if (j < 50) staticSand[i][j] = sf::Color(255, j%256, i%256,255);
+		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
+			if (j < sandHeight) staticSand[i][j] = sf::Color(255, j%256, i%256, 255);
 			else staticSand[i][j] = sf::Color::Transparent;
 		}
 	}
 	//std::cout << vector<sandPart>.max_size;
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
-		
-		sandPart s;
-		s.pos = Vector2D(i, 150);
-		s.vel = Vector2D(0,20);
-		s.col = sf::Color::Red;
-		activeSandParts.push_back(s);
+		activeSandParts.push_back(sandPart(Vector2D(i, 150), Vector2D(0,20), sf::Color::Red));
 	}
 
 }
 
-void sandSystem::update (Vector2D grav) {
+void sandSystem::update(Vector2D grav) {
 	//std::cout << activeSandParts.size() << '\n';
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
@@ -87,11 +81,11 @@ Vector2D getInvSq(Vector2D src, int x, int y, int power) {
 /// Creates an explosion of size "range" at "loc" with "power".
 /// Power is the maximum (?) power that the explosion can apply.
 /// </summary>
-void sandSystem::detonate (Vector2D loc, float power, float range) {
+void sandSystem::detonate(Vector2D loc, float power, float range) {
 	std::cout << "BOOM!";
 	for (int x = loc.x-range < 0 ? 0 : loc.x-range; x < (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range); x++) {
 		int y;
-		// The half that needs destoying.
+		// The half that needs destroying.
 		for (y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y); y++) {
 			staticSand[x][y] = sf::Color::Green;
 		}

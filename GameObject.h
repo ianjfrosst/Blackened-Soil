@@ -5,7 +5,7 @@
 
 class GameObject {
 public:
-    sf::Drawable* obj;
+    sf::Sprite spr;
     Vector2D pos;
     Vector2D vel;
     Vector2D acc;
@@ -13,6 +13,5 @@ public:
     GameObject() {}
 
     virtual void update();
-	virtual void draw(sf::RenderWindow window);
-
+	virtual void draw(sf::RenderWindow &window);
 };
