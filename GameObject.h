@@ -11,7 +11,8 @@ public:
     Vector2D acc;
 
     GameObject() {}
-
+    GameObject(sf::Sprite &spr) : spr(spr), pos(spr.getPosition()) {}
+    
     virtual void update();
 	virtual void draw(sf::RenderWindow &window);
 };

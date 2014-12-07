@@ -6,13 +6,12 @@
 #include "GameObject.h"
 #include "Sand.h"
 
-
 int main() {
 	time_t start = time(NULL);
 	
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(800,600,32), "SFML TEST", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(600, 600, 32), "SFML TEST", sf::Style::Default, settings);
 
 	sandSystem sand;
 
@@ -26,15 +25,14 @@ int main() {
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-		
-		std::cout << difftime(time(NULL), start) << "\n";
 
-		if (difftime(time(NULL), start) > 5 && !boom) {
-			sand.detonate(Vector2D(105, 5), 200, 50);
+		if (difftime(time(NULL), start) > 2 && !boom) {
+			sand.detonate(Vector2D(250, 50), 200, 50);
 			boom = 1;
 		}
 
         window.clear();
+
 		sand.update(Vector2D(0,-1));
 		sand.render(window, Vector2D(50,50));
 

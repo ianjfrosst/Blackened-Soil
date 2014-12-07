@@ -1,9 +1,11 @@
 #pragma once
 
-#include <math.h>
+#include <cmath>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+
+// Angles are in radians
 class Vector2D {
 public:
     double x, y;

@@ -7,11 +7,6 @@ void sandSystem::populate(int sandHeight) {
 			else staticSand[i][j] = sf::Color::Transparent;
 		}
 	}
-	//std::cout << vector<sandPart>.max_size;
-	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
-		activeSandParts.push_back(sandPart(Vector2D(i, 150), Vector2D(0,20), sf::Color::Red));
-	}
-
 }
 
 void sandSystem::update(Vector2D grav) {
@@ -31,10 +26,8 @@ void sandSystem::update(Vector2D grav) {
 				// The position is inside of the static sand, so insert the object and shift everything else up.
 				int start = (int)activeSandParts[i].pos.y;
 				int o = start;
-				int end = 0; // Temporary thing...
 
 				for (;staticSand[(int)activeSandParts[i].pos.x][o] != sf::Color::Transparent;++o);
-				end = o;
 				for (;o > start; --o)
 					staticSand[(int)activeSandParts[i].pos.x][o] = staticSand[(int)activeSandParts[i].pos.x][o-1];
 
@@ -42,7 +35,6 @@ void sandSystem::update(Vector2D grav) {
 
 				activeSandParts.erase(activeSandParts.begin() + i);
 				--i;
-
 			}
 		}
 		if (activeSandParts[i].pos.x <= 0) {
@@ -54,7 +46,7 @@ void sandSystem::update(Vector2D grav) {
 			activeSandParts[i].vel.y = 0;
 		}
 		if (activeSandParts[i].pos.x >= SAND_SYSTEM_X) {
-			activeSandParts[i].pos.x = 0;
+			activeSandParts[i].pos.x = SAND_SYSTEM_X-1;
 			activeSandParts[i].vel.x = 0;
 		}
 		if (activeSandParts[i].pos.y >= SAND_SYSTEM_Y) {
@@ -62,8 +54,6 @@ void sandSystem::update(Vector2D grav) {
 			activeSandParts[i].vel.y = 0;
 		}
 	}
-
-	//std::cout << "Reached end of update.\n";
 }
 
 /// <summary>
