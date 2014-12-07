@@ -12,6 +12,7 @@ int main() {
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(800,600,32), "SFML TEST", sf::Style::Default, settings);
 	sandSystem sand;
+
 	sand.populate();
 
     while (window.isOpen()) {
