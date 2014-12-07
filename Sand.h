@@ -4,14 +4,18 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#define SAND_SYSTEM_X 200
-#define SAND_SYSTEM_Y 200
+#define SAND_SYSTEM_X 500
+#define SAND_SYSTEM_Y 500
 
 struct sandPart {
 public :
 	Vector2D pos;
 	Vector2D vel;
 	sf::Color col;
+	//sandSystem(){}
+	//sandSystem(Vector2D p, Vector2D v, sf::Color c) {
+
+	//}
 };
 
 class sandSystem {
@@ -22,5 +26,5 @@ public :
 	void render (sf::RenderWindow &window, Vector2D scrollPos);
 	void populate ();
 	void update (Vector2D grav);
-
+	void detonate (Vector2D loc, float power, float range);
 };

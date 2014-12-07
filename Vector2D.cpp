@@ -26,6 +26,10 @@ double Vector2D::GetMag() {
     return hypot(x, y);
 }
 
+double Vector2D::GetSqrMag() {
+	return (x*x) + (y*y);
+}
+
 Vector2D& Vector2D::operator+=(const Vector2D& v) {
     x += v.x;
     y += v.y;

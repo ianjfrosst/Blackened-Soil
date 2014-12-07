@@ -21,7 +21,7 @@ void sandSystem::populate() {
 }
 
 void sandSystem::update (Vector2D grav) {
-	std::cout << activeSandParts.size() << '\n';
+	//std::cout << activeSandParts.size() << '\n';
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
 		activeSandParts[i].vel += grav;
@@ -72,6 +72,42 @@ void sandSystem::update (Vector2D grav) {
 	//std::cout << "Reached end of update.\n";
 }
 
+/// <summary>
+/// Gets the inverse square at power from src to (x,y).
+/// Breaks if src and x,y are the same point (division by zero).
+/// </summary>
+/// <param name="x">The x coordinate of the target point. For sand grains.</param>
+/// <param name="y">The y coordinate of the target point. For sand grains.</param>
+Vector2D getInvSq(Vector2D src, int x, int y, int power) {
+	// TODO: This is probably broken. Should be replaced by a linear power calc.
+	return power/((src - Vector2D(x,y)).GetSqrMag()+1);
+}
+
+/// <summary>
+/// Creates an explosion of size "range" at "loc" with "power".
+/// Power is the maximum (?) power that the explosion can apply.
+/// </summary>
+void sandSystem::detonate (Vector2D loc, float power, float range) {
+	std::cout << "BOOM!";
+	for (int x = loc.x-range < 0 ? 0 : loc.x-range; x < (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range); x++) {
+		int y;
+		// The half that needs destoying.
+		for (y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y); y++) {
+			staticSand[x][y] = sf::Color::Green;
+		}
+
+		// The half that needs launching and destroying, selectively.
+		for (; y < (loc.y+range > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
+			staticSand[x][y] = sf::Color::Blue;
+			sandPart sp;
+			sp.pos = Vector2D(x,y);
+			sp.col = staticSand[x][y];
+			sp.vel = getInvSq(loc, x, y, power);
+			activeSandParts.push_back(sp);
+		}
+	}
+}
+
 void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 	sf::Image out;
 	out.create(SAND_SYSTEM_X,SAND_SYSTEM_Y);
@@ -106,3 +142,5 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 	outSpr.setPosition((sf::Vector2f)scrollPos);
 	window.draw(outSpr);
 }
+
+
