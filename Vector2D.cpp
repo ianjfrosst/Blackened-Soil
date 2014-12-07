@@ -1,4 +1,4 @@
-#include "Blackened-Soil/Vector2D.h"
+#include "Vector2D.h"
 
 Vector2D::Vector2D(double nX, double nY) {
     SetXY(nX, nY);
@@ -24,6 +24,10 @@ double Vector2D::GetDir() {
 
 double Vector2D::GetMag() {
     return hypot(x, y);
+}
+
+double Vector2D::GetSqrMag() {
+	return (x*x) + (y*y);
 }
 
 Vector2D& Vector2D::operator+=(const Vector2D& v) {
