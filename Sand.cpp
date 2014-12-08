@@ -10,7 +10,7 @@ void sandSystem::populate(int sandHeight) {
 }
 
 void sandSystem::update(Vector2D grav) {
-	//std::cout << activeSandParts.size() << '\n';
+	std::cout << activeSandParts.size() << '\n';
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
 		activeSandParts[i].vel += grav;
@@ -77,16 +77,16 @@ void sandSystem::detonate(Vector2D loc, float power, float range) {
 		int y;
 		// The half that needs destroying.
 		for (y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y); y++) {
-			staticSand[x][y] = sf::Color::Green;
+			staticSand[x][y] = sf::Color::Transparent;
 		}
 
 		// The half that needs launching and destroying, selectively.
 		for (; y < (loc.y+range > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			staticSand[x][y] = sf::Color::Blue;
 			sandPart sp;
 			sp.pos = Vector2D(x,y);
 			sp.col = staticSand[x][y];
 			sp.vel = getInvSq(loc, x, y, power);
+			staticSand[x][y] = sf::Color::Transparent;
 			activeSandParts.push_back(sp);
 		}
 	}
