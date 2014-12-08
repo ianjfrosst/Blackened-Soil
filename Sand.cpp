@@ -26,7 +26,15 @@ std::vector<int> sandSystem::genHeightMap(int width, double smooth, double seed)
 void sandSystem::populate(int sandHeight) {
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
-			if (j < sandHeight) staticSand[i][j] = sf::Color(0, 200, 20, 255);
+			if (j < sandHeight) {
+				if (j < sandHeight - 10) {
+					if (j < sandHeight - 30) staticSand[i][j] = sf::Color(140, 110, 60, 255);
+					else staticSand[i][j] = (rand() % (sandHeight - j) > 10) ?
+						sf::Color(140, 110, 60, 255) :
+						sf::Color(60, 140+(rand()%100), 60, 255);	// Brown or a gradient
+
+				} else staticSand[i][j] = sf::Color(60, 140+(rand()%100), 60, 255);			// Two different shades of green.
+			}
 			else staticSand[i][j] = sf::Color::Transparent;
 		}
 	}
