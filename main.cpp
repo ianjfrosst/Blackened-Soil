@@ -5,18 +5,17 @@
 #include "Vector2D.h"
 #include "GameObject.h"
 #include "Sand.h"
-#include <unistd.h>
 
 int main() {
 	time_t start = time(NULL);
 	
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(500, 500, 32), "SFML TEST", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(500, 500, 32), "TANKS", sf::Style::Default, settings);
 
 	sandSystem sand;
 
-	sand.populate(75);
+	sand.populate(200);
 
 	bool boom = 0;
 
@@ -28,7 +27,7 @@ int main() {
 		}
 
 		if (difftime(time(NULL), start) > 1 && !boom) {
-			sand.detonate(Vector2D(250, 50), 50, 10);
+			sand.detonate(Vector2D(250, 140), 50, 20);
 			boom = 1;
 		}
 

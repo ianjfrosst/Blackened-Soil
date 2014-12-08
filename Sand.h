@@ -26,6 +26,7 @@ public :
 	void render(sf::RenderWindow &window, Vector2D scrollPos);
 	void populate(int sandHeight);
 	void update(Vector2D grav);
-	void detonate(Vector2D loc, float power, float range);
+	void detonate(Vector2D loc, double power, double range);
 	void affixSand(int * i);
+	void detachSand(int x, int y, Vector2D vel);
 };

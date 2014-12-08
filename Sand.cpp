@@ -3,7 +3,7 @@
 void sandSystem::populate(int sandHeight) {
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
-			if (j < sandHeight) staticSand[i][j] = sf::Color::Cyan;//sf::Color(255, j%256, i%256, 255);
+			if (j < sandHeight) staticSand[i][j] = sf::Color(0, 200, 20, 255);
 			else staticSand[i][j] = sf::Color::Transparent;
 		}
 	}
@@ -15,7 +15,7 @@ void sandSystem::update(Vector2D grav) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
 		activeSandParts[i].vel += grav;
 
-		//std::cout << activeSandParts[i].pos << '\n';
+		// Is the sand on the screen?
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y &&
 					activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0) {
 
@@ -24,7 +24,8 @@ void sandSystem::update(Vector2D grav) {
 				continue;
 			}
 
-		}
+		} else affixSand(&i);
+		/*
 		if (activeSandParts[i].pos.x <= 0) {
 			activeSandParts[i].pos.x = 0;
 			activeSandParts[i].vel.x = 0;
@@ -40,6 +41,13 @@ void sandSystem::update(Vector2D grav) {
 		if (activeSandParts[i].pos.y >= SAND_SYSTEM_Y) {
 			activeSandParts[i].pos.y = SAND_SYSTEM_Y-1;
 			activeSandParts[i].vel.y = 0;
+		}*/
+	}
+	for (int x = 0; x < 500; ++x) {
+		for (int y = 1; y < 500; ++y) {
+			if (staticSand[x][y-1] == sf::Color::Transparent && staticSand[x][y] != sf::Color::Transparent) {
+				detachSand(x, y, Vector2D(0,0));
+			}
 		}
 	}
 }
@@ -50,7 +58,7 @@ void sandSystem::update(Vector2D grav) {
 /// </summary>
 /// <param name="x">The x coordinate of the target point. For sand grains.</param>
 /// <param name="y">The y coordinate of the target point. For sand grains.</param>
-Vector2D getInvSq(Vector2D src, int x, int y, int power) {
+Vector2D getInvSq(Vector2D src, int x, int y, double power) {
 	// TODO: This is probably broken. Should be replaced by a linear power calc.
 	Vector2D dirVec = (Vector2D(x,y) - src);
 	return Vector2D(dirVec.GetDir(), power/(dirVec.GetSqrMag()+1));
@@ -60,7 +68,7 @@ Vector2D getInvSq(Vector2D src, int x, int y, int power) {
 /// Creates an explosion of size "range" at "loc" with "power".
 /// Power is the maximum (?) power that the explosion can apply.
 /// </summary>
-void sandSystem::detonate(Vector2D loc, float power, float range) {
+void sandSystem::detonate(Vector2D loc, double power, double range) {
 	std::cout << "BOOM!";
 	for (int x = loc.x-range < 0 ? 0 : loc.x-range; x < (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range); x++) {
 		// The half that needs destroying.
@@ -68,14 +76,8 @@ void sandSystem::detonate(Vector2D loc, float power, float range) {
 			double a = x - loc.x;
 			double b = y - loc.y;
 			if (a*a + b*b <= range*range) {
-				if (y > loc.y) {
-					sandPart sp;
-					sp.pos = Vector2D(x, y);
-					sp.col = sf::Color::Yellow;//  staticSand[x][y];
-					sp.vel = getInvSq(loc, x, y, power);
-					activeSandParts.push_back(sp);
-				}
-				staticSand[x][y] = sf::Color::Transparent;
+				if (y > loc.y) detachSand(x, y, getInvSq(loc, x, y, power));
+				else staticSand[x][y] = sf::Color::Transparent;
 			}
 		}
 	}
@@ -90,11 +92,20 @@ void sandSystem::affixSand(int * i) {
 	for (;staticSand[(int)activeSandParts[*i].pos.x][o] != sf::Color::Transparent;++o);
 	for (;o > start; --o)
 		staticSand[(int)activeSandParts[*i].pos.x][o] = staticSand[(int)activeSandParts[*i].pos.x][o-1];
-				
+
 	staticSand[(int)activeSandParts[*i].pos.x][(int)activeSandParts[*i].pos.y] = activeSandParts[*i].col;
 
 	activeSandParts.erase(activeSandParts.begin() + *i);
 	--*i;
+}
+
+void sandSystem::detachSand(int x, int y, Vector2D vel) {
+	sandPart sp;
+	sp.pos = Vector2D(x, y);
+	sp.col = staticSand[x][y];
+	sp.vel = vel;
+	activeSandParts.push_back(sp);
+	staticSand[x][y] = sf::Color::Transparent;
 }
 
 void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
@@ -131,5 +142,3 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 	outSpr.setPosition((sf::Vector2f)scrollPos);
 	window.draw(outSpr);
 }
-
-
