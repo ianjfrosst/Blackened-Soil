@@ -3,14 +3,14 @@
 void sandSystem::populate(int sandHeight) {
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
-			if (j < sandHeight) staticSand[i][j] = sf::Color(255, j%256, i%256, 255);
+			if (j < sandHeight) staticSand[i][j] = sf::Color::Cyan;//sf::Color(255, j%256, i%256, 255);
 			else staticSand[i][j] = sf::Color::Transparent;
 		}
 	}
 }
 
 void sandSystem::update(Vector2D grav) {
-	std::cout << activeSandParts.size() << '\n';
+	//std::cout << activeSandParts.size() << '\n';
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
 		activeSandParts[i].vel += grav;
@@ -71,7 +71,7 @@ void sandSystem::detonate(Vector2D loc, float power, float range) {
 				if (y > loc.y) {
 					sandPart sp;
 					sp.pos = Vector2D(x, y);
-					sp.col = staticSand[x][y];
+					sp.col = sf::Color::Yellow;//  staticSand[x][y];
 					sp.vel = getInvSq(loc, x, y, power);
 					activeSandParts.push_back(sp);
 				}
@@ -110,7 +110,7 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 		out.setPixel(i, 0, sf::Color::Blue);
 		out.setPixel(i, SAND_SYSTEM_Y-1, sf::Color::Blue);
 
-		for (int o = 0; o < SAND_SYSTEM_Y && staticSand[i][o].a != 0; ++o) {
+		for (int o = 0; o < SAND_SYSTEM_Y; ++o) {
 			out.setPixel(i, o, staticSand[i][o]);
 		}
 	}

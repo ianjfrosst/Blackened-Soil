@@ -5,13 +5,14 @@
 #include "Vector2D.h"
 #include "GameObject.h"
 #include "Sand.h"
+#include <unistd.h>
 
 int main() {
 	time_t start = time(NULL);
 	
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(600, 600, 32), "SFML TEST", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(500, 500, 32), "SFML TEST", sf::Style::Default, settings);
 
 	sandSystem sand;
 
@@ -26,15 +27,15 @@ int main() {
 				window.close();
 		}
 
-		if (difftime(time(NULL), start) > 2 && !boom) {
-			sand.detonate(Vector2D(250, 50), 200, 50);
+		if (difftime(time(NULL), start) > 1 && !boom) {
+			sand.detonate(Vector2D(250, 50), 50, 10);
 			boom = 1;
 		}
 
         window.clear();
 
 		sand.update(Vector2D(0,-0.098));
-		sand.render(window, Vector2D(50,50));
+		sand.render(window, Vector2D(0,0));
 
         window.display();
     }
