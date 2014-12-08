@@ -27,13 +27,13 @@ int main() {
 		}
 
 		if (difftime(time(NULL), start) > 2 && !boom) {
-			sand.detonate(Vector2D(250, 50), 200, 50);
+			sand.detonate(Vector2D(250, 50), 200, 30);
 			boom = 1;
 		}
 
         window.clear();
 
-		sand.update(Vector2D(0,-1));
+		sand.update(Vector2D(0,-0.098));
 		sand.render(window, Vector2D(50,50));
 
         window.display();
