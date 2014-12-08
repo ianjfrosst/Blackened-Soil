@@ -21,6 +21,7 @@ void sandSystem::update(Vector2D grav) {
 
 			if (staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] != sf::Color::Transparent) {
 				affixSand(&i);
+				continue;
 			}
 
 		}
@@ -30,6 +31,7 @@ void sandSystem::update(Vector2D grav) {
 		}
 		if (activeSandParts[i].pos.y <= 0) {
 			affixSand(&i);
+			continue;
 		}
 		if (activeSandParts[i].pos.x >= SAND_SYSTEM_X) {
 			activeSandParts[i].pos.x = SAND_SYSTEM_X-1;
