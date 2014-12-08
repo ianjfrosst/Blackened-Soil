@@ -95,12 +95,14 @@ Vector2D getInvSq(Vector2D src, int x, int y, double power) {
 	return Vector2D(dirVec.GetDir(), power/(dirVec.GetSqrMag()+1));
 }
 
+
 /// <summary>
 /// Creates an explosion of size "range" at "loc" with "power".
 /// Power is the maximum (?) power that the explosion can apply.
 /// </summary>
 void sandSystem::detonate(Vector2D loc, double power, double range) {
-	std::cout << "BOOM!";
+	std::cout << "BOOM!\n";
+
 	for (int x = loc.x-range < 0 ? 0 : loc.x-range; x < (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range); x++) {
 		// The half that needs destroying.
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {

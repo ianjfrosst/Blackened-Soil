@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <cmath>
+#include <thread>		// For multithreading things, because using OpenCL would be a pain in the ass.
 
 #define SAND_SYSTEM_X 500
 #define SAND_SYSTEM_Y 500
@@ -31,4 +32,5 @@ public :
 	void detonate(Vector2D loc, double power, double range);
 	void affixSand(int * i);
 	void detachSand(int x, int y, Vector2D vel);
+	void detonateThread (int startX, int endX, Vector2D loc, double power, double range);
 };
