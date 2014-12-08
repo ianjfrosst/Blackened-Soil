@@ -17,33 +17,19 @@ void sandSystem::update(Vector2D grav) {
 
 		//std::cout << activeSandParts[i].pos << '\n';
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y &&
-			activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0
-			) {
+					activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0) {
 
-			//std::cout << "Particle in range...\n";
 			if (staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] != sf::Color::Transparent) {
-				//std::cout << "Affixing particle...\n";
-				// The position is inside of the static sand, so insert the object and shift everything else up.
-				int start = (int)activeSandParts[i].pos.y;
-				int o = start;
-
-				for (;staticSand[(int)activeSandParts[i].pos.x][o] != sf::Color::Transparent;++o);
-				for (;o > start; --o)
-					staticSand[(int)activeSandParts[i].pos.x][o] = staticSand[(int)activeSandParts[i].pos.x][o-1];
-
-				staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] = activeSandParts[i].col;
-
-				activeSandParts.erase(activeSandParts.begin() + i);
-				--i;
+				affixSand(&i);
 			}
+
 		}
 		if (activeSandParts[i].pos.x <= 0) {
 			activeSandParts[i].pos.x = 0;
 			activeSandParts[i].vel.x = 0;
 		}
 		if (activeSandParts[i].pos.y <= 0) {
-			activeSandParts[i].pos.y = 0;
-			activeSandParts[i].vel.y = 0;
+			affixSand(&i);
 		}
 		if (activeSandParts[i].pos.x >= SAND_SYSTEM_X) {
 			activeSandParts[i].pos.x = SAND_SYSTEM_X-1;
@@ -90,6 +76,22 @@ void sandSystem::detonate(Vector2D loc, float power, float range) {
 			activeSandParts.push_back(sp);
 		}
 	}
+}
+
+void sandSystem::affixSand(int * i) {
+	//std::cout << "Affixing particle...\n";
+	// The position is inside of the static sand, so insert the object and shift everything else up.
+	int start = (int)activeSandParts[*i].pos.y;
+	int o = start;
+
+	for (;staticSand[(int)activeSandParts[*i].pos.x][o] != sf::Color::Transparent;++o);
+	for (;o > start; --o)
+		staticSand[(int)activeSandParts[*i].pos.x][o] = staticSand[(int)activeSandParts[*i].pos.x][o-1];
+				
+	staticSand[(int)activeSandParts[*i].pos.x][(int)activeSandParts[*i].pos.y] = activeSandParts*[i].col;
+
+	activeSandParts.erase(activeSandParts.begin() + *i);
+	--*i;
 }
 
 void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {

@@ -27,4 +27,5 @@ public :
 	void populate(int sandHeight);
 	void update(Vector2D grav);
 	void detonate(Vector2D loc, float power, float range);
+	void affixSand(int * i);
 };
