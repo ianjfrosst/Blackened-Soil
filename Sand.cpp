@@ -89,7 +89,7 @@ void sandSystem::affixSand(int * i) {
 	for (;o > start; --o)
 		staticSand[(int)activeSandParts[*i].pos.x][o] = staticSand[(int)activeSandParts[*i].pos.x][o-1];
 				
-	staticSand[(int)activeSandParts[*i].pos.x][(int)activeSandParts[*i].pos.y] = activeSandParts*[i].col;
+	staticSand[(int)activeSandParts[*i].pos.x][(int)activeSandParts[*i].pos.y] = activeSandParts[*i].col;
 
 	activeSandParts.erase(activeSandParts.begin() + *i);
 	--*i;
