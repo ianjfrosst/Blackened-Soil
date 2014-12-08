@@ -27,7 +27,7 @@ int main() {
 		}
 
 		if (difftime(time(NULL), start) > 2 && !boom) {
-			sand.detonate(Vector2D(250, 50), 200, 30);
+			sand.detonate(Vector2D(250, 50), 200, 50);
 			boom = 1;
 		}
 
