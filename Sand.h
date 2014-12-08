@@ -3,6 +3,7 @@
 #include "Vector2D.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <cmath>
 
 #define SAND_SYSTEM_X 500
 #define SAND_SYSTEM_Y 500
@@ -23,6 +24,7 @@ class sandSystem {
 public :
 	sandSystem() {}
 
+	std::vector<int> genHeightMap(int width, double smooth, double seed);
 	void render(sf::RenderWindow &window, Vector2D scrollPos);
 	void populate(int sandHeight);
 	void update(Vector2D grav);

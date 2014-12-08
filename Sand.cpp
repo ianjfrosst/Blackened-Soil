@@ -1,5 +1,28 @@
 #include "Sand.h"
 
+bool isPow2(int val) {
+	return (val != 0) && ((val & (val - 1)) == 0);
+}
+
+int goUp(int val) {
+	int size = 2;
+	while (size + 1 < val) size *= 2;
+	return size + 1;
+}
+std::vector<int> sandSystem::genHeightMap(int width, double smooth, double seed) {
+	smooth = std::max(std::min(1.0, smooth), 0.0);
+
+	int i;
+	int size = isPow2(width - 1) ? width : goUp(width);
+	std::vector<int> heightmap(size, 0);
+
+	srand(seed);
+
+	heightmap[0] = rand();
+
+	return heightmap;
+}
+
 void sandSystem::populate(int sandHeight) {
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
