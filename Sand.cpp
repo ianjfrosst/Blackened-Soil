@@ -193,7 +193,7 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y)
-			out.setPixel((int)activeSandParts[i].pos.x, (int)activeSandParts[i].pos.y, sf::Color::Red);//activeSandParts[i].col);
+			out.setPixel((int)activeSandParts[i].pos.x, (int)activeSandParts[i].pos.y, activeSandParts[i].col);
 	}
 
 
