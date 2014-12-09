@@ -32,7 +32,7 @@ public :
 	void populate(double range, double smooth);
 	void update(Vector2D grav);
 	void detonate(Vector2D loc, double power, double range);
-	void affixSand(int * i);
+	void affixSand(int &i);
 	void detachSand(int x, int y, Vector2D vel);
 	void detonateThread (int startX, int endX, Vector2D loc, double power, double range);
 };

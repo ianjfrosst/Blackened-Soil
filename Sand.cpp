@@ -51,8 +51,6 @@ std::vector<double> sandSystem::genHeightMap(int width, double range, double smo
 	return hMap;
 }
 
-
-
 void sandSystem::populate(double range, double smooth) {
 	std::vector<double> hMap = genHeightMap(SAND_SYSTEM_X, range, smooth);
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
@@ -63,10 +61,8 @@ void sandSystem::populate(double range, double smooth) {
 					else staticSand[i][j] = (rand() % (int)(hMap[i] - j) > 10) ?
 						sf::Color(140, 110, 60, 255) :
 						sf::Color(60, 140+(rand()%100), 60, 255);	// Brown or a gradient
-
 				} else staticSand[i][j] = sf::Color(60, 140+(rand()%100), 60, 255);			// Two different shades of green.
-			}
-			else staticSand[i][j] = sf::Color::Transparent;
+			} else staticSand[i][j] = sf::Color::Transparent;
 		}
 	}
 }
@@ -79,13 +75,13 @@ void sandSystem::update(Vector2D grav) {
 
 		// Is the sand on the screen?
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y &&
-					activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0) {
+				activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0) {
 
-			if (staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] != sf::Color::Transparent) {
-				affixSand(&i);
+			if (staticSand[(int) activeSandParts[i].pos.x][(int) activeSandParts[i].pos.y] != sf::Color::Transparent) {
+				affixSand(i);
 				continue;
 			}
-		} else affixSand(&i);
+		} else activeSandParts.erase(activeSandParts.begin() + i);
 	}
 
 	for (int x = 0; x < SAND_SYSTEM_X; ++x) {
@@ -106,7 +102,7 @@ void sandSystem::update(Vector2D grav) {
 Vector2D getInvSq(Vector2D src, int x, int y, double power) {
 	// TODO: This is probably broken. Should be replaced by a linear power calc.
 	Vector2D dirVec = (Vector2D(x,y) - src);
-	return Vector2D(dirVec.GetDir(), power/(dirVec.GetSqrMag()+1));
+	return Vector2D(dirVec.GetDir(), power/(pow(dirVec.GetMag(), 2)));
 }
 
 
@@ -115,42 +111,36 @@ Vector2D getInvSq(Vector2D src, int x, int y, double power) {
 /// Power is the maximum (?) power that the explosion can apply.
 /// </summary>
 void sandSystem::detonate(Vector2D loc, double power, double range) {
-	std::cout << "BOOM!\n";
-
 	for (int x = loc.x-range < 0 ? 0 : loc.x-range; x < (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range); x++) {
 		// The half that needs destroying.
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			double a = x - loc.x;
 			double b = y - loc.y;
 			if (a*a + b*b <= range*range) {
-				if (y > loc.y) detachSand(x, y, getInvSq(loc, x, y, power));
-				else staticSand[x][y] = sf::Color::Transparent;
+				detachSand(x, y, getInvSq(loc, x, y, range*power));
+				//else staticSand[x][y] = sf::Color::Transparent;
 			}
 		}
 	}
 }
 
-void sandSystem::affixSand(int * i) {
+void sandSystem::affixSand(int &i) {
 	//std::cout << "Affixing particle...\n";
 	// The position is inside of the static sand, so insert the object and shift everything else up.
-	int start = (int)activeSandParts[*i].pos.y;
-	int o = start;
+	activeSandParts[i].vel = -(activeSandParts[i].vel/2);
+	activeSandParts[i].pos += activeSandParts[i].vel;
 
-	for (;staticSand[(int)activeSandParts[*i].pos.x][o] != sf::Color::Transparent;++o);
-	for (;o > start && o < SAND_SYSTEM_Y; --o)
-		staticSand[(int)activeSandParts[*i].pos.x][o] = staticSand[(int)activeSandParts[*i].pos.x][o-1];
+	staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] = activeSandParts[i].col;
 
-	staticSand[(int)activeSandParts[*i].pos.x][(int)activeSandParts[*i].pos.y] = sf::Color::Blue;//activeSandParts[*i].col;
-
-	activeSandParts.erase(activeSandParts.begin() + *i);
-	--*i;
+	activeSandParts.erase(activeSandParts.begin() + i);
+	--i;
 }
 
 void sandSystem::detachSand(int x, int y, Vector2D vel) {
 	if (staticSand[x][y] != sf::Color::Transparent) {
 		sandPart sp;
 		sp.pos = Vector2D(x, y);
-		sp.col = sf::Color::Red;//staticSand[x][y];
+		sp.col = staticSand[x][y];
 		sp.vel = vel;
 		activeSandParts.push_back(sp);
 		staticSand[x][y] = sf::Color::Transparent;
