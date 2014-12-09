@@ -85,26 +85,9 @@ void sandSystem::update(Vector2D grav) {
 				affixSand(&i);
 				continue;
 			}
-
 		} else affixSand(&i);
-		/*
-		if (activeSandParts[i].pos.x <= 0) {
-			activeSandParts[i].pos.x = 0;
-			activeSandParts[i].vel.x = 0;
-		}
-		if (activeSandParts[i].pos.y <= 0) {
-			affixSand(&i);
-			continue;
-		}
-		if (activeSandParts[i].pos.x >= SAND_SYSTEM_X) {
-			activeSandParts[i].pos.x = SAND_SYSTEM_X-1;
-			activeSandParts[i].vel.x = 0;
-		}
-		if (activeSandParts[i].pos.y >= SAND_SYSTEM_Y) {
-			activeSandParts[i].pos.y = SAND_SYSTEM_Y-1;
-			activeSandParts[i].vel.y = 0;
-		}*/
 	}
+
 	for (int x = 0; x < SAND_SYSTEM_X; ++x) {
 		for (int y = SAND_SYSTEM_Y-1; y > 1; --y) {
 			if (staticSand[x][y-1] == sf::Color::Transparent && staticSand[x][y] != sf::Color::Transparent) {
@@ -154,7 +137,7 @@ void sandSystem::affixSand(int * i) {
 	int o = start;
 
 	for (;staticSand[(int)activeSandParts[*i].pos.x][o] != sf::Color::Transparent;++o);
-	for (;o > start; --o)
+	for (;o > start && o < SAND_SYSTEM_Y; --o)
 		staticSand[(int)activeSandParts[*i].pos.x][o] = staticSand[(int)activeSandParts[*i].pos.x][o-1];
 
 	staticSand[(int)activeSandParts[*i].pos.x][(int)activeSandParts[*i].pos.y] = sf::Color::Blue;//activeSandParts[*i].col;
