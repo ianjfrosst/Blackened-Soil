@@ -1,35 +1,42 @@
+#include <Python/Python.h>
 #include "Sand.h"
 
-bool isPow2(int val) {
-	return (val != 0) && ((val & (val - 1)) == 0);
+// generates a random double
+double fRand(double fMin, double fMax) {
+	double f = (double)rand() / RAND_MAX;
+	return fMin + f * (fMax - fMin);
 }
 
-int goUp(int val) {
-	int size = 2;
-	while (size + 1 < val) size *= 2;
-	return size + 1;
-}
-std::vector<int> sandSystem::genHeightMap(int width, double smooth, double seed) {
-	smooth = std::max(std::min(1.0, smooth), 0.0);
-
-	int i;
-	int size = isPow2(width - 1) ? width : goUp(width);
-	std::vector<int> heightmap(size, 0);
-
-	srand(seed);
-
-	heightmap[0] = rand();
-
-	return heightmap;
+// gets the midpoint of two values
+double getMid(double a, double b) {
+	return (a+b)/2;
 }
 
-void sandSystem::populate(int sandHeight) {
+// vec, i and j are for recursion.
+// range is the maximum variance (up or down) for each midpoint.
+// smooth is the decay constant. between 0  and 1.
+void sandSystem::genHeightMap(std::vector<double> &vec, int i, int j, double range, double smooth) {
+	if (j-i == 1) return;
+	else {
+		int m = getMid(i, j);
+		vec[m] = getMid(vec[i], vec[j]) + fRand(-range, range);
+		range *= smooth;
+		genHeightMap(vec, i, m, range, smooth);
+		genHeightMap(vec, m, j, range, smooth);
+	}
+}
+
+void sandSystem::populate(double range, double smooth) {
+	std::vector<double> hMap(513);
+	hMap[0] = fRand(150, 350);
+	hMap[hMap.size() - 1] = fRand(150, 350);
+	genHeightMap(hMap, 0, hMap.size() - 1, range, smooth);
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
-			if (j < sandHeight) {
-				if (j < sandHeight - 10) {
-					if (j < sandHeight - 30) staticSand[i][j] = sf::Color(140, 110, 60, 255);
-					else staticSand[i][j] = (rand() % (sandHeight - j) > 10) ?
+			if (j < hMap[i]) {
+				if (j < hMap[i] - 10) {
+					if (j < hMap[i] - 30) staticSand[i][j] = sf::Color(140, 110, 60, 255);
+					else staticSand[i][j] = (rand() % (int)(hMap[i] - j) > 10) ?
 						sf::Color(140, 110, 60, 255) :
 						sf::Color(60, 140+(rand()%100), 60, 255);	// Brown or a gradient
 

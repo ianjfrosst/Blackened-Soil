@@ -25,9 +25,10 @@ class sandSystem {
 public :
 	sandSystem() {}
 
-	std::vector<int> genHeightMap(int width, double smooth, double seed);
+	void genHeightMap(std::vector<double> &vec, int i, int j, double range, double smooth);
+
 	void render(sf::RenderWindow &window, Vector2D scrollPos);
-	void populate(int sandHeight);
+	void populate(double range, double smooth);
 	void update(Vector2D grav);
 	void detonate(Vector2D loc, double power, double range);
 	void affixSand(int * i);

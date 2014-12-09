@@ -7,6 +7,7 @@
 #include "Sand.h"
 
 int main() {
+	srand(time(NULL));
 	time_t start = time(NULL);
 	
     sf::ContextSettings settings;
@@ -15,7 +16,7 @@ int main() {
 
 	sandSystem sand;
 
-	sand.populate(200);
+	sand.populate(250.0, 0.45);
 
 	bool boom = 0;
 
