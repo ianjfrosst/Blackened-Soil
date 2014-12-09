@@ -25,7 +25,8 @@ class sandSystem {
 public :
 	sandSystem() {}
 
-	void genHeightMap(std::vector<double> &vec, int i, int j, double range, double smooth);
+	void genHeight_recur(std::vector<double> &vec, int i, int j, double range, double smooth);
+	std::vector<double> genHeightMap(int width, double range, double smooth);
 
 	void render(sf::RenderWindow &window, Vector2D scrollPos);
 	void populate(double range, double smooth);

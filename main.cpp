@@ -16,7 +16,7 @@ int main() {
 
 	sandSystem sand;
 
-	sand.populate(250.0, 0.45);
+	sand.populate(150.0, 0.4);
 
 	bool boom = 0;
 

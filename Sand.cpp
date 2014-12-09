@@ -7,29 +7,54 @@ double fRand(double fMin, double fMax) {
 }
 
 // gets the midpoint of two values
-double getMid(double a, double b) {
+inline double getMid(double a, double b) {
 	return (a+b)/2;
+}
+
+// is val a power of two?
+bool isPow2(int val) {
+	return (val != 0) && ((val & (val - 1)) == 0);
+}
+
+// return the next highest power of two + 1
+int goUp(int val) {
+	int size = 2;
+	while (size + 1 < val) size *= 2;
+	return size + 1;
 }
 
 // vec, i and j are for recursion.
 // range is the maximum variance (up or down) for each midpoint.
 // smooth is the decay constant. between 0  and 1.
-void sandSystem::genHeightMap(std::vector<double> &vec, int i, int j, double range, double smooth) {
+void sandSystem::genHeight_recur(std::vector<double> &vec, int i, int j, double range, double smooth) {
 	if (j-i == 1) return;
 	else {
 		int m = getMid(i, j);
 		vec[m] = getMid(vec[i], vec[j]) + fRand(-range, range);
 		range *= smooth;
-		genHeightMap(vec, i, m, range, smooth);
-		genHeightMap(vec, m, j, range, smooth);
+		genHeight_recur(vec, i, m, range, smooth);
+		genHeight_recur(vec, m, j, range, smooth);
 	}
 }
 
+std::vector<double> sandSystem::genHeightMap(int width, double range, double smooth) {
+	int size = isPow2(width - 1) ? width : goUp(width);
+	std::vector<double> hMap(size);
+	smooth = std::max(std::min(1.0, smooth), 0.0);
+	hMap[0] = fRand(150, 250);
+	hMap[hMap.size() - 1] = fRand(150, 250);
+	genHeight_recur(hMap, 0, hMap.size() - 1, range, smooth);
+	double max = *std::max_element(hMap.begin(), hMap.end());
+	double min = *std::min_element(hMap.begin(), hMap.end());
+	double diff = max - min;
+	for (auto i : hMap) i = (i - min) / diff;
+	return hMap;
+}
+
+
+
 void sandSystem::populate(double range, double smooth) {
-	std::vector<double> hMap(513);
-	hMap[0] = fRand(150, 350);
-	hMap[hMap.size() - 1] = fRand(150, 350);
-	genHeightMap(hMap, 0, hMap.size() - 1, range, smooth);
+	std::vector<double> hMap = genHeightMap(SAND_SYSTEM_X, range, smooth);
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
 			if (j < hMap[i]) {
@@ -139,12 +164,14 @@ void sandSystem::affixSand(int * i) {
 }
 
 void sandSystem::detachSand(int x, int y, Vector2D vel) {
-	sandPart sp;
-	sp.pos = Vector2D(x, y);
-	sp.col = sf::Color::Red;//staticSand[x][y];
-	sp.vel = vel;
-	activeSandParts.push_back(sp);
-	staticSand[x][y] = sf::Color::Transparent;
+	if (staticSand[x][y] != sf::Color::Transparent) {
+		sandPart sp;
+		sp.pos = Vector2D(x, y);
+		sp.col = sf::Color::Red;//staticSand[x][y];
+		sp.vel = vel;
+		activeSandParts.push_back(sp);
+		staticSand[x][y] = sf::Color::Transparent;
+	}
 }
 
 void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
