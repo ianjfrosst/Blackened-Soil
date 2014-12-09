@@ -1,4 +1,4 @@
-#include <Python/Python.h>
+//#include <Python/Python.h>
 #include "Sand.h"
 
 // generates a random double
@@ -133,7 +133,7 @@ void sandSystem::affixSand(int * i) {
 	for (;o > start; --o)
 		staticSand[(int)activeSandParts[*i].pos.x][o] = staticSand[(int)activeSandParts[*i].pos.x][o-1];
 
-	staticSand[(int)activeSandParts[*i].pos.x][(int)activeSandParts[*i].pos.y] = activeSandParts[*i].col;
+	staticSand[(int)activeSandParts[*i].pos.x][(int)activeSandParts[*i].pos.y] = sf::Color::Blue;//activeSandParts[*i].col;
 
 	activeSandParts.erase(activeSandParts.begin() + *i);
 	--*i;
@@ -142,7 +142,7 @@ void sandSystem::affixSand(int * i) {
 void sandSystem::detachSand(int x, int y, Vector2D vel) {
 	sandPart sp;
 	sp.pos = Vector2D(x, y);
-	sp.col = staticSand[x][y];
+	sp.col = sf::Color::Red;//staticSand[x][y];
 	sp.vel = vel;
 	activeSandParts.push_back(sp);
 	staticSand[x][y] = sf::Color::Transparent;
