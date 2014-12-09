@@ -1,4 +1,3 @@
-//#include <Python/Python.h>
 #include "Sand.h"
 
 // generates a random double
