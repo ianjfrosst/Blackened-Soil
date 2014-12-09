@@ -30,7 +30,7 @@ int main() {
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			// get global mouse position
 			sf::Vector2i position = sf::Mouse::getPosition(window);
-			sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 0.005, 200);
+			sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 0.005, 50);
 		}
 
         window.clear();
