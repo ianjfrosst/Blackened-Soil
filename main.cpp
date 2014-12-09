@@ -27,6 +27,11 @@ int main() {
 				window.close();
 		}
 
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+			sf::Vector2i position = sf::Mouse::getPosition(window);
+			sand.createSand(position.x, SAND_SYSTEM_Y-position.y, sf::Color::Cyan);
+		}
+
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			// get global mouse position
 			sf::Vector2i position = sf::Mouse::getPosition(window);

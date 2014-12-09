@@ -111,17 +111,43 @@ Vector2D getInvSq(Vector2D src, int x, int y, double power) {
 /// Power is the maximum (?) power that the explosion can apply.
 /// </summary>
 void sandSystem::detonate(Vector2D loc, double power, double range) {
-	for (int x = loc.x-range < 0 ? 0 : loc.x-range; x < (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range); x++) {
-		// The half that needs destroying.
+	/*for (int x = loc.x-range < 0 ? 0 : loc.x-range; x < (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range); x++) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;
+			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
 			double b = y - loc.y;
 			if (a*a + b*b <= range*range) {
 				detachSand(x, y, getInvSq(loc, x, y, range*power));
-				//else staticSand[x][y] = sf::Color::Transparent;
+			}
+		}
+	}*/
+
+	// Right (positive) side
+	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
+	for (int x = loc.x; x < RHScap; x++) {
+		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
+			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
+			double b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
+			if (a*a + b*b <= range*range) {
+				detachSand(x, y, getInvSq(loc, x, y, range*power));
 			}
 		}
 	}
+
+	// Left (minus) side
+	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
+	for (int x = loc.x; x > LHScap; x--) {
+		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
+			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
+			double b = y - loc.y;
+			if (a*a + b*b <= range*range) {
+				detachSand(x, y, getInvSq(loc, x, y, range*power));
+			}
+		}
+	}
+}
+
+void sandSystem::createSand(int x, int y, sf::Color c) {
+	staticSand[x][y] = c;
 }
 
 void sandSystem::affixSand(int &i) {
@@ -167,7 +193,7 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y)
-			out.setPixel((int)activeSandParts[i].pos.x, (int)activeSandParts[i].pos.y, activeSandParts[i].col);
+			out.setPixel((int)activeSandParts[i].pos.x, (int)activeSandParts[i].pos.y, sf::Color::Red);//activeSandParts[i].col);
 	}
 
 

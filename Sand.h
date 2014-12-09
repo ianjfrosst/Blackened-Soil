@@ -34,5 +34,6 @@ public :
 	void detonate(Vector2D loc, double power, double range);
 	void affixSand(int &i);
 	void detachSand(int x, int y, Vector2D vel);
+	void createSand(int x, int y, sf::Color c);
 	void detonateThread (int startX, int endX, Vector2D loc, double power, double range);
 };
