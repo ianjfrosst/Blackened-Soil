@@ -12,7 +12,7 @@ int main() {
 	
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(500, 500, 32), "TANKS", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
 
 	sandSystem sand;
 
