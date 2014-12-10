@@ -207,3 +207,4 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 	outSpr.setPosition((sf::Vector2f)scrollPos);
 	window.draw(outSpr);
 }
+
