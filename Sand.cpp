@@ -120,7 +120,7 @@ void sandSystem::detonate(Vector2D loc, double power, double range) {
 			}
 		}
 	}*/
-
+	/*
 	// Right (positive) side
 	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
 	for (int x = loc.x; x < RHScap; x++) {
@@ -143,18 +143,53 @@ void sandSystem::detonate(Vector2D loc, double power, double range) {
 				detachSand(x, y, getInvSq(loc, x, y, range*power));
 			}
 		}
-	}
+	}*/
 
-	for (int i = 0; i < 4; i ++) {
+	ed.loc = loc;
+	ed.power = power;
+	ed.range = range;
+	ed.occupation = 0;
+
+	//sf::Thread threads[4] = {NULL, NULL, NULL, NULL};
+
+	for (int i = 0; i < MAX_THREADS; i ++) {
 		sf::Thread t(&sandSystem::detonateThread, this);
 		t.launch();
 	}
-	
-
 }
 
 void sandSystem::detonateThread() {
-	std::cout << "Detonating thread " << activeSandParts.size()<<"\n";
+	int mySection = ed.occupation;
+	++ed.occupation;
+
+	int LHSCap = ed.loc.x - ed.range + ((ed.range/2)*mySection);
+	int RHSCap = LHSCap + (ed.range/2);
+
+	if (mySection < 2) {
+		for (int x = RHSCap; x > LHSCap; x--) {
+			for (int y = ed.loc.y-ed.range < 0 ? 0 : ed.loc.y-ed.range; y < (ed.loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : ed.loc.y+ed.range); y++) {
+				double a = x - ed.loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
+				double b = y - ed.loc.y;
+				if (a*a + b*b <= ed.range*ed.range) {
+					detachSand(x, y, getInvSq(ed.loc, x, y, ed.range*ed.power));
+				}
+				std::cout << "Particle " << x << ", " << y << "\n";
+			}
+		}
+	} else {
+		for (int x = LHSCap; x < RHSCap; x++) {
+			for (int y = ed.loc.y-ed.range < 0 ? 0 : ed.loc.y-ed.range; y < (ed.loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : ed.loc.y+ed.range); y++) {
+				double a = x - ed.loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
+				double b = y - ed.loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
+				if (a*a + b*b <= ed.range*ed.range) {
+					detachSand(x, y, getInvSq(ed.loc, x, y, ed.range*ed.power));
+				}
+				std::cout << "Particle " << x << ", " << y << "\n";
+			}
+		}
+	}
+
+	std::cout << "Detonating thread " << mySection <<"\n";
 }
 
 void sandSystem::createSand(int x, int y, sf::Color c) {
@@ -169,7 +204,8 @@ void sandSystem::affixSand(int &i) {
 
 	staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] = activeSandParts[i].col;
 
-	activeSandParts.erase(activeSandParts.begin() + i);
+	activeSandParts.erase(activeSandParts.begin() + i);	// Here's the lag!
+
 	--i;
 }
 

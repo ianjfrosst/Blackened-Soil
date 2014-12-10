@@ -8,6 +8,7 @@
 
 #define SAND_SYSTEM_X 500
 #define SAND_SYSTEM_Y 500
+#define MAX_THREADS 4
 
 struct sandPart {
 public :
@@ -19,12 +20,22 @@ public :
 	sandPart(Vector2D p, Vector2D v, sf::Color c) : pos(p), vel(v), col(c) {}
 };
 
+struct explosionData {
+public :
+	int startX;
+	int endX;
+	Vector2D loc;
+	double power;
+	double range;
+	int occupation;
+};
+
 class sandSystem {
 	sf::Color staticSand[SAND_SYSTEM_X][SAND_SYSTEM_Y];
 	std::vector<sandPart> activeSandParts;
+	explosionData ed;
+
 public :
-
-
 	sandSystem() {}
 
 	void genHeight_recur(std::vector<double> &vec, int i, int j, double range, double smooth);
