@@ -150,10 +150,11 @@ void sandSystem::detonate(Vector2D loc, double power, double range) {
 	ed.range = range;
 	ed.occupation = 0;
 
-	//sf::Thread threads[4] = {NULL, NULL, NULL, NULL};
+	//std::vector<sf::Thread*> threads;
 
 	for (int i = 0; i < MAX_THREADS; i ++) {
 		sf::Thread t(&sandSystem::detonateThread, this);
+		//threads.push_back(&t);
 		t.launch();
 	}
 }
@@ -165,6 +166,8 @@ void sandSystem::detonateThread() {
 	int LHSCap = ed.loc.x - ed.range + ((ed.range/2)*mySection);
 	int RHSCap = LHSCap + (ed.range/2);
 
+	std::cout << "Creating thread " << mySection <<"\n";
+
 	if (mySection < 2) {
 		for (int x = RHSCap; x > LHSCap; x--) {
 			for (int y = ed.loc.y-ed.range < 0 ? 0 : ed.loc.y-ed.range; y < (ed.loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : ed.loc.y+ed.range); y++) {
@@ -173,7 +176,7 @@ void sandSystem::detonateThread() {
 				if (a*a + b*b <= ed.range*ed.range) {
 					detachSand(x, y, getInvSq(ed.loc, x, y, ed.range*ed.power));
 				}
-				std::cout << "Particle " << x << ", " << y << "\n";
+				//std::cout << "Particle " << x << ", " << y << "\n";
 			}
 		}
 	} else {
@@ -184,12 +187,12 @@ void sandSystem::detonateThread() {
 				if (a*a + b*b <= ed.range*ed.range) {
 					detachSand(x, y, getInvSq(ed.loc, x, y, ed.range*ed.power));
 				}
-				std::cout << "Particle " << x << ", " << y << "\n";
+				//std::cout << "Particle " << x << ", " << y << "\n";
 			}
 		}
 	}
 
-	std::cout << "Detonating thread " << mySection <<"\n";
+	std::cout << "Ending thread " << mySection <<"\n";
 }
 
 void sandSystem::createSand(int x, int y, sf::Color c) {
