@@ -144,6 +144,17 @@ void sandSystem::detonate(Vector2D loc, double power, double range) {
 			}
 		}
 	}
+
+	for (int i = 0; i < 4; i ++) {
+		sf::Thread t(&sandSystem::detonateThread, this);
+		t.launch();
+	}
+	
+
+}
+
+void sandSystem::detonateThread() {
+	std::cout << "Detonating thread " << activeSandParts.size()<<"\n";
 }
 
 void sandSystem::createSand(int x, int y, sf::Color c) {
