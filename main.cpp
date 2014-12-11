@@ -5,8 +5,11 @@
 #include "Vector2D.h"
 #include "GameObject.h"
 #include "Sand.h"
+#include <thread>
 
 int main() {
+	std::cout << "Hardware can manage " << std::thread::hardware_concurrency() << " threads \n";
+
 	srand(time(NULL));
 	time_t start = time(NULL);
 	

@@ -5,6 +5,7 @@
 #include <SFML/System.hpp>
 #include <vector>
 #include <cmath>
+#include <mutex>
 
 #define SAND_SYSTEM_X 500
 #define SAND_SYSTEM_Y 500
@@ -34,6 +35,8 @@ class sandSystem {
 	sf::Color staticSand[SAND_SYSTEM_X][SAND_SYSTEM_Y];
 	std::vector<sandPart> activeSandParts;
 	explosionData ed;
+	std::mutex tMutex;
+	
 
 public :
 	sandSystem() {}

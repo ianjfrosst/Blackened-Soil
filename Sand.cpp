@@ -1,4 +1,5 @@
 #include "Sand.h"
+#include <thread>
 
 // generates a random double
 double fRand(double fMin, double fMax) {
@@ -153,9 +154,9 @@ void sandSystem::detonate(Vector2D loc, double power, double range) {
 	//std::vector<sf::Thread*> threads;
 
 	for (int i = 0; i < MAX_THREADS; i ++) {
-		sf::Thread t(&sandSystem::detonateThread, this);
+		std::thread t(&sandSystem::detonateThread, this);
 		//threads.push_back(&t);
-		t.launch();
+		t.detach();
 	}
 }
 
@@ -174,7 +175,9 @@ void sandSystem::detonateThread() {
 				double a = x - ed.loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
 				double b = y - ed.loc.y;
 				if (a*a + b*b <= ed.range*ed.range) {
+					tMutex.lock();
 					detachSand(x, y, getInvSq(ed.loc, x, y, ed.range*ed.power));
+					tMutex.unlock();
 				}
 				//std::cout << "Particle " << x << ", " << y << "\n";
 			}
@@ -185,7 +188,9 @@ void sandSystem::detonateThread() {
 				double a = x - ed.loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
 				double b = y - ed.loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
 				if (a*a + b*b <= ed.range*ed.range) {
+					tMutex.lock();
 					detachSand(x, y, getInvSq(ed.loc, x, y, ed.range*ed.power));
+					tMutex.unlock();
 				}
 				//std::cout << "Particle " << x << ", " << y << "\n";
 			}
