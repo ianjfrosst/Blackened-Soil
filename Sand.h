@@ -1,29 +1,48 @@
 #pragma once
 
 #include "Vector2D.h"
+#include "DelayedCollapseList.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include <vector>
 #include <cmath>
-#include <thread>		// For multithreading things, because using OpenCL would be a pain in the ass.
+#include <mutex>
 
 #define SAND_SYSTEM_X 500
 #define SAND_SYSTEM_Y 500
+#define MAX_THREADS 4
 
 struct sandPart {
 public :
 	Vector2D pos;
 	Vector2D vel;
 	sf::Color col;
+	int alive;
 
 	sandPart() {}
 	sandPart(Vector2D p, Vector2D v, sf::Color c) : pos(p), vel(v), col(c) {}
 };
 
+struct explosionData {
+public :
+	int startX;
+	int endX;
+	Vector2D loc;
+	double power;
+	double range;
+	int occupation;
+};
+
 class sandSystem {
 	sf::Color staticSand[SAND_SYSTEM_X][SAND_SYSTEM_Y];
-	std::vector<sandPart> activeSandParts;
+	//std::vector<sandPart> activeSandParts;
+	ParticleList activeSandParts;
+	explosionData ed;
+	std::mutex tMutex;
+	
+
 public :
-	sandSystem() {}
+	sandSystem() {};
 
 	void genHeight_recur(std::vector<double> &vec, int i, int j, double range, double smooth);
 	std::vector<double> genHeightMap(int width, double range, double smooth);
@@ -35,5 +54,9 @@ public :
 	void affixSand(int &i);
 	void detachSand(int x, int y, Vector2D vel);
 	void createSand(int x, int y, sf::Color c);
-	void detonateThread (int startX, int endX, Vector2D loc, double power, double range);
+
+	void detonateThread ();
+	//void detonateThread (int startX, int endX, Vector2D loc, double power, double range);
+
 };
+

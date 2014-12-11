@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Sand.h"
 
 /// <summary>
@@ -6,10 +8,20 @@
 /// </summary>
 class ParticleList {
 	sandPart contents[SAND_SYSTEM_X*SAND_SYSTEM_Y];
-public :
-	ParticleList(){};
 
-	void add(sandPart sp);
-	void erase(int t);
+	// top points to the cap entry on the array, which has alive = 2 so that iterators can finish.
+	int top;
+public :
+	ParticleList(){
+		top = 0;
+		contents[0] = sandPart();
+		contents[0].alive = 2;
+	};
+
+	sandPart &operator[](const int i);
+
+	void add(sandPart);
+	void erase(int);
 	void clear();
+	int size();
 };

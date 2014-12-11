@@ -1,4 +1,5 @@
 #include "Sand.h"
+#include "DelayedCollapseList.h"
 
 // generates a random double
 double fRand(double fMin, double fMax) {
@@ -52,6 +53,8 @@ std::vector<double> sandSystem::genHeightMap(int width, double range, double smo
 }
 
 void sandSystem::populate(double range, double smooth) {
+	activeSandParts = activeSandParts();
+
 	std::vector<double> hMap = genHeightMap(SAND_SYSTEM_X, range, smooth);
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
@@ -81,8 +84,10 @@ void sandSystem::update(Vector2D grav) {
 				affixSand(i);
 				continue;
 			}
-		} else activeSandParts.erase(activeSandParts.begin() + i);
+		} else activeSandParts.erase(i);
 	}
+
+	activeSandParts.clear();
 
 	for (int x = 0; x < SAND_SYSTEM_X; ++x) {
 		for (int y = SAND_SYSTEM_Y-1; y > 1; --y) {
@@ -158,8 +163,7 @@ void sandSystem::affixSand(int &i) {
 
 	staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] = activeSandParts[i].col;
 
-	activeSandParts.erase(activeSandParts.begin() + i);
-	--i;
+	activeSandParts.erase(i);
 }
 
 void sandSystem::detachSand(int x, int y, Vector2D vel) {
@@ -168,7 +172,7 @@ void sandSystem::detachSand(int x, int y, Vector2D vel) {
 		sp.pos = Vector2D(x, y);
 		sp.col = staticSand[x][y];
 		sp.vel = vel;
-		activeSandParts.push_back(sp);
+		activeSandParts.add(sp);
 		staticSand[x][y] = sf::Color::Transparent;
 	}
 }
