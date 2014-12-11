@@ -23,6 +23,8 @@ int main() {
 
 	bool boom = 0;
 
+	int lastMouseState = 0;
+
     while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
@@ -35,10 +37,11 @@ int main() {
 			sand.createSand(position.x, SAND_SYSTEM_Y-position.y, sf::Color::Cyan);
 		}
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastMouseState) {
 			sf::Vector2i position = sf::Mouse::getPosition(window);
 			sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 1, 50);
 		}
+		lastMouseState = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
         window.clear();
 
