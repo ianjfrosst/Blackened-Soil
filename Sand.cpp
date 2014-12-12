@@ -1,5 +1,7 @@
 #include "Sand.h"
+
 #include <thread>
+#include <windows.h>
 
 // generates a random double
 double fRand(double fMin, double fMax) {
@@ -112,39 +114,6 @@ Vector2D getInvSq(Vector2D src, int x, int y, double power) {
 /// Power is the maximum (?) power that the explosion can apply.
 /// </summary>
 void sandSystem::detonate(Vector2D loc, double power, double range) {
-	/*for (int x = loc.x-range < 0 ? 0 : loc.x-range; x < (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range); x++) {
-		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;
-			if (a*a + b*b <= range*range) {
-				detachSand(x, y, getInvSq(loc, x, y, range*power));
-			}
-		}
-	}*/
-	/*
-	// Right (positive) side
-	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
-	for (int x = loc.x; x < RHScap; x++) {
-		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
-			if (a*a + b*b <= range*range) {
-				detachSand(x, y, getInvSq(loc, x, y, range*power));
-			}
-		}
-	}
-
-	// Left (minus) side
-	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
-	for (int x = loc.x; x > LHScap; x--) {
-		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;
-			if (a*a + b*b <= range*range) {
-				detachSand(x, y, getInvSq(loc, x, y, range*power));
-			}
-		}
-	}*/
 
 	ed.loc = loc;
 	ed.power = power;
@@ -153,7 +122,8 @@ void sandSystem::detonate(Vector2D loc, double power, double range) {
 
 	//std::vector<sf::Thread*> threads;
 
-	for (int i = 0; i < MAX_THREADS; i ++) {
+	//for (int i = 0; i < std::thread::hardware_concurrency(); i ++) {
+	for (int i = 0; i < 4; i ++) {
 		std::thread t(&sandSystem::detonateThread, this);
 		//threads.push_back(&t);
 		t.detach();
@@ -161,15 +131,21 @@ void sandSystem::detonate(Vector2D loc, double power, double range) {
 }
 
 void sandSystem::detonateThread() {
+
+	int threads = 4;//std::thread::hardware_concurrency();
+
 	int mySection = ed.occupation;
 	++ed.occupation;
 
-	int LHSCap = ed.loc.x - ed.range + ((ed.range/2)*mySection);
-	int RHSCap = LHSCap + (ed.range/2);
+	int LHSCap = ed.loc.x - ed.range + ((ed.range/(threads/2))*mySection);
+
+	int RHSCap = LHSCap + ed.range/(threads/2);
 
 	std::cout << "Creating thread " << mySection <<"\n";
 
-	if (mySection < 2) {
+	//Sleep(10000);
+
+	if (mySection < threads/2) {
 		for (int x = RHSCap; x > LHSCap; x--) {
 			for (int y = ed.loc.y-ed.range < 0 ? 0 : ed.loc.y-ed.range; y < (ed.loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : ed.loc.y+ed.range); y++) {
 				double a = x - ed.loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
@@ -212,7 +188,8 @@ void sandSystem::affixSand(int &i) {
 
 	staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] = activeSandParts[i].col;
 
-	activeSandParts.erase(activeSandParts.begin() + i);	// Here's the lag!
+	activeSandParts.erase(activeSandParts.begin() + i);
+	// TODO: Here's the lag. Also, the source of the stack overflow.
 
 	--i;
 }
@@ -220,7 +197,7 @@ void sandSystem::affixSand(int &i) {
 void sandSystem::detachSand(int x, int y, Vector2D vel) {
 	if (staticSand[x][y] != sf::Color::Transparent) {
 		sandPart sp;
-		sp.pos = Vector2D(x, y);
+		sp.pos = Vector2D(x,y);
 		sp.col = staticSand[x][y];
 		sp.vel = vel;
 		activeSandParts.push_back(sp);
