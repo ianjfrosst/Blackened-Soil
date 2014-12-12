@@ -4,15 +4,14 @@
 #include <SFML/Graphics.hpp>
 
 class GameObject {
-public:
-    sf::Sprite spr;
-    Vector2D pos;
-    Vector2D vel;
-    Vector2D acc;
+	Vector2D pos;		// Position in world-space-pixels
+	Vector2D vel;		// Velocity in world-space-pixels/second
+	double rot;			// Rotation in RADIANS.
 
-    GameObject() {}
-    GameObject(sf::Sprite &spr) : spr(spr), pos(spr.getPosition()) {}
-    
+public:
+	GameObject() {}
+
     virtual void update();
-	virtual void draw(sf::RenderWindow &window);
+	virtual void render(sf::RenderWindow &window);
 };
+

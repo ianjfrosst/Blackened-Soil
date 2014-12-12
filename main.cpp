@@ -27,14 +27,16 @@ int main() {
 				window.close();
 		}
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-			sf::Vector2i position = sf::Mouse::getPosition(window);
-			sand.createSand(position.x, SAND_SYSTEM_Y-position.y, sf::Color::Cyan);
-		}
+		sf::Vector2i position = sf::Mouse::getPosition(window);
+		if (position.x > 0 && position.x < SAND_SYSTEM_X && position.y > 0 && position.y < SAND_SYSTEM_Y) {
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+			
+				sand.createSand(position.x, SAND_SYSTEM_Y-position.y, sf::Color::Cyan);
+			}
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			sf::Vector2i position = sf::Mouse::getPosition(window);
-			sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 1, 50);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 1, 50);
+			}
 		}
 
         window.clear();
