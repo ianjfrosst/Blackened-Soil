@@ -9,7 +9,11 @@ void ParticleList::erase(int t) {
 	contents[t].alive = 0;
 }
 
-sandPart& ParticleList::operator[] (const int i) {
+sandPart& ParticleList::operator[](const int i) {
+	return contents[i];
+}
+
+sandPart ParticleList::operator[](const int i) const {
 	return contents[i];
 }
 
