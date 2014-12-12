@@ -1,28 +1,31 @@
 #pragma once
 
 #include "SandExtras.h"
+#include <iterator>
 
-/// <summary>
-/// A list that only clears itself once per frame.
-/// Of a static size, but a big one, in this case the number of sand grains on screen.
-/// </summary>
 class ParticleList {
-	sandPart contents[SAND_SYSTEM_X*SAND_SYSTEM_Y];
+private:
+    struct Node {
+        Node *next;
+        Node *prev;
+        sandPart data;
+    };
 
-	// top points to the cap entry on the array, which has alive = 2 so that iterators can finish.
-	int top;
+    int len;
+    Node *head;
+    Node *tail;
+
 public:
-	ParticleList() {
-		top = 0;
-		contents[0] = sandPart();
-		contents[0].alive = 2;
-	}
+    ParticleList();
+    ~ParticleList();
 
-	sandPart operator[](const int i) const;
-	sandPart &operator[](const int i);
 
-	void add(sandPart sp);
-	void erase(int t);
-	void clear();
-	int size();
+    int size() const {return len;}
+    bool empty() const {return len == 0;}
+
+    void add(sandPart sp);
+    void erase(int i);
+    void clear();
+
+    sandPart &operator[](int const i);
 };

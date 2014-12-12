@@ -10,7 +10,6 @@ struct sandPart {
     Vector2D pos;
     Vector2D vel;
     sf::Color col;
-    int alive;
 
     sandPart() {}
     sandPart(Vector2D p, Vector2D v, sf::Color c) : pos(p), vel(v), col(c) {}
