@@ -1,5 +1,7 @@
 #include "Vector2D.h"
 #include "SFML/Window.hpp"
+#include <SFML/Window/Keyboard.hpp>
+
 
 class Tank {
 	Vector2D pos;		// Position, in world-space-pixels
