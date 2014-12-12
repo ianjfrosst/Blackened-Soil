@@ -1,5 +1,4 @@
 #include "Sand.h"
-#include "DelayedCollapseList.h"
 
 // generates a random double
 double fRand(double fMin, double fMax) {
@@ -53,7 +52,7 @@ std::vector<double> sandSystem::genHeightMap(int width, double range, double smo
 }
 
 void sandSystem::populate(double range, double smooth) {
-	activeSandParts = activeSandParts();
+	activeSandParts = ParticleList();
 
 	std::vector<double> hMap = genHeightMap(SAND_SYSTEM_X, range, smooth);
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {

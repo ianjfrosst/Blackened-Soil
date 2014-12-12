@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Sand.h"
+#include "SandExtras.h"
 
 /// <summary>
 /// A list that only clears itself once per frame.
@@ -11,17 +11,18 @@ class ParticleList {
 
 	// top points to the cap entry on the array, which has alive = 2 so that iterators can finish.
 	int top;
-public :
-	ParticleList(){
+public:
+	ParticleList() {
 		top = 0;
 		contents[0] = sandPart();
 		contents[0].alive = 2;
-	};
+	}
 
+	sandPart operator[](const int i) const;
 	sandPart &operator[](const int i);
 
-	void add(sandPart);
-	void erase(int);
+	void add(sandPart sp);
+	void erase(int t);
 	void clear();
 	int size();
 };
