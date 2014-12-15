@@ -16,6 +16,8 @@ class World {
 	std::vector<Projectile> projectiles;
 
 public :
-	void render(sf::RenderWindow);
+	sandSystem getMap();
+	void create();
+	void render(sf::RenderWindow&);
 	void update();
 };

@@ -15,11 +15,9 @@ int main() {
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
 
-	World world();
+	World world;
 
-	sandSystem sand;
-
-	sand.populate(150.0, 0.45);
+	world.create();
 
     while (window.isOpen()) {
 		sf::Event event;
@@ -32,18 +30,18 @@ int main() {
 		if (position.x > 0 && position.x < SAND_SYSTEM_X && position.y > 0 && position.y < SAND_SYSTEM_Y) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 			
-				sand.createSand(position.x, SAND_SYSTEM_Y-position.y, sf::Color::Cyan);
+				world.getMap().createSand(position.x, SAND_SYSTEM_Y-position.y, sf::Color::Cyan);
 			}
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 1, 50);
+				world.getMap().detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 1, 50);
 			}
 		}
 
         window.clear();
 
-		sand.update(Vector2D(0,-0.05));
-		sand.render(window, Vector2D(0,0));
+		world.update();
+		world.render(window);
 
         window.display();
     }
