@@ -52,8 +52,6 @@ std::vector<double> sandSystem::genHeightMap(int width, double range, double smo
 }
 
 void sandSystem::populate(double range, double smooth) {
-	activeSandParts = ParticleList();
-
 	std::vector<double> hMap = genHeightMap(SAND_SYSTEM_X, range, smooth);
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
@@ -71,19 +69,19 @@ void sandSystem::populate(double range, double smooth) {
 
 void sandSystem::update(Vector2D grav) {
 	//std::cout << activeSandParts.size() << '\n';
-	for (int i = 0; i < activeSandParts.size(); i++) {
-		activeSandParts[i].pos += activeSandParts[i].vel;
-		activeSandParts[i].vel += grav;
+	for (auto i : activeSandParts) {
+		i.pos += i.vel;
+		i.vel += grav;
 
 		// Is the sand on the screen?
-		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y &&
-				activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0) {
+		if (i.pos.x < SAND_SYSTEM_X && i.pos.y < SAND_SYSTEM_Y &&
+				i.pos.x > 0 && i.pos.y > 0) {
 
-			if (staticSand[(int) activeSandParts[i].pos.x][(int) activeSandParts[i].pos.y] != sf::Color::Transparent) {
+			if (staticSand[(int) i.pos.x][(int) i.pos.y] != sf::Color::Transparent) {
 				affixSand(i);
 				continue;
 			}
-		} else activeSandParts.erase(i);
+		} //else activeSandParts.remove(i);
 	}
 
 	activeSandParts.clear();
@@ -154,15 +152,15 @@ void sandSystem::createSand(int x, int y, sf::Color c) {
 	staticSand[x][y] = c;
 }
 
-void sandSystem::affixSand(int &i) {
+void sandSystem::affixSand(sandPart &i) {
 	//std::cout << "Affixing particle...\n";
 	// The position is inside of the static sand, so insert the object and shift everything else up.
-	activeSandParts[i].vel = -(activeSandParts[i].vel/2);
-	activeSandParts[i].pos += activeSandParts[i].vel;
+	i.vel = -(i.vel/2);
+	i.pos += i.vel;
 
-	staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] = activeSandParts[i].col;
+	staticSand[(int)i.pos.x][(int)i.pos.y] = i.col;
 
-	activeSandParts.erase(i);
+	//activeSandParts.remove(i);
 }
 
 void sandSystem::detachSand(int x, int y, Vector2D vel) {
@@ -171,7 +169,7 @@ void sandSystem::detachSand(int x, int y, Vector2D vel) {
 		sp.pos = Vector2D(x, y);
 		sp.col = staticSand[x][y];
 		sp.vel = vel;
-		activeSandParts.add(sp);
+		activeSandParts.push_back(sp);
 		staticSand[x][y] = sf::Color::Transparent;
 	}
 }
@@ -194,9 +192,9 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 		}
 	}
 
-	for (int i = 0; i < activeSandParts.size(); i++) {
-		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y)
-			out.setPixel((int)activeSandParts[i].pos.x, (int)activeSandParts[i].pos.y, activeSandParts[i].col);
+	for (auto i : activeSandParts) {
+		if (i.pos.x < SAND_SYSTEM_X && i.pos.y < SAND_SYSTEM_Y)
+			out.setPixel((int)i.pos.x, (int)i.pos.y, i.col);
 	}
 
 
