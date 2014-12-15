@@ -1,7 +1,6 @@
 #include "Sand.h"
 
 #include <thread>
-#include <windows.h>
 
 // generates a random double
 double fRand(double fMin, double fMax) {
