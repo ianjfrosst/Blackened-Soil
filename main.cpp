@@ -5,6 +5,7 @@
 #include "Vector2D.h"
 #include "GameObject.h"
 #include "Sand.h"
+#include "World.h"
 
 int main() {
 	srand(time(NULL));
@@ -14,11 +15,11 @@ int main() {
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
 
+	World world();
+
 	sandSystem sand;
 
 	sand.populate(150.0, 0.45);
-
-	bool boom = 0;
 
     while (window.isOpen()) {
 		sf::Event event;
