@@ -2,7 +2,6 @@
 
 void World::create() {
 	map.populate(150.0, 0.45);
-	tanks = std::vector<Tank>();
 }
 
 sandSystem World::getMap() {
