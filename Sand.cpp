@@ -69,7 +69,49 @@ void sandSystem::populate(double range, double smooth) {
 	}
 }
 
-void sandSystem::update(Vector2D grav) {
+void sandSystem::updateThread() {
+	int occupation = updateOcc;
+	updateOcc++;
+
+	int start = 500*occupation;
+	int end = start+500 < activeSandParts.size() ? start + 500 : activeSandParts.size();
+
+	for (int i = start; i < end && activeSandParts.size() > i; i++) {
+
+		activeSandParts[i].pos += activeSandParts[i].vel;
+		activeSandParts[i].vel += grav;
+
+		// Is the sand on the screen?
+		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y &&
+				activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0) {
+
+			if (staticSand[(int) activeSandParts[i].pos.x][(int) activeSandParts[i].pos.y] != sf::Color::Transparent) {
+				affixSand(i);
+				continue;
+			}
+		} else {
+			tMutex.lock();
+			activeSandParts.erase(activeSandParts.begin() + i);
+			tMutex.unlock();
+		}
+	}
+
+}
+
+void sandSystem::update(Vector2D inGrav) {
+	grav = inGrav;
+
+
+	updateOcc = 0;
+	int i = 0;
+	while (i + 500 < activeSandParts.size()) {
+		std::thread newThread(&sandSystem::updateThread, this);
+		newThread.detach();
+		i += 500;
+	}
+	std::thread newThread(&sandSystem::updateThread, this);
+	newThread.join();
+
 	//std::cout << activeSandParts.size() << '\n';
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
@@ -93,6 +135,7 @@ void sandSystem::update(Vector2D grav) {
 			}
 		}
 	}
+
 }
 
 /// <summary>
@@ -131,7 +174,7 @@ void sandSystem::detonate(Vector2D loc, double power, double range) {
 
 void sandSystem::detonateThread() {
 
-	int threads = 4;//std::thread::hardware_concurrency();
+	int threads = std::thread::hardware_concurrency();
 
 	int mySection = ed.occupation;
 	++ed.occupation;
@@ -140,7 +183,7 @@ void sandSystem::detonateThread() {
 
 	int RHSCap = LHSCap + ed.range/(threads/2);
 
-	std::cout << "Creating thread " << mySection <<"\n";
+	std::cout << "Creating thread " << mySection << "\n";
 
 	//Sleep(10000);
 
@@ -152,6 +195,7 @@ void sandSystem::detonateThread() {
 				if (a*a + b*b <= ed.range*ed.range) {
 					tMutex.lock();
 					detachSand(x, y, getInvSq(ed.loc, x, y, ed.range*ed.power));
+					//TODO: Random crashes.
 					tMutex.unlock();
 				}
 				//std::cout << "Particle " << x << ", " << y << "\n";

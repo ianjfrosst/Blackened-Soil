@@ -37,6 +37,8 @@ class sandSystem {
 	explosionData ed;
 	std::mutex tMutex;
 	
+	int updateOcc;
+	Vector2D grav;
 
 public :
 	sandSystem() {}
@@ -47,6 +49,7 @@ public :
 	void render(sf::RenderWindow &window, Vector2D scrollPos);
 	void populate(double range, double smooth);
 	void update(Vector2D grav);
+	void updateThread();
 	void detonate(Vector2D loc, double power, double range);
 	void affixSand(int &i);
 	void detachSand(int x, int y, Vector2D vel);
