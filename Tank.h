@@ -17,3 +17,4 @@ public :
 	void netUpdate();
 	void netBroadcast();
 };
+

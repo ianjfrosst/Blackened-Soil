@@ -2,11 +2,8 @@
 
 #include "Sand.h"
 #include "Tank.h"
-#include "GameObject.h"
 #include "Projectile.h"
-
-#include <SFML\Window.hpp>
-
+#include <SFML/Window.hpp>
 #include <vector>
 
 

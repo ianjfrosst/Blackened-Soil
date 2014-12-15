@@ -1,10 +1,10 @@
+#pragma once
+
 #include "Vector2D.h"
-#include "GameObject.h"
 
-
-class Projectile : GameObject {
+class Projectile {
 	
 public :
-	virtual void render(sf::RenderWindow &window) override;
+	virtual void render(sf::RenderWindow &window);
 };
 
