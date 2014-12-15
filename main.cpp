@@ -17,9 +17,7 @@ int main() {
 	sandSystem sand;
 
 	sand.populate(150.0, 0.45);
-
-	bool boom = 0;
-
+	
     while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {

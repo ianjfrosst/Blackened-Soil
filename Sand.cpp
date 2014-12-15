@@ -1,3 +1,4 @@
+#include <Python/Python.h>
 #include "Sand.h"
 
 // generates a random double
@@ -68,7 +69,7 @@ void sandSystem::populate(double range, double smooth) {
 }
 
 void sandSystem::update(Vector2D grav) {
-	//std::cout << activeSandParts.size() << '\n';
+	std::cout << activeSandParts.size() << '\n';
 	for (auto i : activeSandParts) {
 		i.pos += i.vel;
 		i.vel += grav;
@@ -77,14 +78,11 @@ void sandSystem::update(Vector2D grav) {
 		if (i.pos.x < SAND_SYSTEM_X && i.pos.y < SAND_SYSTEM_Y &&
 				i.pos.x > 0 && i.pos.y > 0) {
 
-			if (staticSand[(int) i.pos.x][(int) i.pos.y] != sf::Color::Transparent) {
+			if (staticSand[(int)i.pos.x][(int)i.pos.y] != sf::Color::Transparent) {
 				affixSand(i);
-				continue;
 			}
-		} //else activeSandParts.remove(i);
+		} else i.dead = true;
 	}
-
-	activeSandParts.clear();
 
 	for (int x = 0; x < SAND_SYSTEM_X; ++x) {
 		for (int y = SAND_SYSTEM_Y-1; y > 1; --y) {
@@ -92,6 +90,10 @@ void sandSystem::update(Vector2D grav) {
 				detachSand(x, y, Vector2D(0,0));
 			}
 		}
+	}
+
+	for (iter i = activeSandParts.begin(); i != activeSandParts.end(); ++i) {
+		if (i->dead) activeSandParts.erase(i);
 	}
 }
 
@@ -159,8 +161,7 @@ void sandSystem::affixSand(sandPart &i) {
 	i.pos += i.vel;
 
 	staticSand[(int)i.pos.x][(int)i.pos.y] = i.col;
-
-	//activeSandParts.remove(i);
+	i.dead = true;
 }
 
 void sandSystem::detachSand(int x, int y, Vector2D vel) {

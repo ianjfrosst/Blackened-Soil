@@ -21,6 +21,8 @@ class sandSystem {
 public :
 	sandSystem() {}
 
+	typedef std::list<sandPart>::iterator iter;
+
 	void genHeight_recur(std::vector<double> &vec, int i, int j, double range, double smooth);
 	std::vector<double> genHeightMap(int width, double range, double smooth);
 
