@@ -208,6 +208,20 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 	sf::Image out;
 	out.create(SAND_SYSTEM_X,SAND_SYSTEM_Y);
 
+	for (int o = 0; o < SAND_SYSTEM_Y; o++) {
+		out.setPixel(0, o, sf::Color::Blue);
+		out.setPixel(SAND_SYSTEM_Y-1, o, sf::Color::Blue);
+	}
+
+	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
+		out.setPixel(i, 0, sf::Color::Blue);
+		out.setPixel(i, SAND_SYSTEM_Y-1, sf::Color::Blue);
+
+		for (int o = 0; o < SAND_SYSTEM_Y; ++o) {
+			out.setPixel(i, o, staticSand[i][o]);
+		}
+	}
+
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y)
 			out.setPixel((int)activeSandParts[i].pos.x, (int)activeSandParts[i].pos.y, activeSandParts[i].col);
