@@ -5,6 +5,6 @@
 class Projectile {
 	
 public :
-	virtual void render(sf::RenderWindow &window);
+	void render(sf::RenderWindow &window);
 };
 
