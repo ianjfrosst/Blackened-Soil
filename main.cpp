@@ -3,7 +3,6 @@
 #include <SFML/System.hpp>
 #include <SFML/Network.hpp>
 #include "Vector2D.h"
-#include "GameObject.h"
 #include "Sand.h"
 #include <thread>
 
