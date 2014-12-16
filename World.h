@@ -2,8 +2,11 @@
 
 #include "Sand.h"
 #include "Tank.h"
+#include "GameObject.h"
 #include "Projectile.h"
-#include <SFML/Window.hpp>
+
+#include "SFML\Window.hpp"
+
 #include <vector>
 
 
@@ -13,8 +16,6 @@ class World {
 	std::vector<Projectile> projectiles;
 
 public :
-	sandSystem getMap();
-	void create();
-	void render(sf::RenderWindow&);
+	void render(sf::RenderWindow);
 	void update();
 };

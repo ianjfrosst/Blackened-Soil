@@ -4,7 +4,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#define PI 3.1415926
 
 // Angles are in radians
 class Vector2D {

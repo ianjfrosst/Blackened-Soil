@@ -1,7 +1,5 @@
-#pragma once
-
 #include "Vector2D.h"
-#include <SFML/Window.hpp>
+#include "SFML/Window.hpp"
 #include <SFML/Window/Keyboard.hpp>
 
 
@@ -17,4 +15,3 @@ public :
 	void netUpdate();
 	void netBroadcast();
 };
-
