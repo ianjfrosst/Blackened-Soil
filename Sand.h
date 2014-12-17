@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector2D.h"
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <cmath>
