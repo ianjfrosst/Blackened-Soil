@@ -44,10 +44,6 @@ std::vector<double> sandSystem::genHeightMap(int width, double range, double smo
 	hMap[0] = fRand(150, 250);
 	hMap[hMap.size() - 1] = fRand(150, 250);
 	genHeight_recur(hMap, 0, hMap.size() - 1, range, smooth);
-	double max = *std::max_element(hMap.begin(), hMap.end());
-	double min = *std::min_element(hMap.begin(), hMap.end());
-	double diff = max - min;
-	for (auto i : hMap) i = (i - min) / diff;
 	return hMap;
 }
 
