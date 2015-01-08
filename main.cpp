@@ -41,7 +41,7 @@ int main() {
 
         window.clear();
 
-		sand.update(Vector2D(0,-0.05));
+		sand.update(Vector2D(0,-1));
 		sand.render(window, Vector2D(0,0));
 
         window.display();

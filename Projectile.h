@@ -5,6 +5,7 @@
 class Projectile : GameObject {
 	
 public :
-	virtual void render(sf::RenderWindow &window) override;
+	void render(sf::RenderWindow &window) override;
+
 };
 
