@@ -15,7 +15,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
 
 	sandSystem sand;
-	Projectile p(Vector2D(100,300),Vector2D(1,10));
+	Projectile p(Vector2D(100,300),Vector2D(15,1));
 
 	sand.populate(150.0, 0.45);
 

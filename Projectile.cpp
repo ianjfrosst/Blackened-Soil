@@ -11,18 +11,22 @@ void Projectile::render(sf::RenderWindow &window) {
 }
 
 void Projectile::update(sandSystem & world, Vector2D influence) {
-	trace.push_back(sf::Vector2f(pos.x, SAND_SYSTEM_Y-pos.y));
+	if (alive) {
+		trace.push_back(sf::Vector2f(pos.x, SAND_SYSTEM_Y-pos.y));
 
-	//if (alive && pos.y < SAND_SYSTEM_Y) {
-		if (world.staticSand[(int)pos.x][(int)pos.y] != sf::Color::Transparent) {
-			world.detonate(Vector2D(pos.x,SAND_SYSTEM_Y-pos.y), 1, 50);
-			std::cout << "Explosion!\n";
-			alive = false;
+		std::cout << pos << '\n';
+
+		if (pos.y < SAND_SYSTEM_Y && pos.y > 0 && pos.x > 0 && pos.x < SAND_SYSTEM_X) {
+			if (world.staticSand[(int)pos.x][(int)pos.y] != sf::Color::Transparent) {
+				world.detonate(Vector2D(pos.x,pos.y), 40, 50);
+				std::cout << "Explosion!\n";
+				alive = false;
+			}
 		}
-	//}
-	if (pos.x < 0 || pos.x > SAND_SYSTEM_X || pos.y < 0) alive = false;
+		if (pos.x < 0 || pos.x > SAND_SYSTEM_X || pos.y < 0) alive = false;
 
-	pos += vel;
-	vel += influence;
+		pos += vel;
+		vel += influence;
+	}
 }
 
