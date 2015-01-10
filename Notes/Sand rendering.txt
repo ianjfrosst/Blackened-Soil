@@ -1,0 +1,3 @@
+The sand storage should be modified so that only changed rows are redrawn. This will be a failry simple change, as with crafty enough class creation and overloading, staticSand[][] should still work.
+
+It should become an array of sandPiles, which are themselves arrays of colours with an updated flag, reset every render call. When any pixel in the column has been modified (perhaps a custom setter), the entire column is redrawn to an image that is stored in the sandSystem class. This image is converted to a sprite and drawn at every frame, with the modified columns being redrawn immediately beforehand. The active sand would be drawn as it already is.

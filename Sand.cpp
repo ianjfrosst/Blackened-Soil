@@ -196,6 +196,8 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 	// Since we want cartesian (0,0 = Lower-left) coordinates, we need to flip the pixel array before we render it.
 	out.flipVertically();
 
+	// TODO: Create delta-based output. See other file.
+
 	sf::Texture outTex;
 	outTex.loadFromImage(out);
 	sf::Sprite outSpr;
