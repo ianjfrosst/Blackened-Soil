@@ -21,9 +21,10 @@ public :
 };
 
 class sandSystem {
-	sf::Color staticSand[SAND_SYSTEM_X][SAND_SYSTEM_Y];
 	std::vector<sandPart> activeSandParts;
 public :
+	sf::Color staticSand[SAND_SYSTEM_X][SAND_SYSTEM_Y];
+
 	sandSystem() {}
 
 	void genHeight_recur(std::vector<double> &vec, int i, int j, double range, double smooth);
