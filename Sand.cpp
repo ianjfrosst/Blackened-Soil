@@ -98,7 +98,8 @@ void sandSystem::update(Vector2D grav) {
 Vector2D getInvSq(Vector2D src, int x, int y, double power) {
 	// TODO: This is probably broken. Should be replaced by a linear power calc.
 	Vector2D dirVec = (Vector2D(x,y) - src);
-	return Vector2D(dirVec.GetDir(), power/(pow(dirVec.GetMag(), 2)));
+	//return Vector2D(dirVec.GetDir(), power/dirVec.GetSqrMag());
+	return (dirVec)*(power/dirVec.GetSqrMag());
 }
 
 

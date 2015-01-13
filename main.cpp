@@ -35,7 +35,7 @@ int main() {
 			}
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastLMB) {
-				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 1, 50);
+				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 40, 50);
 			}
 			lastLMB = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 		}
