@@ -1,14 +1,14 @@
 #include "Vector2D.h"
 #include "Sand.h"
 #include "ExplosionType.h"
+#include "Weapon.h"
 
 
 class Projectile {
 	Vector2D pos;
 	Vector2D vel;	// Un-normalized.
 
-
-
+	Weapon * weap;
 
 	bool alive;
 
@@ -16,6 +16,7 @@ class Projectile {
 
 	// Needs to receive access to all players on the field to allow for damage.
 	void detonate();
+
 	sf::Vector2u getInverse(sf::Vector2u in);
 
 public :

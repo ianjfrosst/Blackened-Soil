@@ -35,7 +35,14 @@ public :
 	void render(sf::RenderWindow &window, Vector2D scrollPos);
 	void populate(double range, double smooth);
 	void update(Vector2D grav);
-	void detonate(Vector2D loc, double power, double range);
+
+	void detonate(Vector2D loc, double power, double range, explosionType type = explosionType::circular);
+
+	void detonateCircular(Vector2D loc, double power, double range);
+	void detonateCalderic(Vector2D loc, double power, double range);
+	void detonateDisintegrate(Vector2D loc, double power, double range);
+	void detonateBunkerbuster(Vector2D loc, double power, double range);
+
 	void affixSand(int &i);
 	void detachSand(int x, int y, Vector2D vel);
 	void createSand(int x, int y, sf::Color c);

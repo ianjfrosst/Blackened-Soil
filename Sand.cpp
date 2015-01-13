@@ -102,6 +102,10 @@ Vector2D getInvSq(Vector2D src, int x, int y, double power) {
 	return (dirVec)*(power/dirVec.GetSqrMag());
 }
 
+void sandSystem::detonate(Vector2D loc, double power, double range, explosionType type = explosionType::circular) {
+
+}
+
 
 /// <summary>
 /// Creates an explosion of size "range" at "loc" with "power".
