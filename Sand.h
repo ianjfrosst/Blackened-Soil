@@ -7,6 +7,8 @@
 #include <cmath>
 #include <thread>		// For multithreading things, because using OpenCL would be a pain in the ass.
 
+#include "ExplosionType.h"
+
 #define SAND_SYSTEM_X 500
 #define SAND_SYSTEM_Y 500
 

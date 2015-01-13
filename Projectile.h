@@ -1,10 +1,14 @@
 #include "Vector2D.h"
 #include "Sand.h"
+#include "ExplosionType.h"
 
 
 class Projectile {
 	Vector2D pos;
 	Vector2D vel;	// Un-normalized.
+
+
+
 
 	bool alive;
 

@@ -5,6 +5,7 @@
 #include "Vector2D.h"
 #include "Projectile.h"
 #include "Sand.h"
+#include "ExplosionType.h"
 
 int main() {
 	srand(time(NULL));
