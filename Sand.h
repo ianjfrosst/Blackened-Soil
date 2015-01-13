@@ -8,6 +8,7 @@
 #include <thread>		// For multithreading things, because using OpenCL would be a pain in the ass.
 
 #include "ExplosionType.h"
+#include "Projectile.h"
 
 #define SAND_SYSTEM_X 500
 #define SAND_SYSTEM_Y 500
@@ -36,12 +37,12 @@ public :
 	void populate(double range, double smooth);
 	void update(Vector2D grav);
 
-	void detonate(Vector2D loc, double power, double range, explosionType type = explosionType::circular);
+	void detonate(Vector2D loc, double power, double range, Projectile * proj, explosionType type);
 
 	void detonateCircular(Vector2D loc, double power, double range);
 	void detonateCalderic(Vector2D loc, double power, double range);
 	void detonateDisintegrate(Vector2D loc, double power, double range);
-	void detonateBunkerbuster(Vector2D loc, double power, double range);
+	void detonateBunkerbuster(Vector2D loc, double power, double range, Projectile * proj);
 
 	void affixSand(int &i);
 	void detachSand(int x, int y, Vector2D vel);

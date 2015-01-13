@@ -1,6 +1,6 @@
 #pragma once
 
-#include <map>
+//#include <map>
 #include "ExplosionType.h"
 #include "Vector2D.h"
 
@@ -19,5 +19,5 @@ struct Weapon {
 	Vector2D	splitMaxSpeed;
 };
 
-std::map<std::string, Weapon> weapons;
+//std::map<std::string, Weapon> weapons;
 

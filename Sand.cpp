@@ -1,5 +1,6 @@
 #include "Sand.h"
 
+
 // generates a random double
 double fRand(double fMin, double fMax) {
 	double f = (double)rand() / RAND_MAX;
@@ -102,26 +103,70 @@ Vector2D getInvSq(Vector2D src, int x, int y, double power) {
 	return (dirVec)*(power/dirVec.GetSqrMag());
 }
 
-void sandSystem::detonate(Vector2D loc, double power, double range, explosionType type) {
+Vector2D getCalderaForce(Vector2D src, int x, int y, double power) {
+	// TODO: This is probably broken. Should be replaced by a linear power calc.
+	Vector2D dirVec = (Vector2D(x,y) - src);
+	return Vector2D(dirVec.x, power/dirVec.GetSqrMag());
+	//return (dirVec)*(power/dirVec.GetSqrMag());
+}
+
+void sandSystem::detonate(Vector2D loc, double power, double range, Projectile * proj, explosionType type) {
+	switch(type) {
+	case explosionType::calderic:
+		detonateCalderic(loc, power, range); 
+		break;
+	case explosionType::circular:
+		detonateCircular(loc, power, range);
+		break;
+	case explosionType::disintegrative:
+		detonateDisintegrate(loc, power, range);
+		break;
+	case explosionType::bunkerbuster:
+		detonateBunkerbuster(loc, power, range, proj);
+		break;
+	}
+}
+
+// TODO: need to have the velocity of the projectile.
+void sandSystem::detonateBunkerbuster(Vector2D loc, double power, double range, Projectile * proj) {
 
 }
 
+/// <summary>
+/// Creates an explosion of size "range" at "loc" with "power".
+/// Power is the maximum (?) power that the explosion can apply.
+/// </summary>
+void sandSystem::detonateDisintegrate(Vector2D loc, double power, double range) {
+	// Right (positive) side
+	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
+	for (int x = loc.x; x < RHScap; x++) {
+		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
+			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
+			double b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
+			if (a*a + b*b <= range*range) {
+				staticSand[x][y] = sf::Color::Transparent;
+			}
+		}
+	}
+
+	// Left (minus) side
+	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
+	for (int x = loc.x; x > LHScap; x--) {
+		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
+			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
+			double b = y - loc.y;
+			if (a*a + b*b <= range*range) {
+				staticSand[x][y] = sf::Color::Transparent;
+			}
+		}
+	}
+}
 
 /// <summary>
 /// Creates an explosion of size "range" at "loc" with "power".
 /// Power is the maximum (?) power that the explosion can apply.
 /// </summary>
 void sandSystem::detonateCircular(Vector2D loc, double power, double range) {
-	/*for (int x = loc.x-range < 0 ? 0 : loc.x-range; x < (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range); x++) {
-		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;
-			if (a*a + b*b <= range*range) {
-				detachSand(x, y, getInvSq(loc, x, y, range*power));
-			}
-		}
-	}*/
-
 	// Right (positive) side
 	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
 	for (int x = loc.x; x < RHScap; x++) {
@@ -142,6 +187,37 @@ void sandSystem::detonateCircular(Vector2D loc, double power, double range) {
 			double b = y - loc.y;
 			if (a*a + b*b <= range*range) {
 				detachSand(x, y, getInvSq(loc, x, y, range*power));
+			}
+		}
+	}
+}
+
+
+/// <summary>
+/// Creates an explosion of size "range" at "loc" with "power".
+/// Power is the maximum (?) power that the explosion can apply.
+/// </summary>
+void sandSystem::detonateCalderic(Vector2D loc, double power, double range) {
+	// Right (positive) side
+	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
+	for (int x = loc.x; x < RHScap; x++) {
+		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
+			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
+			double b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
+			if (a*a + b*b <= range*range) {
+				detachSand(x, y, getCalderaForce(loc, x, y, range*power));
+			}
+		}
+	}
+
+	// Left (minus) side
+	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
+	for (int x = loc.x; x > LHScap; x--) {
+		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
+			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
+			double b = y - loc.y;
+			if (a*a + b*b <= range*range) {
+				detachSand(x, y, getCalderaForce(loc, x, y, range*power));
 			}
 		}
 	}

@@ -1,6 +1,8 @@
+#pragma once
+
 #include "Vector2D.h"
-#include "Sand.h"
 #include "ExplosionType.h"
+#include "Sand.h"
 #include "Weapon.h"
 
 

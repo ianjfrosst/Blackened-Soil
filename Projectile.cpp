@@ -18,7 +18,7 @@ void Projectile::update(sandSystem & world, Vector2D influence) {
 
 		if (pos.y < SAND_SYSTEM_Y && pos.y > 0 && pos.x > 0 && pos.x < SAND_SYSTEM_X) {
 			if (world.staticSand[(int)pos.x][(int)pos.y] != sf::Color::Transparent) {
-				world.detonate(Vector2D(pos.x,pos.y), 20, 50, weap->xplType);
+				world.detonate(Vector2D(pos.x,pos.y), 20, 50, nullptr, explosionType::circular);
 				std::cout << "Explosion!\n";
 				alive = false;
 			}
