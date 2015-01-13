@@ -1,9 +1,10 @@
 #pragma once
 
+#include <map>
 #include "ExplosionType.h"
 #include "Vector2D.h"
 
-class Weapon {
+struct Weapon {
 	std::string name;
 	int ExplosionSize;
 	int	MaxDamage;		// Later resolved via invSqr
@@ -16,6 +17,7 @@ class Weapon {
 	int			splitNumber;
 	Weapon*		splitResult;
 	Vector2D	splitMaxSpeed;
-public :
-
 };
+
+std::map<std::string, Weapon> weapons;
+
