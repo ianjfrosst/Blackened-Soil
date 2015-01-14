@@ -45,11 +45,14 @@ int main() {
 
 		sand.update(Vector2D(0,-1));
 
-		updateProjectile(p,&sand,Vector2D(0,-1));
+		//updateProjectile(p,&sand,Vector2D(0,-1));
 		
+		p.update(&sand, Vector2D(0,-1));
 
 		sand.render(window, Vector2D(0,-1));
-		renderProjectile(p,window);
+		//renderProjectile(p,window);
+
+		p.render(window);
 
         window.display();
     }

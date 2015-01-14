@@ -34,6 +34,4 @@ struct Projectile {
 
 };
 
-bool updateProjectile(Projectile &p, sandSystem * world, Vector2D influence);
-void renderProjectile(Projectile p, sf::RenderWindow &window);
 
