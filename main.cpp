@@ -36,7 +36,7 @@ int main() {
 			}
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastLMB) {
-				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 40, 50, nullptr, explosionType::calderic);
+				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 40, 50, explosionType::calderic);
 			}
 			lastLMB = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 		}
@@ -44,11 +44,12 @@ int main() {
         window.clear();
 
 		sand.update(Vector2D(0,-1));
-		p.update(sand,Vector2D(0,-1));
 
+		updateProjectile(p,&sand,Vector2D(0,-1));
+		
 
-		sand.render(window, Vector2D(0,0));
-		p.render(window);
+		sand.render(window, Vector2D(0,-1));
+		renderProjectile(p,window);
 
         window.display();
     }

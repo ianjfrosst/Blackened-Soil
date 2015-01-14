@@ -10,15 +10,15 @@ void Projectile::render(sf::RenderWindow &window) {
 	}
 }
 
-void Projectile::update(sandSystem & world, Vector2D influence) {
+bool Projectile::update(sandSystem * world, Vector2D influence) {
 	if (alive) {
 		trace.push_back(sf::Vector2f(pos.x, SAND_SYSTEM_Y-pos.y));
 
 		std::cout << pos << '\n';
 
 		if (pos.y < SAND_SYSTEM_Y && pos.y > 0 && pos.x > 0 && pos.x < SAND_SYSTEM_X) {
-			if (world.staticSand[(int)pos.x][(int)pos.y] != sf::Color::Transparent) {
-				world.detonate(Vector2D(pos.x,pos.y), 20, 50, nullptr, explosionType::circular);
+			if (world->staticSand[(int)pos.x][(int)pos.y] != sf::Color::Transparent) {
+				world->detonate(Vector2D(pos.x,pos.y), 20, 50, explosionType::circular);
 				std::cout << "Explosion!\n";
 				alive = false;
 			}
@@ -27,6 +27,9 @@ void Projectile::update(sandSystem & world, Vector2D influence) {
 
 		pos += vel;
 		vel += influence;
+		return true;
+	} else {
+		return false;
 	}
 }
 

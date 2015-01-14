@@ -5,8 +5,7 @@
 #include "Sand.h"
 #include "Weapon.h"
 
-
-class Projectile {
+struct Projectile {
 	Vector2D pos;
 	Vector2D vel;	// Un-normalized.
 
@@ -21,7 +20,6 @@ class Projectile {
 
 	sf::Vector2u getInverse(sf::Vector2u in);
 
-public :
 	Projectile (Vector2D p, Vector2D v) {
 		pos = p;
 		vel = v;
@@ -32,7 +30,10 @@ public :
 	void render(sf::RenderWindow &window);
 	
 	// Moves the projectile along it's path, and calculates hits.
-	void update(sandSystem & map,  Vector2D influence);
+	bool update(sandSystem * map,  Vector2D influence);
 
 };
+
+bool updateProjectile(Projectile &p, sandSystem * world, Vector2D influence);
+void renderProjectile(Projectile p, sf::RenderWindow &window);
 

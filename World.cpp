@@ -6,6 +6,6 @@ void World::render(sf::RenderWindow window) {
 		tanks[i].render(window);
 	}
 	for (int i = 0; i < projectiles.size(); i++) {
-		projectiles[i].render(window);
+		//projectiles[i].render(window);
 	}
 }

@@ -110,7 +110,7 @@ Vector2D getCalderaForce(Vector2D src, int x, int y, double power) {
 	//return (dirVec)*(power/dirVec.GetSqrMag());
 }
 
-void sandSystem::detonate(Vector2D loc, double power, double range, Projectile * proj, explosionType type) {
+void sandSystem::detonate(Vector2D loc, double power, double range, explosionType type) {
 	switch(type) {
 	case explosionType::calderic:
 		detonateCalderic(loc, power, range); 
@@ -122,13 +122,13 @@ void sandSystem::detonate(Vector2D loc, double power, double range, Projectile *
 		detonateDisintegrate(loc, power, range);
 		break;
 	case explosionType::bunkerbuster:
-		detonateBunkerbuster(loc, power, range, proj);
+		detonateBunkerbuster(loc, power, range);
 		break;
 	}
 }
 
 // TODO: need to have the velocity of the projectile.
-void sandSystem::detonateBunkerbuster(Vector2D loc, double power, double range, Projectile * proj) {
+void sandSystem::detonateBunkerbuster(Vector2D loc, double power, double range) {
 
 }
 
