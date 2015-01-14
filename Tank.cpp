@@ -6,7 +6,9 @@ void Tank::render(sf::RenderWindow &window){
 	window.draw(shape);
 }
 
-void Tank::update() {
+void Tank::update() {}
+
+void Tank::controls() {
 	bool key_W = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 	bool key_S = sf::Keyboard::isKeyPressed(sf::Keyboard::S);
 	bool key_A = sf::Keyboard::isKeyPressed(sf::Keyboard::A);

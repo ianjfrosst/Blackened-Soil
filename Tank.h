@@ -8,6 +8,9 @@ class Tank {
 	Vector2D vel;		// Velocity, in world-space-pixels/second
 	double rot;			// Rotation in RADIANS.
 
+	int angle;
+	int power;
+
 public :
 	void render(sf::RenderWindow &window);
 	void update();
