@@ -70,6 +70,7 @@ void sandSystem::update(Vector2D grav) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
 		activeSandParts[i].vel += grav;
 
+
 		// Is the sand on the screen?
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y &&
 				activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0) {
@@ -79,10 +80,17 @@ void sandSystem::update(Vector2D grav) {
 				continue;
 			}
 		} else activeSandParts.erase(activeSandParts.begin() + i);
+
+		/*if (activeSandParts[i].pos.y < 0) {
+			activeSandParts[i].pos.y = -1;
+			affixSand(i);
+			continue;
+		}*/
 	}
 
 	for (int x = 0; x < SAND_SYSTEM_X; ++x) {
-		for (int y = SAND_SYSTEM_Y-1; y > 1; --y) {
+		//for (int y = SAND_SYSTEM_Y-1; y > 1; --y) {
+		for (int y = 1; y < SAND_SYSTEM_Y; y++) {
 			if (staticSand[x][y-1] == sf::Color::Transparent && staticSand[x][y] != sf::Color::Transparent) {
 				detachSand(x, y, Vector2D(0,0));
 			}
