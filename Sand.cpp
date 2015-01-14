@@ -82,7 +82,7 @@ void sandSystem::update(Vector2D grav) {
 	}
 
 	for (int x = 0; x < SAND_SYSTEM_X; ++x) {
-		for (int y = SAND_SYSTEM_Y-1; y > 1; --y) {
+		for (int y = 0; y < SAND_SYSTEM_Y; ++y) {
 			if (staticSand[x][y-1] == sf::Color::Transparent && staticSand[x][y] != sf::Color::Transparent) {
 				detachSand(x, y, Vector2D(0,0));
 			}
