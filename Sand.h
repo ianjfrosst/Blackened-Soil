@@ -34,7 +34,9 @@ public :
 
 	void render(sf::RenderWindow &window, Vector2D scrollPos);
 	void populate(double range, double smooth);
-	void update(Vector2D grav);
+
+	// Return whether it needs to continue.
+	bool update(Vector2D grav);
 
 	void detonate(Vector2D loc, double power, double range, explosionType type);
 

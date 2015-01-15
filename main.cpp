@@ -6,6 +6,7 @@
 #include "Projectile.h"
 #include "Sand.h"
 #include "ExplosionType.h"
+#include "Tank.h"
 
 int main() {
 	srand(time(NULL));
@@ -16,44 +17,102 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
 
 	sandSystem sand;
+
 	Projectile p(Vector2D(100,300),Vector2D(15,1));
 
+	std::vector<Projectile> projectiles;
+	std::vector<Tank> tanks;
+
 	sand.populate(150.0, 0.45);
+	
+	int players = 2;
+	int turn = 0;
+
+	projectiles.push_back(p);
+
+	// Add tanks!
+	for (int i = 0; i < players; i++ ) {
+		Tank tank;
+		tank = Tank();
+		Vector2D pos(rand() % SAND_SYSTEM_X,0);
+		int y = 0;
+		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
+		pos.y = y;
+		tank.setPos(pos);
+
+		tanks.push_back(tank);
+	}
 
 	bool lastLMB = false;
 
     while (window.isOpen()) {
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-		sf::Vector2i position = sf::Mouse::getPosition(window);
+		/*sf::Vector2i position = sf::Mouse::getPosition(window);
 		if (position.x > 0 && position.x < SAND_SYSTEM_X && position.y > 0 && position.y < SAND_SYSTEM_Y) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 				sand.createSand(position.x, SAND_SYSTEM_Y-position.y, sf::Color::Cyan);
 			}
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastLMB) {
-				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 40, 50, explosionType::circular);
+				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 100, 50, explosionType::circular);
 			}
 			lastLMB = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+		}*/
+
+		sf::Clock deltaTimer;
+
+		while (!tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds()) && window.isOpen()) {
+			// Executes until the player shoots.
+
+			sf::Event event;
+
+			while (window.pollEvent(event)) {
+				if (event.type == sf::Event::Closed)
+					window.close();
+			}
+			window.clear();
+
+			sand.render(window, Vector2D(0,0));
+
+			for (int i = 0; i < tanks.size(); i ++) {
+				tanks[i].render(window, i == turn);
+			}
+
+			window.display();
+			// TODO: Add frame rate lock.
+			deltaTimer.restart();
 		}
 
-        window.clear();
+		projectiles.push_back(tanks[turn].result);
 
-		sand.update(Vector2D(0,-1));
+		turn = (turn+1)%players;
 
-		//updateProjectile(p,&sand,Vector2D(0,-1));
-		
-		p.update(&sand, Vector2D(0,-1));
+		while (sand.update(Vector2D(0,-1)) && window.isOpen()) {	// This loop will execute until there is no active sand.
+			sf::Event event;
+			while (window.pollEvent(event)) {
+				if (event.type == sf::Event::Closed)
+					window.close();
+			}
+			window.clear();
 
-		sand.render(window, Vector2D(0,-1));
-		//renderProjectile(p,window);
 
-		p.render(window);
+			sand.render(window, Vector2D(0,0));
 
-        window.display();
+			for (int i = 0; i < tanks.size(); i++) {
+				tanks[i].render(window, false);
+			}
+
+			for (int i = 0; i < projectiles.size(); i++) {
+				if (projectiles[i].update(&sand,Vector2D(0,-1))) {
+					projectiles[i].render(window);
+				} else {
+					projectiles.erase(projectiles.begin() + i);
+					i--;
+				}
+			}
+
+			window.display();
+		}
+
     }
 
     return EXIT_SUCCESS;
