@@ -12,7 +12,7 @@ int main() {
 	time_t start = time(NULL);
 	
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 0;
+    settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
 
 	sandSystem sand;
@@ -20,7 +20,6 @@ int main() {
 
 	sand.populate(150.0, 0.45);
 
-	bool boom = 0;
 	bool lastLMB = false;
 
     while (window.isOpen()) {

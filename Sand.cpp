@@ -236,10 +236,16 @@ void sandSystem::createSand(int x, int y, sf::Color c) {
 void sandSystem::affixSand(int &i) {
 	//std::cout << "Affixing particle...\n";
 	// The position is inside of the static sand, so insert the object and shift everything else up.
-	activeSandParts[i].vel = -(activeSandParts[i].vel/2);
-	activeSandParts[i].pos += activeSandParts[i].vel;
+	auto &v = activeSandParts[i].vel;
+	auto &p = activeSandParts[i].pos;
 
-	staticSand[(int)activeSandParts[i].pos.x][(int)activeSandParts[i].pos.y] = activeSandParts[i].col;
+	v.SetDM(-v.GetDir(), 1);
+
+	while (staticSand[(int)p.x][(int)p.y] != sf::Color::Transparent) {
+		p += v;
+	}
+
+	staticSand[(int)p.x][(int)p.y] = activeSandParts[i].col;
 
 	activeSandParts.erase(activeSandParts.begin() + i);
 	--i;
