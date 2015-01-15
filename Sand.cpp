@@ -64,7 +64,7 @@ void sandSystem::populate(double range, double smooth) {
 	}
 }
 
-void sandSystem::update(Vector2D grav) {
+bool sandSystem::update(Vector2D grav) {
 	//std::cout << activeSandParts.size() << '\n';
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
@@ -101,6 +101,8 @@ void sandSystem::update(Vector2D grav) {
 			}
 		}
 	}
+
+	return activeSandParts.size() > 0;
 }
 
 /// <summary>

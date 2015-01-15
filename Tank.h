@@ -1,20 +1,29 @@
 #include "Vector2D.h"
+#include "Projectile.h"
 #include "SFML/Window.hpp"
 #include <SFML/Window/Keyboard.hpp>
 
 
 class Tank {
 	Vector2D pos;		// Position, in world-space-pixels
-	Vector2D vel;		// Velocity, in world-space-pixels/second
 	double rot;			// Rotation in RADIANS.
 
 	int angle;
 	int power;
 
 public :
-	void render(sf::RenderWindow &window);
+	Projectile result;
+
+	Tank() {
+		pos = Vector2D();
+		rot = 0;
+		result = Projectile();
+	}
+
+	void setPos(Vector2D p);
+	void render(sf::RenderWindow &window, bool isMyTurn);
 	void update();
-	void controls();
+	bool controls(int deltaMillis);
 	void netUpdate();
 	void netBroadcast();
 };

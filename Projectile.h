@@ -20,6 +20,10 @@ struct Projectile {
 
 	sf::Vector2u getInverse(sf::Vector2u in);
 
+	Projectile () {
+
+	}
+
 	Projectile (Vector2D p, Vector2D v) {
 		pos = p;
 		vel = v;
