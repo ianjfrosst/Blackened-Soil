@@ -71,6 +71,11 @@ void sandSystem::update(Vector2D grav) {
 		activeSandParts[i].vel += grav;
 
 
+		if (activeSandParts[i].pos.y < 0) {
+			activeSandParts[i].pos.y = 0;
+			affixSand(i);
+		}
+
 		// Is the sand on the screen?
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y &&
 				activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0) {
@@ -236,13 +241,13 @@ void sandSystem::createSand(int x, int y, sf::Color c) {
 void sandSystem::affixSand(int &i) {
 	//std::cout << "Affixing particle...\n";
 	// The position is inside of the static sand, so insert the object and shift everything else up.
-	auto &v = activeSandParts[i].vel;
-	auto &p = activeSandParts[i].pos;
+	Vector2D v = activeSandParts[i].vel;
+	Vector2D p = activeSandParts[i].pos;
 
-	v.SetDM(-v.GetDir(), 1);
+	v.SetDM(v.GetDir(), 1);
 
 	while (staticSand[(int)p.x][(int)p.y] != sf::Color::Transparent) {
-		p += v;
+		p -= v;
 	}
 
 	staticSand[(int)p.x][(int)p.y] = activeSandParts[i].col;

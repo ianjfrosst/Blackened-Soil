@@ -19,7 +19,7 @@ void Vector2D::SetDM(double dir, double mag) {
 }
 
 double Vector2D::GetDir() {
-    return atan2(x, y);
+    return atan2(y, x);
 }
 
 double Vector2D::GetMag() {
