@@ -105,8 +105,8 @@ void sandSystem::update(Vector2D grav) {
 /// <param name="x">The x coordinate of the target point. For sand grains.</param>
 /// <param name="y">The y coordinate of the target point. For sand grains.</param>
 Vector2D getInvSq(Vector2D src, int x, int y, double power) {
-	Vector2D dirVec = (Vector2D(x,y) - src);
-	return (dirVec/dirVec.GetMag())*(power/dirVec.GetSqrMag());
+	Vector2D delta = (Vector2D(x,y) - src);
+	return (delta/delta.GetMag())*(power/delta.GetSqrMag());
 }
 
 Vector2D getCalderaForce(Vector2D src, int x, int y, double power) {
