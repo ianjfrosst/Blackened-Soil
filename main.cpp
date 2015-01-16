@@ -8,6 +8,8 @@
 #include "ExplosionType.h"
 #include "Tank.h"
 
+
+// Comments are for those of weak constitution and simple minds
 std::vector<Weapon> weapons;
 
 int main() {
@@ -45,21 +47,8 @@ int main() {
 		tanks.push_back(tank);
 	}
 
-	bool lastLMB = false;
-
     while (window.isOpen()) {
-		/*sf::Vector2i position = sf::Mouse::getPosition(window);
-		if (position.x > 0 && position.x < SAND_SYSTEM_X && position.y > 0 && position.y < SAND_SYSTEM_Y) {
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-				sand.createSand(position.x, SAND_SYSTEM_Y-position.y, sf::Color::Cyan);
-			}
-
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastLMB) {
-				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 100, 50, explosionType::circular);
-			}
-			lastLMB = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-		}*/
-
+		sf::Clock deltaTimer;
 
 		sf::Clock deltaTimer;
 		tanks[turn].startTurn();
@@ -84,8 +73,7 @@ int main() {
 			window.display();
 			// TODO: Add frame rate lock.
 		}
-
-
+		
 		projectiles.push_back(tanks[turn].result);
 
 		turn = (turn+1)%players;
