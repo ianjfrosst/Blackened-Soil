@@ -88,7 +88,6 @@ int main() {
 			}
 			window.clear();
 
-
 			sand.render(window, Vector2D(0,0));
 
 			for (int i = 0; i < tanks.size(); i++) {
@@ -104,12 +103,9 @@ int main() {
 					i--;
 				}
 			}
-
 			window.display();
 		}
-
     }
-
     return EXIT_SUCCESS;
 }
 

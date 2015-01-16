@@ -70,16 +70,15 @@ bool sandSystem::update(Vector2D grav) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
 		activeSandParts[i].vel += grav;
 
-
-		if (activeSandParts[i].pos.y < 0) {
-			activeSandParts[i].pos.y = 0;
-			affixSand(i);
-			continue;
-		}
-
 		// Is the sand on the screen?
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y &&
-				activeSandParts[i].pos.x > 0 && activeSandParts[i].pos.y > 0) {
+				activeSandParts[i].pos.x > 0) {
+
+			if (activeSandParts[i].pos.y < 0) {
+				activeSandParts[i].pos.y = 0;
+				affixSand(i);
+				continue;
+			}
 
 			if (staticSand[(int) activeSandParts[i].pos.x][(int) activeSandParts[i].pos.y] != sf::Color::Transparent) {
 				affixSand(i);
