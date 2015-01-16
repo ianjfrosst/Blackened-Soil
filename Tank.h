@@ -8,8 +8,10 @@ class Tank {
 	Vector2D pos;		// Position, in world-space-pixels
 	double rot;			// Rotation in RADIANS.
 
-	int angle;
+	float angle;
 	int power;
+
+	sf::Clock minTurn;
 
 public :
 	Projectile result;
@@ -18,7 +20,12 @@ public :
 		pos = Vector2D();
 		rot = 0;
 		result = Projectile();
+
+		angle = 0;
+		power = 0;
 	}
+
+	void startTurn();
 
 	void setPos(Vector2D p);
 	void render(sf::RenderWindow &window, bool isMyTurn);

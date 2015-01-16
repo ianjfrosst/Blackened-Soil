@@ -8,6 +8,8 @@
 #include "ExplosionType.h"
 #include "Tank.h"
 
+std::vector<Weapon> weapons;
+
 int main() {
 	srand(time(NULL));
 	time_t start = time(NULL);
@@ -18,8 +20,6 @@ int main() {
 
 	sandSystem sand;
 
-	Projectile p(Vector2D(100,300),Vector2D(15,1));
-
 	std::vector<Projectile> projectiles;
 	std::vector<Tank> tanks;
 
@@ -28,6 +28,8 @@ int main() {
 	int players = 2;
 	int turn = 0;
 
+	Projectile p(Vector2D(100,300),Vector2D(15,1));
+	p.alive = true;
 	projectiles.push_back(p);
 
 	// Add tanks!
@@ -58,9 +60,11 @@ int main() {
 			lastLMB = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 		}*/
 
-		sf::Clock deltaTimer;
 
+		sf::Clock deltaTimer;
+		tanks[turn].startTurn();
 		while (!tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds()) && window.isOpen()) {
+			deltaTimer.restart();
 			// Executes until the player shoots.
 
 			sf::Event event;
@@ -79,14 +83,18 @@ int main() {
 
 			window.display();
 			// TODO: Add frame rate lock.
-			deltaTimer.restart();
 		}
+
 
 		projectiles.push_back(tanks[turn].result);
 
 		turn = (turn+1)%players;
 
-		while (sand.update(Vector2D(0,-1)) && window.isOpen()) {	// This loop will execute until there is no active sand.
+		std::cout << "Switching to other mode! Projectiles: " << projectiles.size() << '\n';
+
+		while ((sand.update(Vector2D(0,-1)) || projectiles.size() > 0) && window.isOpen()) {
+			// This loop will execute until there is no active sand, no projectiles, and no closed window.
+
 			sf::Event event;
 			while (window.pollEvent(event)) {
 				if (event.type == sf::Event::Closed)
@@ -102,6 +110,7 @@ int main() {
 			}
 
 			for (int i = 0; i < projectiles.size(); i++) {
+				std::cout << "Running projectile " << i << ".\n";
 				if (projectiles[i].update(&sand,Vector2D(0,-1))) {
 					projectiles[i].render(window);
 				} else {
@@ -116,4 +125,8 @@ int main() {
     }
 
     return EXIT_SUCCESS;
+}
+
+void populateWeapons(std::string filename) {
+
 }
