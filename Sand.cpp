@@ -85,12 +85,6 @@ bool sandSystem::update(Vector2D grav) {
 				continue;
 			}
 		} else activeSandParts.erase(activeSandParts.begin() + i);
-
-		/*if (activeSandParts[i].pos.y < 0) {
-			activeSandParts[i].pos.y = -1;
-			affixSand(i);
-			continue;
-		}*/
 	}
 
 	for (int x = 0; x < SAND_SYSTEM_X; ++x) {
@@ -98,9 +92,6 @@ bool sandSystem::update(Vector2D grav) {
 			if (staticSand[x][y] != sf::Color::Transparent) {
 				if (staticSand[x][y - 1] == sf::Color::Transparent) {
 					detachSand(x, y, Vector2D(0, 0));
-				}
-				if (staticSand[x-1][y-1] == sf::Color::Transparent) {
-
 				}
 			}
 		}
