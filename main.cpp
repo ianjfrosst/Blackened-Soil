@@ -49,8 +49,6 @@ int main() {
 
     while (window.isOpen()) {
 		sf::Clock deltaTimer;
-
-		sf::Clock deltaTimer;
 		tanks[turn].startTurn();
 		while (!tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds()) && window.isOpen()) {
 			deltaTimer.restart();
