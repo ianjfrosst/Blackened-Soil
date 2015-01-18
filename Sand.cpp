@@ -65,7 +65,14 @@ void sandSystem::populate(double range, double smooth) {
 }
 
 bool sandSystem::update(Vector2D grav) {
+	sf::Clock updateClock;
+
 	//std::cout << activeSandParts.size() << '\n';
+
+	updateClock.restart();
+
+	int p = activeSandParts.size();
+
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
 		activeSandParts[i].vel += grav;
@@ -87,6 +94,11 @@ bool sandSystem::update(Vector2D grav) {
 		} else activeSandParts.erase(activeSandParts.begin() + i);
 	}
 
+	if (activeSandParts.size() > 0) std::cout << "ACTIVE UPDATE took " << updateClock.getElapsedTime().asMicroseconds() << " micros. "
+		<< p << " particles.\n";
+
+	updateClock.restart();
+
 	for (int x = 0; x < SAND_SYSTEM_X; ++x) {
 		for (int y = 1; y < SAND_SYSTEM_Y; y++) {
 			if (staticSand[x][y] != sf::Color::Transparent) {
@@ -96,6 +108,8 @@ bool sandSystem::update(Vector2D grav) {
 			}
 		}
 	}
+
+	std::cout << "STATIC UPDATE took " << updateClock.getElapsedTime().asMicroseconds() << " micros.\n";
 
 	return activeSandParts.size() > 0;
 }
