@@ -67,9 +67,7 @@ int main() {
 
 			if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastMouseState) {
 				sf::Vector2i position = sf::Mouse::getPosition(window);
-				timer.restart();
 				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 100, 100, explosionType::circular);
-				std::cout << "Detonation took " << timer.getElapsedTime().asMicroseconds() << " microseconds.\n";
 			}
 
 			lastMouseState = sf::Mouse::isButtonPressed(sf::Mouse::Left);
@@ -94,7 +92,11 @@ int main() {
 
 		std::cout << "Switching to other mode! Projectiles: " << projectiles.size() << '\n';
 
+		int updateResult = 1;
+
 		while ((sand.update(Vector2D(0,-1)) || projectiles.size() > 0) && window.isOpen()) {
+			std::cout << "UPDATE took " << timer.getElapsedTime().asMicroseconds() << " microseconds.\n";
+			
 			// This loop will execute until there is no active sand, no projectiles, and no closed window.
 
 			sf::Event event;
@@ -103,10 +105,10 @@ int main() {
 					window.close();
 			}
 			window.clear();
-
-			//std::thread render(sandSystem::render,sand);
 			
+			timer.restart();
 			sand.render();
+			std::cout << "Sand render took " << timer.getElapsedTime().asMicroseconds() << " microseconds with active particles.\n";
 
 			for (int i = 0; i < tanks.size(); i++) {
 				tanks[i].render(window, false);
@@ -122,6 +124,7 @@ int main() {
 				}
 			}
 			window.display();
+			timer.restart();
 		}
     }
     return EXIT_SUCCESS;
