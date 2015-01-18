@@ -59,7 +59,9 @@ int main() {
 		// GAMEPLAY LOOP
 		// --------------------------------------------------
 
-		while (!tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds()) && window.isOpen()) {
+		bool eBrake = true;
+
+		while (!tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds()) && window.isOpen() && eBrake) {
 			deltaTimer.restart();
 			timer.restart();
 			// Executes until the player shoots.
@@ -71,10 +73,11 @@ int main() {
 					window.close();
 			}
 
-			if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastMouseState) {
 				sf::Vector2i position = sf::Mouse::getPosition(window);
 				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 100, 50, explosionType::circular);
+				eBrake = false;
 			}
+
 			lastMouseState = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
 
