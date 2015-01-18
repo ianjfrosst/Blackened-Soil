@@ -73,6 +73,7 @@ int main() {
 					window.close();
 			}
 
+			if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastMouseState && sf::Mouse::getPosition(window).x < SAND_SYSTEM_X && sf::Mouse::getPosition(window).x > 0) {
 				sf::Vector2i position = sf::Mouse::getPosition(window);
 				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 100, 50, explosionType::circular);
 				eBrake = false;
