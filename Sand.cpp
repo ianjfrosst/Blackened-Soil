@@ -264,7 +264,7 @@ void sandSystem::detachSand(int x, int y, Vector2D vel) {
 	}
 }
 
-void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
+void sandSystem::render() {
 	sf::Image out;
 	out.create(SAND_SYSTEM_X,SAND_SYSTEM_Y);
 
@@ -297,7 +297,7 @@ void sandSystem::render(sf::RenderWindow &window, Vector2D scrollPos) {
 	outTex.loadFromImage(out);
 	sf::Sprite outSpr;
 	outSpr.setTexture(outTex, true);
-	outSpr.setPosition((sf::Vector2f)scrollPos);
-	window.draw(outSpr);
+	outSpr.setPosition(sf::Vector2f(0,0));
+	window->draw(outSpr);
 }
 

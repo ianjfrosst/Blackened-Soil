@@ -20,7 +20,7 @@ int main() {
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
 
-	sandSystem sand;
+	sandSystem sand(&window);
 
 	std::vector<Projectile> projectiles;
 	std::vector<Tank> tanks;
@@ -47,11 +47,15 @@ int main() {
 		tanks.push_back(tank);
 	}
 
+	sf::Clock timer;
+	int lastMouseState = 0;
+
     while (window.isOpen()) {
 		sf::Clock deltaTimer;
 		tanks[turn].startTurn();
 		while (!tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds()) && window.isOpen()) {
 			deltaTimer.restart();
+			timer.restart();
 			// Executes until the player shoots.
 
 			sf::Event event;
@@ -60,9 +64,21 @@ int main() {
 				if (event.type == sf::Event::Closed)
 					window.close();
 			}
-			window.clear();
 
-			sand.render(window, Vector2D(0,0));
+			if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastMouseState) {
+				sf::Vector2i position = sf::Mouse::getPosition(window);
+				timer.restart();
+				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 100, 100, explosionType::circular);
+				std::cout << "Detonation took " << timer.getElapsedTime().asMicroseconds() << " microseconds.\n";
+			}
+
+			lastMouseState = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+			window.clear();
+			
+			timer.restart();
+			sand.render();
+			std::cout << "Sand render took " << timer.getElapsedTime().asMicroseconds() << " microseconds.\n";
 
 			for (int i = 0; i < tanks.size(); i ++) {
 				tanks[i].render(window, i == turn);
@@ -88,7 +104,9 @@ int main() {
 			}
 			window.clear();
 
-			sand.render(window, Vector2D(0,0));
+			//std::thread render(sandSystem::render,sand);
+			
+			sand.render();
 
 			for (int i = 0; i < tanks.size(); i++) {
 				tanks[i].render(window, false);
