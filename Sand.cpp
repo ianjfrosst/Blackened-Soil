@@ -257,6 +257,8 @@ void sandSystem::affixSand(int &i) {
 
 	v.SetDM(v.GetDir(), 1);
 
+	// TODO: Ian, this while loop is horrifying. It's also your problem.
+
 	while (staticSand[(int)p.x][(int)p.y] != sf::Color::Transparent) {
 		p -= v;
 	}
@@ -268,7 +270,11 @@ void sandSystem::affixSand(int &i) {
 }
 
 void sandSystem::detachSand(int x, int y, Vector2D vel) {
+	// TODO: We need some sort of power cutoff, so that we stop creating excess useless particles.
+	//if (vel.GetSqrMag() >= 1 && staticSand[x][y] != sf::Color::Transparent) {
 	if (staticSand[x][y] != sf::Color::Transparent) {
+		if (vel.GetSqrMag() <= 1) staticSand[x][y] = sf::Color::Red;
+		else staticSand[x][y] = sf::Color::Blue;
 		sandPart sp;
 		sp.pos = Vector2D(x, y);
 		sp.col = staticSand[x][y];
