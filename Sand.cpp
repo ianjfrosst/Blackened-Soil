@@ -103,7 +103,7 @@ bool sandSystem::update(Vector2D grav) {
 		for (int y = 1; y < SAND_SYSTEM_Y; y++) {
 			if (staticSand[x][y] != sf::Color::Transparent) {
 				if (staticSand[x][y - 1] == sf::Color::Transparent) {
-					detachSand(x, y, Vector2D(0, 0));
+					detachSand(x, y, Vector2D(0, 0), true);
 				}
 			}
 		}
@@ -269,12 +269,12 @@ void sandSystem::affixSand(int &i) {
 	--i;
 }
 
-void sandSystem::detachSand(int x, int y, Vector2D vel) {
+void sandSystem::detachSand(int x, int y, Vector2D vel, bool force) {
 	// TODO: We need some sort of power cutoff, so that we stop creating excess useless particles.
-	//if (vel.GetSqrMag() >= 1 && staticSand[x][y] != sf::Color::Transparent) {
-	if (staticSand[x][y] != sf::Color::Transparent) {
-		if (vel.GetSqrMag() <= 1) staticSand[x][y] = sf::Color::Red;
-		else staticSand[x][y] = sf::Color::Blue;
+	if ((vel.GetSqrMag() >= 1 || force) && staticSand[x][y] != sf::Color::Transparent) {
+	//if (staticSand[x][y] != sf::Color::Transparent) {
+		/*if (vel.GetSqrMag() <= 1) staticSand[x][y] = sf::Color::Red;
+		else staticSand[x][y] = sf::Color::Blue;*/
 		sandPart sp;
 		sp.pos = Vector2D(x, y);
 		sp.col = staticSand[x][y];

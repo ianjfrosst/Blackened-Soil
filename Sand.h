@@ -50,6 +50,6 @@ public :
 	void detonateBunkerbuster(Vector2D loc, double power, double range);
 
 	void affixSand(int &i);
-	void detachSand(int x, int y, Vector2D vel);
+	void detachSand(int x, int y, Vector2D vel, bool force = false);
 	void createSand(int x, int y, sf::Color c);
  };
