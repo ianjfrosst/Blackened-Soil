@@ -37,7 +37,7 @@ int main() {
 	// Add tanks!
 	for (int i = 0; i < players; i++ ) {
 		Tank tank;
-		tank = Tank();
+		tank = Tank(1000); // Tank health is 1K. Adjust damage accordingly.
 		Vector2D pos(rand() % SAND_SYSTEM_X,0);
 		int y = 0;
 		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
@@ -110,5 +110,6 @@ int main() {
 }
 
 void populateWeapons(std::string filename) {
-
+	// TODO: Get weapons from CSV.
+	// TODO: Find a way to count weapons.
 }

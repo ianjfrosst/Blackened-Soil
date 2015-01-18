@@ -6,7 +6,10 @@
 
 class Tank {
 	Vector2D pos;		// Position, in world-space-pixels
+	Vector2D vel;
 	double rot;			// Rotation in RADIANS.
+
+	int health;
 
 	float angle;
 	int power;
@@ -23,6 +26,16 @@ public :
 
 		angle = 0;
 		power = 0;
+	}
+
+	Tank(int h) {
+		pos = Vector2D();
+		rot = 0;
+		result = Projectile();
+
+		angle = 0;
+		power = 0;
+		health = h;
 	}
 
 	void startTurn();
