@@ -11,7 +11,16 @@ void Tank::setPos(Vector2D p) {
 	pos = p;
 }
 
-void Tank::update() {}
+bool Tank::update(sandSystem * sand) {
+	pos += vel;
+	 if (sand->staticSand[(int)pos.x][(int)pos.y] == sf::Color::Transparent) {
+		 vel.y -= 1;
+		 return true;
+	 } else {
+		 vel.y =0;
+		 return false;
+	 }
+}
 
 void Tank::startTurn() {
 	minTurn.restart();
@@ -42,11 +51,12 @@ bool Tank::controls(int deltaMillis) {
 		if (key_D) angle -= 3.14159*(deltaMillis/1000.0);
 	}
 
-	//std::cout << "Angle: " << angle << ", Power: " << power << '\n';
+	std::cout << "Angle: " << angle << ", Power: " << power << '\n';
 
 	result.vel.SetDM(angle, power);
 	result.alive = true;
 
+	
 
 	return fired;
 }

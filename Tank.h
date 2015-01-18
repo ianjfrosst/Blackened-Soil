@@ -6,7 +6,7 @@
 
 class Tank {
 	Vector2D pos;		// Position, in world-space-pixels
-	Vector2D vel;
+	Vector2D vel;		// Trust me on this one.
 	double rot;			// Rotation in RADIANS.
 
 	int health;
@@ -42,7 +42,7 @@ public :
 
 	void setPos(Vector2D p);
 	void render(sf::RenderWindow &window, bool isMyTurn);
-	void update();
+	bool update(sandSystem * sand);
 	bool controls(int deltaMillis);
 	void netUpdate();
 	void netBroadcast();

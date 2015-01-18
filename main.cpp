@@ -49,9 +49,16 @@ int main() {
 
 	sf::Clock timer;
 
+	int lastMouseState = 0;
+
     while (window.isOpen()) {
 		sf::Clock deltaTimer;
 		tanks[turn].startTurn();
+
+		// --------------------------------------------------
+		// GAMEPLAY LOOP
+		// --------------------------------------------------
+
 		while (!tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds()) && window.isOpen()) {
 			deltaTimer.restart();
 			timer.restart();
@@ -63,6 +70,13 @@ int main() {
 				if (event.type == sf::Event::Closed)
 					window.close();
 			}
+
+			if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastMouseState) {
+				sf::Vector2i position = sf::Mouse::getPosition(window);
+				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 100, 50, explosionType::circular);
+			}
+			lastMouseState = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
 
 			window.clear();
 			
@@ -86,9 +100,15 @@ int main() {
 
 		int updateResult = 1;
 
-		while ((sand.update(Vector2D(0,-1)) || projectiles.size() > 0) && window.isOpen()) {
+		// --------------------------------------------------
+		// UPDATE LOOP
+		// No player input!
+		// --------------------------------------------------
+		bool tanksUpdated = true;
+
+		while ((sand.update(Vector2D(0,-1)) || projectiles.size() > 0 || tanksUpdated) && window.isOpen()) {
 			//std::cout << "UPDATE took " << timer.getElapsedTime().asMilliseconds() << " milliss.\n";
-			
+			tanksUpdated = false;
 			// This loop will execute until there is no active sand, no projectiles, and no closed window.
 
 			sf::Event event;
@@ -103,6 +123,7 @@ int main() {
 			//std::cout << "Sand render took " << timer.getElapsedTime().asMilliseconds() << " millis with active particles.\n";
 
 			for (int i = 0; i < tanks.size(); i++) {
+				tanksUpdated = tanksUpdated || tanks[i].update(&sand);
 				tanks[i].render(window, false);
 			}
 
