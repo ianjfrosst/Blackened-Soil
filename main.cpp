@@ -12,13 +12,19 @@
 // Comments are for those of weak constitution and simple minds
 std::vector<Weapon> weapons;
 
+int playGame(sf::RenderWindow&);
+
 int main() {
+	sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+    sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
+	playGame(window);
+}
+
+int playGame(sf::RenderWindow & window) {
 	srand(time(NULL));
 	time_t start = time(NULL);
 	
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
 
 	sandSystem sand(&window);
 
