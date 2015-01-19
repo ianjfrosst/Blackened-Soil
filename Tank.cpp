@@ -3,7 +3,10 @@
 void Tank::render(sf::RenderWindow &window, bool isMyTurn){
 	sf::CircleShape shape = sf::CircleShape(5);
 	shape.setPosition(pos.x, SAND_SYSTEM_Y-pos.y-10);
-	if (isMyTurn) shape.setFillColor(sf::Color::Red);
+	if (isMyTurn) {
+		sf::Text healthPowerAngle;	// TODO
+		shape.setFillColor(sf::Color::Red);
+	}
 	window.draw(shape);
 }
 
