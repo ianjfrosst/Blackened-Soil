@@ -9,14 +9,13 @@ class Tank {
 	Vector2D vel;		// Trust me on this one.
 	double rot;			// Rotation in RADIANS.
 
-	int health;
-
 	float angle;
 	int power;
 
 	sf::Clock minTurn;
 
 public :
+	int health;
 	Projectile result;
 
 	Tank() {

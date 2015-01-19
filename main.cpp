@@ -17,8 +17,10 @@ int playGame(sf::RenderWindow&);
 int main() {
 	sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "TANKS", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
 	playGame(window);
+
+	
 }
 
 int playGame(sf::RenderWindow & window) {
@@ -104,7 +106,7 @@ int playGame(sf::RenderWindow & window) {
 		
 		projectiles.push_back(tanks[turn].result);
 
-		turn = (turn+1)%players;
+		turn = (turn+1)%tanks.size();
 
 		std::cout << "Switching to other mode! Projectiles: " << projectiles.size() << '\n';
 
@@ -135,6 +137,11 @@ int playGame(sf::RenderWindow & window) {
 			for (int i = 0; i < tanks.size(); i++) {
 				tanksUpdated = tanksUpdated || tanks[i].update(&sand);
 				tanks[i].render(window, false);
+				if (tanks[i].health <= 0) {
+					tanks.erase(tanks.begin() + i);
+					i--;
+					if (turn >= i) turn = (turn-1)%tanks.size();  
+				}
 			}
 
 			for (int i = 0; i < projectiles.size(); i++) {
