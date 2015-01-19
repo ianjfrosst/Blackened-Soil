@@ -92,7 +92,7 @@ int playGame(sf::RenderWindow & window) {
 			
 			timer.restart();
 			sand.render();
-			std::cout << "Sand render took " << timer.getElapsedTime().asMicroseconds() << " microseconds.\n";
+			//std::cout << "Sand render took " << timer.getElapsedTime().asMicroseconds() << " microseconds.\n";
 
 			for (int i = 0; i < tanks.size(); i ++) {
 				tanks[i].render(window, i == turn);

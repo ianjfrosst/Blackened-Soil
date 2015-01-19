@@ -163,8 +163,8 @@ void sandSystem::detonateDisintegrate(Vector2D loc, double power, double range) 
 	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
 	for (int x = loc.x; x < RHScap; x++) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
+			int a = x - loc.x;
+			int b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
 			if (a*a + b*b <= range*range) {
 				staticSand[x][y] = sf::Color::Transparent;
 			}
@@ -175,8 +175,8 @@ void sandSystem::detonateDisintegrate(Vector2D loc, double power, double range) 
 	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
 	for (int x = loc.x; x > LHScap; x--) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;
+			int a = x - loc.x;
+			int b = y - loc.y;
 			if (a*a + b*b <= range*range) {
 				staticSand[x][y] = sf::Color::Transparent;
 			}
@@ -193,8 +193,8 @@ void sandSystem::detonateCircular(Vector2D loc, double power, double range) {
 	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
 	for (int x = loc.x; x < RHScap; x++) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
+			int a = x - loc.x;
+			int b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
 			if (a*a + b*b <= range*range) {
 				detachSand(x, y, getInvSq(loc, x, y, range*power));
 			}
@@ -203,10 +203,10 @@ void sandSystem::detonateCircular(Vector2D loc, double power, double range) {
 
 	// Left (minus) side
 	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
-	for (int x = loc.x; x > LHScap; x--) {
+	for (int x = loc.x+1; x > LHScap; x--) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;
+			int a = x - loc.x;
+			int b = y - loc.y;
 			if (a*a + b*b <= range*range) {
 				detachSand(x, y, getInvSq(loc, x, y, range*power));
 			}
@@ -224,8 +224,8 @@ void sandSystem::detonateCalderic(Vector2D loc, double power, double range) {
 	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
 	for (int x = loc.x; x < RHScap; x++) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
+			int a = x - loc.x;
+			int b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
 			if (a*a + b*b <= range*range) {
 				detachSand(x, y, getCalderaForce(loc, x, y, range*power));
 			}
@@ -236,8 +236,8 @@ void sandSystem::detonateCalderic(Vector2D loc, double power, double range) {
 	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
 	for (int x = loc.x; x > LHScap; x--) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
-			double a = x - loc.x;	// TODO: Do these need to be doubles? x is an int, loc is an integer value, and these squared will be ints.
-			double b = y - loc.y;
+			int a = x - loc.x;
+			int b = y - loc.y;
 			if (a*a + b*b <= range*range) {
 				detachSand(x, y, getCalderaForce(loc, x, y, range*power));
 			}
@@ -288,15 +288,8 @@ void sandSystem::render() {
 	sf::Image out;
 	out.create(SAND_SYSTEM_X,SAND_SYSTEM_Y);
 
-	for (int o = 0; o < SAND_SYSTEM_Y; o++) {
-		out.setPixel(0, o, sf::Color::Blue);
-		out.setPixel(SAND_SYSTEM_Y-1, o, sf::Color::Blue);
-	}
-
+	// From here
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
-		out.setPixel(i, 0, sf::Color::Blue);
-		out.setPixel(i, SAND_SYSTEM_Y-1, sf::Color::Blue);
-
 		for (int o = 0; o < SAND_SYSTEM_Y; ++o) {
 			out.setPixel(i, o, staticSand[i][o]);
 		}
@@ -306,10 +299,10 @@ void sandSystem::render() {
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y)
 			out.setPixel((int)activeSandParts[i].pos.x, (int)activeSandParts[i].pos.y, activeSandParts[i].col);
 	}
-
+	// to here is ~2.5 ms
 
 	// Since we want cartesian (0,0 = Lower-left) coordinates, we need to flip the pixel array before we render it.
-	out.flipVertically();
+	out.flipVertically(); // Takes about 3 ms
 
 	// TODO: Create delta-based output. See other file.
 
@@ -319,5 +312,6 @@ void sandSystem::render() {
 	outSpr.setTexture(outTex, true);
 	outSpr.setPosition(sf::Vector2f(0,0));
 	window->draw(outSpr);
+	// Okay fuck all this. Anywhere between 0.9 ms and 50 ms
 }
 

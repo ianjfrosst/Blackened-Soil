@@ -54,7 +54,7 @@ bool Tank::controls(int deltaMillis) {
 		if (key_D) angle -= 3.14159*(deltaMillis/1000.0);
 	}
 
-	std::cout << "Angle: " << angle << ", Power: " << power << '\n';
+	//std::cout << "Angle: " << angle << ", Power: " << power << '\n';
 
 	result.vel.SetDM(angle, power);
 	result.alive = true;
