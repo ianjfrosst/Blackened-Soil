@@ -13,7 +13,6 @@
 #define SAND_SYSTEM_Y 500
 
 struct sandPart {
-public :
 	Vector2D pos;
 	Vector2D vel;
 	sf::Color col;
@@ -22,11 +21,19 @@ public :
 	sandPart(Vector2D p, Vector2D v, sf::Color c) : pos(p), vel(v), col(c) {}
 };
 
+struct sandPile {
+	sf::Color data[SAND_SYSTEM_Y];
+	bool flag;
+
+	sf::Color& operator[](const int i);
+
+};
+
 class sandSystem {
 	std::vector<sandPart> activeSandParts;
 	sf::RenderWindow * window;
 public :
-	sf::Color staticSand[SAND_SYSTEM_X][SAND_SYSTEM_Y];
+	sandPile staticSand[SAND_SYSTEM_X];
 
 	sandSystem() {}
 	sandSystem(sf::RenderWindow * w) {
