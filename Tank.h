@@ -1,5 +1,6 @@
 #include "Vector2D.h"
 #include "Projectile.h"
+#include "Explosion.h"
 #include <SFML/Window.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <sstream>

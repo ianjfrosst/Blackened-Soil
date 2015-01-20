@@ -141,14 +141,20 @@ int playGame(sf::RenderWindow & window) {
 					if (turn >= i) turn = (turn-1)%tanks.size();  
 				}
 			}
-
+			explosion expl;
 			for (int i = 0; i < projectiles.size(); i++) {
 				//std::cout << "Running projectile " << i << ".\n";
-				if (projectiles[i].update(&sand,Vector2D(0,-1))) {
-					projectiles[i].render(window);
-				} else {
+				int res = projectiles[i].update(&sand,Vector2D(0,-1));
+				if (res == 1) { // Projectile is dead for whatever reason.
 					projectiles.erase(projectiles.begin() + i);
 					i--;
+				} else {
+					projectiles[i].render(window);
+					if (res == 2) {
+						for (int i = 0; i < tanks.size(); i++) {
+							// DEAL DAMAGE!
+						}
+					}
 				}
 			}
 			window.display();

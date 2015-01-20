@@ -10,8 +10,12 @@ void Projectile::render(sf::RenderWindow &window) {
 	}
 }
 
-bool Projectile::update(sandSystem * world, Vector2D influence) {
+
+
+int Projectile::update(sandSystem * world, Vector2D influence) {
 	trace.push_back(sf::Vector2f(pos.x, SAND_SYSTEM_Y-pos.y));
+
+	int res = 0;
 
 	pos += vel;
 	vel += influence;
@@ -20,13 +24,14 @@ bool Projectile::update(sandSystem * world, Vector2D influence) {
 		if (world->staticSand[(int)pos.x][(int)pos.y] != sf::Color::Transparent) {
 			world->detonate(Vector2D(pos.x,pos.y), 20, 50, explosionType::circular);
 			// TODO: Apply damage here.
+			res = res | 1;
 			alive = false;
 		}
 	}
 
-	if (pos.x < 0 || pos.x > SAND_SYSTEM_X || pos.y < 0) alive = false;
+	if (pos.x < 0 || pos.x > SAND_SYSTEM_X || pos.y < 0) res = res | 2;
 
 
-	return alive;
+	return res;
 }
 
