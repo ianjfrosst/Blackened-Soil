@@ -9,7 +9,7 @@
 #include "Tank.h"
 
 
-// Comments are for those of weak constitution and simple minds
+// Comments are for those of weak minds and simple constitution
 std::vector<Weapon> weapons;
 
 int playGame(sf::RenderWindow&);
