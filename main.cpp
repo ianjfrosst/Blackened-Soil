@@ -9,7 +9,7 @@
 #include "Tank.h"
 
 
-// Comments are for those of weak minds and simple constitution
+// Comments are for those of weak constitutions and simple minds.
 std::vector<Weapon> weapons;
 
 int playGame(sf::RenderWindow&);
@@ -19,14 +19,11 @@ int main() {
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
 	playGame(window);
-
-	
 }
 
 int playGame(sf::RenderWindow & window) {
 	srand(time(NULL));
 	time_t start = time(NULL);
-	
 
 	sandSystem sand(&window);
 
@@ -51,7 +48,6 @@ int playGame(sf::RenderWindow & window) {
 		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
 		pos.y = y;
 		tank.setPos(pos);
-
 		tanks.push_back(tank);
 	}
 
@@ -81,14 +77,16 @@ int playGame(sf::RenderWindow & window) {
 					window.close();
 			}
 
-			if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) && !lastMouseState && sf::Mouse::getPosition(window).x < SAND_SYSTEM_X && sf::Mouse::getPosition(window).x > 0) {
+			if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+					!lastMouseState &&
+					sf::Mouse::getPosition(window).x < SAND_SYSTEM_X &&
+					sf::Mouse::getPosition(window).x > 0) {
 				sf::Vector2i position = sf::Mouse::getPosition(window);
 				sand.detonate(Vector2D(position.x,SAND_SYSTEM_Y-position.y), 100, 50, explosionType::circular);
 				eBrake = false;
 			}
 
 			lastMouseState = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-
 
 			window.clear();
 			

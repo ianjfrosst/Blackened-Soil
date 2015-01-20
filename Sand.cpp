@@ -1,5 +1,8 @@
 #include "Sand.h"
 
+sf::Color& sandPile::operator[](const int i) {
+	return data[i];
+}
 
 // generates a random double
 double fRand(double fMin, double fMax) {
@@ -66,10 +69,6 @@ void sandSystem::populate(double range, double smooth) {
 
 bool sandSystem::update(Vector2D grav) {
 	sf::Clock updateClock;
-
-	//std::cout << activeSandParts.size() << '\n';
-
-	updateClock.restart();
 
 	int p = activeSandParts.size();
 
@@ -203,7 +202,7 @@ void sandSystem::detonateCircular(Vector2D loc, double power, double range) {
 
 	// Left (minus) side
 	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
-	for (int x = loc.x+1; x > LHScap; x--) {
+	for (int x = loc.x; x > LHScap; x--) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;
