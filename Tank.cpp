@@ -4,8 +4,30 @@ void Tank::render(sf::RenderWindow &window, bool isMyTurn){
 	sf::CircleShape shape = sf::CircleShape(5);
 	shape.setPosition(pos.x, SAND_SYSTEM_Y-pos.y-10);
 	if (isMyTurn) {
-		sf::Text healthPowerAngle;	// TODO
+		/*sf::Font font();
+		std::stringstream stream;
+		stream << "Power: " << power << "\t| Angle: " << angle/(2.0*3.14159)*360.0 << "|";
+		std::string text = stream.str();
+		sf::Text powerAngle(text,font,16);	// TODO
+		powerAngle.setColor(sf::Color::White);*/
+
+		Vector2D relPos;
+		relPos.SetDM(angle, power);
+
+		sf::Vertex line[] = {
+			sf::Vertex(sf::Vector2f(pos.x+5,(SAND_SYSTEM_Y-pos.y)-5)),
+			sf::Vertex(sf::Vector2f((pos+relPos).x+5,SAND_SYSTEM_Y-(pos+relPos).y-5))
+		};
+
+		line[1].color = sf::Color::Red;
+
+		window.draw(line, 2, sf::Lines);
+
 		shape.setFillColor(sf::Color::Red);
+
+		
+
+
 	}
 	window.draw(shape);
 }
@@ -56,6 +78,7 @@ bool Tank::controls(int deltaMillis) {
 
 	//std::cout << "Angle: " << angle << ", Power: " << power << '\n';
 
+	result.pos.SetXY(pos.x+5,pos.y+5);
 	result.vel.SetDM(angle, power);
 	result.alive = true;
 

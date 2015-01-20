@@ -2,11 +2,10 @@
 #include "Projectile.h"
 #include <SFML/Window.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <sstream>
 
 
 class Tank {
-	Vector2D pos;		// Position, in world-space-pixels
-	Vector2D vel;		// Trust me on this one.
 	double rot;			// Rotation in RADIANS.
 
 	float angle;
@@ -17,6 +16,8 @@ class Tank {
 public :
 	int health;
 	Projectile result;
+	Vector2D pos;		// Position, in world-space-pixels
+	Vector2D vel;		// Trust me on this one.
 
 	Tank() {
 		pos = Vector2D();

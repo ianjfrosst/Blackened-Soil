@@ -5,6 +5,8 @@
 #include "Sand.h"
 #include "Weapon.h"
 
+
+
 struct Projectile {
 	Vector2D pos;
 	Vector2D vel;	// Un-normalized.
