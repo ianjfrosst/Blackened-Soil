@@ -16,14 +16,13 @@ int playGame(sf::RenderWindow&);
 
 int main() {
 	sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
+    settings.antialiasingLevel = 16;
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
 	playGame(window);
 }
 
 int playGame(sf::RenderWindow & window) {
 	srand(time(NULL));
-	time_t start = time(NULL);
 
 	sandSystem sand(&window);
 
@@ -32,12 +31,8 @@ int playGame(sf::RenderWindow & window) {
 
 	sand.populate(150.0, 0.45);
 	
-	int players = 2;
+	int players = 8;
 	int turn = 0;
-
-	Projectile p(Vector2D(100,300),Vector2D(15,1));
-	p.alive = true;
-	projectiles.push_back(p);
 
 	// Add tanks!
 	for (int i = 0; i < players; i++ ) {
@@ -50,7 +45,6 @@ int playGame(sf::RenderWindow & window) {
 		tank.setPos(pos);
 		tanks.push_back(tank);
 	}
-
 	sf::Clock timer;
 
 	int lastMouseState = 0;

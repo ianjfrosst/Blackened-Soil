@@ -31,7 +31,6 @@ void Tank::render(sf::RenderWindow &window, bool isMyTurn){
 		aimLine[3].color = sf::Color::Green;
 		window.draw(aimLine, 4, sf::Lines);
 	}
-
 	window.draw(shape);
 }
 
@@ -78,15 +77,13 @@ bool Tank::controls(int deltaMillis) {
 		if (key_A) angle += 3.14159*(deltaMillis/1000.0);
 		if (key_D) angle -= 3.14159*(deltaMillis/1000.0);
 	}
+    int maxPower = 35;
+    if (power > maxPower) power = maxPower;
 
-	//std::cout << "Angle: " << angle << ", Power: " << power << '\n';
 
 	result.pos.SetXY(pos.x+5,pos.y+5);
 	result.vel.SetDM(angle, power);
-	result.alive = true;
-
-	
-
+    
 	return fired;
 }
 
@@ -97,6 +94,5 @@ bool Tank::takeDamage(explosion expl) {
 	if ((expl.pos - pos).GetSqrMag() < expl.size*expl.size) {
 		health -= ((expl.pos - pos).GetMag()/expl.size) * expl.maxDMG;
 	}
-
 	return health > 0;
 }

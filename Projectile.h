@@ -13,9 +13,7 @@ struct Projectile {
 	Vector2D vel;	// Un-normalized.
 
 	Weapon * weap;
-
-	bool alive;
-
+    
 	std::vector<sf::Vector2f> trace;
 
 	// Needs to receive access to all players on the field to allow for damage.
@@ -30,7 +28,6 @@ struct Projectile {
 	Projectile (Vector2D p, Vector2D v) {
 		pos = p;
 		vel = v;
-		alive = true;
 		weap = new Weapon();
 	}
 
