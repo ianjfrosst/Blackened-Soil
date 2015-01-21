@@ -45,6 +45,8 @@ public :
 	// Returns survival.
 	bool takeDamage(explosion);
 
+	sf::Vector2f transformPoint(Vector2D);
+
 	void setPos(Vector2D p);
 	void render(sf::RenderWindow &window, bool isMyTurn);
 	bool update(sandSystem * sand);

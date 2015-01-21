@@ -1,5 +1,9 @@
 #include "Tank.h"
 
+sf::Vector2f Tank::transformPoint(Vector2D in) {
+	return sf::Vector2f(pos.x + in.x,SAND_SYSTEM_Y-pos.y+in.y);
+}
+
 void Tank::render(sf::RenderWindow &window, bool isMyTurn){
 	sf::CircleShape shape = sf::CircleShape(5);
 	shape.setPosition(pos.x, SAND_SYSTEM_Y-pos.y-10);
