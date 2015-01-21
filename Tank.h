@@ -5,6 +5,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <sstream>
 
+#define MAX_HEALTH 1000.0
 
 class Tank {
 	double rot;			// Rotation in RADIANS.
@@ -15,7 +16,7 @@ class Tank {
 	sf::Clock minTurn;
 
 public :
-	int health;
+	float health;
 	Projectile result;
 	Vector2D pos;		// Position, in world-space-pixels
 	Vector2D vel;		// Trust me on this one.
@@ -40,6 +41,9 @@ public :
 	}
 
 	void startTurn();
+
+	// Returns survival.
+	bool takeDamage(explosion);
 
 	void setPos(Vector2D p);
 	void render(sf::RenderWindow &window, bool isMyTurn);

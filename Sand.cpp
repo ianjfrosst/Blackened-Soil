@@ -93,8 +93,8 @@ bool sandSystem::update(Vector2D grav) {
 		} else activeSandParts.erase(activeSandParts.begin() + i);
 	}
 
-	if (activeSandParts.size() > 0) std::cout << "ACTIVE UPDATE took " << updateClock.getElapsedTime().asMicroseconds() << " micros. "
-		<< p << " particles.\n";
+	//if (activeSandParts.size() > 0) std::cout << "ACTIVE UPDATE took " << updateClock.getElapsedTime().asMicroseconds() << " micros. "
+	//	<< p << " particles.\n";
 
 	updateClock.restart();
 
@@ -108,7 +108,7 @@ bool sandSystem::update(Vector2D grav) {
 		}
 	}
 
-	std::cout << "STATIC UPDATE took " << updateClock.getElapsedTime().asMicroseconds() << " micros.\n";
+	//std::cout << "STATIC UPDATE took " << updateClock.getElapsedTime().asMicroseconds() << " micros.\n";
 
 	return activeSandParts.size() > 0;
 }

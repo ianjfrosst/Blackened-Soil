@@ -4,31 +4,34 @@ void Tank::render(sf::RenderWindow &window, bool isMyTurn){
 	sf::CircleShape shape = sf::CircleShape(5);
 	shape.setPosition(pos.x, SAND_SYSTEM_Y-pos.y-10);
 	if (isMyTurn) {
-		/*sf::Font font();
-		std::stringstream stream;
-		stream << "Power: " << power << "\t| Angle: " << angle/(2.0*3.14159)*360.0 << "|";
-		std::string text = stream.str();
-		sf::Text powerAngle(text,font,16);	// TODO
-		powerAngle.setColor(sf::Color::White);*/
-
+		// Aim
 		Vector2D relPos;
 		relPos.SetDM(angle, power);
-
-		sf::Vertex line[] = {
+		sf::Vertex aimLine[] = {
 			sf::Vertex(sf::Vector2f(pos.x+5,(SAND_SYSTEM_Y-pos.y)-5)),
 			sf::Vertex(sf::Vector2f((pos+relPos).x+5,SAND_SYSTEM_Y-(pos+relPos).y-5))
 		};
-
-		line[1].color = sf::Color::Red;
-
-		window.draw(line, 2, sf::Lines);
+		aimLine[1].color = sf::Color::Red;
+		window.draw(aimLine, 2, sf::Lines);
 
 		shape.setFillColor(sf::Color::Red);
-
-		
-
-
+	} else {
+		// Health
+		Vector2D relPos;
+		relPos.SetDM(angle, power);
+		sf::Vertex aimLine[] = {
+			sf::Vertex(sf::Vector2f(pos.x+15,(SAND_SYSTEM_Y-pos.y)-15)),
+			sf::Vertex(sf::Vector2f(pos.x-5,(SAND_SYSTEM_Y-pos.y)-15)),
+			sf::Vertex(sf::Vector2f(pos.x-5,(SAND_SYSTEM_Y-pos.y)-15)),
+			sf::Vertex(sf::Vector2f(pos.x-5+((health/MAX_HEALTH)*20.0),(SAND_SYSTEM_Y-pos.y)-15))
+		};
+		aimLine[0].color = sf::Color::Red;
+		aimLine[1].color = sf::Color::Red;
+		aimLine[2].color = sf::Color::Green;
+		aimLine[3].color = sf::Color::Green;
+		window.draw(aimLine, 4, sf::Lines);
 	}
+
 	window.draw(shape);
 }
 
@@ -85,4 +88,13 @@ bool Tank::controls(int deltaMillis) {
 	
 
 	return fired;
+}
+
+bool Tank::takeDamage(explosion expl) {
+
+	if ((expl.pos - pos).GetSqrMag() < expl.size*expl.size) {
+		health -= ((expl.pos - pos).GetMag()/expl.size) * expl.maxDMG;
+	}
+
+	return health > 0;
 }

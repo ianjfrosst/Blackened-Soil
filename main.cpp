@@ -42,7 +42,7 @@ int playGame(sf::RenderWindow & window) {
 	// Add tanks!
 	for (int i = 0; i < players; i++ ) {
 		Tank tank;
-		tank = Tank(1000); // Tank health is 1K. Adjust damage accordingly.
+		tank = Tank(MAX_HEALTH); // Tank health is 1K. Adjust damage accordingly.
 		Vector2D pos(rand() % SAND_SYSTEM_X,0);
 		int y = 0;
 		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
@@ -141,7 +141,7 @@ int playGame(sf::RenderWindow & window) {
 					if (turn >= i) turn = (turn-1)%tanks.size();  
 				}
 			}
-			explosion expl;
+			
 			for (int i = 0; i < projectiles.size(); i++) {
 				//std::cout << "Running projectile " << i << ".\n";
 				int res = projectiles[i].update(&sand,Vector2D(0,-1));
@@ -151,8 +151,9 @@ int playGame(sf::RenderWindow & window) {
 				} else {
 					projectiles[i].render(window);
 					if (res == 2) {
-						for (int i = 0; i < tanks.size(); i++) {
+						for (int o = 0; o < tanks.size(); o++) {
 							// DEAL DAMAGE!
+							tanks[o].takeDamage(projectiles[i].result());
 						}
 					}
 				}
