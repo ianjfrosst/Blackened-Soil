@@ -9,8 +9,8 @@
 
 #include "ExplosionType.h"
 
-#define SAND_SYSTEM_X 800
-#define SAND_SYSTEM_Y 600
+#define SAND_SYSTEM_X 500
+#define SAND_SYSTEM_Y 500
 
 struct sandPart {
 	Vector2D pos;

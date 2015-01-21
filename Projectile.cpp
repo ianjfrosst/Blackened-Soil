@@ -18,16 +18,19 @@ int Projectile::update(sandSystem * world, Vector2D influence) {
 	pos += vel;
 	vel += influence;
 
+
 	if (pos.y < SAND_SYSTEM_Y && pos.y > 0 && pos.x > 0 && pos.x < SAND_SYSTEM_X) {
 		if (world->staticSand[(int)pos.x][(int)pos.y] != sf::Color::Transparent) {
 			world->detonate(pos, weap->ExplosionSize, weap->ExplosionSize, weap->xplType);
-			res = res | 1;
+			//res = res | EXPL_DET;
+			return EXPL_DET;
 		}
 	}
 
-	if (pos.x < 0 || pos.x > SAND_SYSTEM_X || pos.y < 0) res = res | 2;
+	// The round is out of bounds
+	if (pos.x < 0 || pos.x > SAND_SYSTEM_X || pos.y < 0) return EXPL_OOB;//res = res | EXPL_OOB;
 
 
-	return res;
+	return 0;
 }
 

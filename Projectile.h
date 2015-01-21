@@ -6,6 +6,8 @@
 #include "Weapon.h"
 #include "Explosion.h"
 
+#define EXPL_DET 1
+#define EXPL_OOB 2
 
 
 struct Projectile {
@@ -13,6 +15,8 @@ struct Projectile {
 	Vector2D vel;	// Un-normalized.
 
 	Weapon * weap;
+
+	sf::Clock birth;
     
 	std::vector<sf::Vector2f> trace;
 

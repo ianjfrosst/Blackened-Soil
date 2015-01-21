@@ -31,7 +31,7 @@ int playGame(sf::RenderWindow & window) {
 
 	sand.populate(150.0, 0.45);
 	
-	int players = 8;
+	int players = 2;
 	int turn = 0;
 
 	// Add tanks!
@@ -71,7 +71,7 @@ int playGame(sf::RenderWindow & window) {
 					window.close();
 			}
 
-			if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+			/*if (lastMouseState != sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
 					!lastMouseState &&
 					sf::Mouse::getPosition(window).x < SAND_SYSTEM_X &&
 					sf::Mouse::getPosition(window).x > 0) {
@@ -80,7 +80,7 @@ int playGame(sf::RenderWindow & window) {
 				eBrake = false;
 			}
 
-			lastMouseState = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+			lastMouseState = sf::Mouse::isButtonPressed(sf::Mouse::Left);*/
 
 			window.clear();
 			
@@ -139,19 +139,20 @@ int playGame(sf::RenderWindow & window) {
 			for (int i = 0; i < projectiles.size(); i++) {
 				//std::cout << "Running projectile " << i << ".\n";
 				int res = projectiles[i].update(&sand,Vector2D(0,-1));
+				projectiles[i].render(window);
 				std::cout << "Projectile code was" << res << ".\n";
-				if (res & 1) { // Projectile is dead for whatever reason.
+				if (res == EXPL_OOB) { // Projectile is dead for whatever reason.
 					projectiles.erase(projectiles.begin() + i);
 					i--;
-				} else {
-					projectiles[i].render(window);
 				}
-				if (res & 2) {
+				if (res == EXPL_DET) {
 					std::cout << "BOOM!\n";
 					for (int o = 0; o < tanks.size(); o++) {
 						// DEAL DAMAGE!
 						tanks[o].takeDamage(projectiles[i].result());
 					}
+					projectiles.erase(projectiles.begin() + i);
+					i--;
 				}
 			}
 			window.display();
