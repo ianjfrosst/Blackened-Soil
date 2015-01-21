@@ -35,9 +35,7 @@ struct Projectile {
 		weap = new Weapon();
 	}
 
-	explosion result() {
-		return explosion(pos, weap->ExplosionSize, weap->MaxDamage, weap);
-	}
+	explosion result();
 
 	// Renders the projectile, modifies the trace, and draws the trace.
 	void render(sf::RenderWindow &window);

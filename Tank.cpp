@@ -91,8 +91,9 @@ bool Tank::takeDamage(explosion expl) {
 	std::cout << "Checking bullet hit...\n";
 	std::cout << "Am " << (expl.pos - pos).GetMag() << " pixels away.\n";
 	if ((expl.pos - pos).GetMag() < expl.size) {
+		float dmg = ((expl.size-(expl.pos - pos).GetMag())/expl.size) * expl.maxDMG;
 		std::cout << "Shot with " << expl.weap->name << ".\n";
-		health -= ((expl.pos - pos).GetMag()/expl.size) * expl.maxDMG;
+		health -= dmg;
 	}
 	return health > 0;
 }

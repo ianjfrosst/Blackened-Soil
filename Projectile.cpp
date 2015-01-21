@@ -9,6 +9,10 @@ void Projectile::render(sf::RenderWindow &window) {
 		window.draw(line, 2, sf::Lines);
 	}
 }
+	
+explosion Projectile::result() {
+	return explosion(pos, weap->ExplosionSize, weap->MaxDamage, weap);
+}
 
 int Projectile::update(sandSystem * world, Vector2D influence) {
 	trace.push_back(sf::Vector2f(pos.x, SAND_SYSTEM_Y-pos.y));
