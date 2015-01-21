@@ -31,6 +31,7 @@ struct Projectile {
 		pos = p;
 		vel = v;
 		alive = true;
+		weap = new Weapon();
 	}
 
 	explosion result() {
