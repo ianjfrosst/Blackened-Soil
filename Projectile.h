@@ -24,7 +24,7 @@ struct Projectile {
 	sf::Vector2u getInverse(sf::Vector2u in);
 
 	Projectile () {
-
+		weap = new Weapon();
 	}
 
 	Projectile (Vector2D p, Vector2D v) {
@@ -35,7 +35,7 @@ struct Projectile {
 	}
 
 	explosion result() {
-		return explosion(pos, weap->ExplosionSize, weap->MaxDamage);
+		return explosion(pos, weap->ExplosionSize, weap->MaxDamage, weap);
 	}
 
 	// Renders the projectile, modifies the trace, and draws the trace.

@@ -92,6 +92,8 @@ bool Tank::controls(int deltaMillis) {
 
 bool Tank::takeDamage(explosion expl) {
 
+	std::cout << "Shot with " << expl.weap->name << ".\n";
+
 	if ((expl.pos - pos).GetSqrMag() < expl.size*expl.size) {
 		health -= ((expl.pos - pos).GetMag()/expl.size) * expl.maxDMG;
 	}

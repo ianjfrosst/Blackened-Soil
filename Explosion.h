@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector2D.h"
+#include "Weapon.h"
 
 struct explosion {
 	bool didExplode;
@@ -8,10 +9,13 @@ struct explosion {
 	int size;
 	int maxDMG;
 
-	explosion (Vector2D pos, int s, int m) {
+	Weapon * weap;
+
+	explosion (Vector2D pos, int s, int m, Weapon*w) {
 		didExplode = true;
 		size = s;
 		maxDMG = m;
+		weap = w;
 	}
 	explosion () {
 		didExplode = false;

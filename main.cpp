@@ -145,16 +145,18 @@ int playGame(sf::RenderWindow & window) {
 			for (int i = 0; i < projectiles.size(); i++) {
 				//std::cout << "Running projectile " << i << ".\n";
 				int res = projectiles[i].update(&sand,Vector2D(0,-1));
-				if (res == 1) { // Projectile is dead for whatever reason.
+				std::cout << "Projectile code was" << res << ".\n";
+				if (res & 1) { // Projectile is dead for whatever reason.
 					projectiles.erase(projectiles.begin() + i);
 					i--;
 				} else {
 					projectiles[i].render(window);
-					if (res == 2) {
-						for (int o = 0; o < tanks.size(); o++) {
-							// DEAL DAMAGE!
-							tanks[o].takeDamage(projectiles[i].result());
-						}
+				}
+				if (res & 2) {
+					std::cout << "BOOM!\n";
+					for (int o = 0; o < tanks.size(); o++) {
+						// DEAL DAMAGE!
+						tanks[o].takeDamage(projectiles[i].result());
 					}
 				}
 			}
