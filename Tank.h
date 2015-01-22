@@ -55,6 +55,8 @@ public :
 
 	void setPos(Vector2D p);
 	void render(sf::RenderWindow &window, bool isMyTurn);
+
+	// Returns whether the tank is still moving.
 	bool update(sandSystem * sand);
 	bool controls(int deltaMillis);
 	void netUpdate();

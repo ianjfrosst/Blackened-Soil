@@ -48,7 +48,7 @@ bool Tank::update(sandSystem * sand) {
 	if (sand->staticSand[(int)pos.x][(int)pos.y] == sf::Color::Transparent) {
 		vel.y -= 1;
 	} else {
-		vel.y =0;
+		vel.y = 0;
 	}
 	if (pos.y < 0) {
 		pos.y = 0;
