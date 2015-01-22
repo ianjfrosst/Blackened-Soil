@@ -6,6 +6,7 @@ void Projectile::render(sf::RenderWindow &window) {
 			sf::Vertex(trace[i]),
 			sf::Vertex(trace[i-1])
 		};
+		if (i+1 == trace.size()) line[0].color = sf::Color::Red;
 		window.draw(line, 2, sf::Lines);
 	}
 }
@@ -34,7 +35,7 @@ int Projectile::update(sandSystem * world, Vector2D influence) {
 
 	pos += vel;
 	vel += influence;
-	std::cout << "->" << framesTill << "\n";
+	//std::cout << "->" << framesTill << "\n";
 
 	if (weap->splType != splitType::normal) {
 		if (!splitting && framesTill > 0) {

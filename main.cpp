@@ -15,10 +15,48 @@ std::vector<Weapon> weapons;
 int playGame(sf::RenderWindow&, int);
 
 int main() {
-	sf::ContextSettings settings;
-    settings.antialiasingLevel = 1;
-    sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
-	std::cout << "The winner is player " << playGame(window, 2) << ".\n";
+
+	std::cout
+	<< "BLACKENED SOIL\n"
+	<< "By Charles Holtforster\n"
+	<< " & Ian Frosst\n"
+	<< "\n"
+	<< "For an ICS4UG summative.\n"
+	<< "2014-2015\n"
+	<< "---------------------------\n\n\n";
+
+	// Ends execution when set to false.
+	bool STOPNOW = true;
+
+	int players = 4;
+
+	std::vector<int> scores;
+
+	for (int i = 0; i < players; i++) {
+		scores.push_back(0);
+	}
+
+	while (STOPNOW) {
+		std::cout
+		<< "Select an option:\n"
+		<< "1 - Play game!\n"
+		<< "2 - Configure\n"
+		<< "3 - Controls\n";
+
+		int sel = 0;
+		std::cin >> sel;
+
+		if (sel == 1) {
+			sf::ContextSettings settings;
+			settings.antialiasingLevel = 1;
+			sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
+			int winner = playGame(window, players);
+			if (winner >= 0) {
+				scores[winner]++;
+				std::cout << "Player " << winner+1 << " wins!\n";
+			} else std::cout << "TIE!\n";
+		}
+	}
 }
 
 int playGame(sf::RenderWindow & window, int players) {
@@ -28,15 +66,15 @@ int playGame(sf::RenderWindow & window, int players) {
 	Weapon defWeap;
 	Weapon resWeap;
 
-	defWeap.ExplosionSize = 0;
-	defWeap.MaxDamage = 0;
-	defWeap.name = "Really big MIRV";
+	defWeap.ExplosionSize = 50;
+	defWeap.MaxDamage = 1500;
+	defWeap.name = "Really big MOAB";
 	defWeap.splitInterval = 3;
 	defWeap.splitMaxSpeed = Vector2D(10,10);
 	defWeap.splitNumber = 50;
 	defWeap.splitTime = 5;
 	defWeap.splType = splitType::MIRV;
-	defWeap.xplType = explosionType::disintegrative;
+	defWeap.xplType = explosionType::circular;
 	defWeap.splitResult = &resWeap;
 
 	resWeap.ExplosionSize = 50;
@@ -127,7 +165,7 @@ int playGame(sf::RenderWindow & window, int players) {
 
 		turn = (turn+1)%tanks.size();
 
-		std::cout << "Switching to other mode! Projectiles: " << projectiles.size() << '\n';
+		//std::cout << "Switching to other mode! Projectiles: " << projectiles.size() << '\n';
 
 		int updateResult = 1;
 
