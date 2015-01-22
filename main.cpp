@@ -37,56 +37,60 @@ int main() {
 	}
 
 	while (STOPNOW) {
-		std::cout
-		<< "Select an option:\n"
-		<< "1 - Play game!\n"
-		<< "2 - Configure\n"
-		<< "3 - Controls\n";
+		std::cout << "Select an option:\n"
+                << "1 - Play game!\n"
+		        << "2 - Configure\n"
+		        << "3 - Controls\n"
+                << "4 - Quit\n";
 
 		int sel = 0;
 		std::cin >> sel;
 
 		if (sel == 1) {
-			sf::ContextSettings settings;
-			settings.antialiasingLevel = 1;
-			sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
-			int winner = playGame(window, players);
-			if (winner >= 0) {
-				scores[winner]++;
-				std::cout << "Player " << winner+1 << " wins!\n";
-			} else std::cout << "TIE!\n";
-		}
-	}
+            sf::ContextSettings settings;
+            settings.antialiasingLevel = 1;
+            sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
+            int winner = playGame(window, players);
+            if (winner >= 0) {
+                scores[winner]++;
+                std::cout << "Player " << winner + 1 << " wins!\n";
+            } else std::cout << "TIE!\n";
+        } else if (sel == 2) {
+            // Configure
+        } else if (sel == 3) {
+            // Controls
+        } else if (sel == 4) {
+            STOPNOW = false;
+        } else {
+            continue;
+        }
+    }
+    return 0;
 }
+
 
 int playGame(sf::RenderWindow & window, int players) {
 	srand(time(NULL));
 
+	Weapon defWeap, resWeap;
 
-	Weapon defWeap;
-	Weapon resWeap;
-
-	defWeap.ExplosionSize = 50;
-	defWeap.MaxDamage = 1500;
+	defWeap.ExplosionSize = 25;
+	defWeap.MaxDamage = 1000;
 	defWeap.name = "Really big MOAB";
 	defWeap.splitInterval = 3;
 	defWeap.splitMaxSpeed = Vector2D(10,10);
 	defWeap.splitNumber = 50;
 	defWeap.splitTime = 5;
-	defWeap.splType = splitType::MIRV;
+	defWeap.splType = splitType::normal;
 	defWeap.xplType = explosionType::circular;
 	defWeap.splitResult = &resWeap;
 
 	resWeap.ExplosionSize = 50;
 	resWeap.MaxDamage = 1000;
 	resWeap.name = "Really tiny nuclear device";
-	resWeap.splitInterval = 0.2;
-	resWeap.splitMaxSpeed = Vector2D(3,3);
 	resWeap.splitNumber = 0;
 	resWeap.splType = splitType::normal;
 	resWeap.xplType = explosionType::bunkerbuster;
-	resWeap.splitResult = &defWeap;
-
 
 	sandSystem sand(&window);
 
@@ -108,10 +112,8 @@ int playGame(sf::RenderWindow & window, int players) {
 		tank.setPos(pos);
 		tanks.push_back(tank);
 	}
+
 	sf::Clock timer;
-
-	int lastMouseState = 0;
-
 
     while (window.isOpen()) {
 		sf::Clock deltaTimer;

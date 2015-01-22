@@ -24,7 +24,7 @@ struct sandPart {
 
 struct sandPile {
 	sf::Color data[SAND_SYSTEM_Y];
-	bool flag;
+	bool flag = false;
 
 	sf::Color& operator[](const int i);
 };
@@ -33,11 +33,12 @@ class sandSystem {
 	std::vector<sandPart> activeSandParts;
 	sf::RenderWindow * window;
 public :
-	sandPile staticSand[SAND_SYSTEM_X];
+	sandPile * staticSand;
 
 	sandSystem() {}
 	sandSystem(sf::RenderWindow * w) {
 		window = w;
+        staticSand = new sandPile[SAND_SYSTEM_X];
 	}
 
 	void genHeight_recur(std::vector<double> &vec, int i, int j, double range, double smooth);

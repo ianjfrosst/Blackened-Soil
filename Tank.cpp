@@ -74,20 +74,21 @@ bool Tank::controls(int deltaMillis) {
 	bool fired = key_Sp && minTurn.getElapsedTime().asSeconds() > 1;
 
 	if (key_Sh) {
-		if (key_W) power += (deltaMillis/100);
-		if (key_S) power -= (deltaMillis/100);
+		if (key_W) power += (deltaMillis/100.0);
+		if (key_S) power -= (deltaMillis/100.0);
 
 		if (key_A) angle += 3.14159*(deltaMillis/5000.0);
 		if (key_D) angle -= 3.14159*(deltaMillis/5000.0);
 	} else {
-		if (key_W) power += (deltaMillis/20);
-		if (key_S) power -= (deltaMillis/20);
+		if (key_W) power += (deltaMillis/20.0);
+		if (key_S) power -= (deltaMillis/20.0);
 
 		if (key_A) angle += 3.14159*(deltaMillis/1000.0);
 		if (key_D) angle -= 3.14159*(deltaMillis/1000.0);
 	}
     int maxPower = 35;
     if (power > maxPower) power = maxPower;
+    if (power < 0) power = 0;
 
 
 	result.pos.SetXY(pos.x+5,pos.y+5);

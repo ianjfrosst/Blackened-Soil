@@ -99,15 +99,18 @@ bool sandSystem::update(Vector2D grav) {
 	updateClock.restart();
 
 	for (int x = 0; x < SAND_SYSTEM_X; ++x) {
-		for (int y = 1; y < SAND_SYSTEM_Y; y++) {
-			if (staticSand[x][y] != sf::Color::Transparent) {
-				if (staticSand[x][y - 1] == sf::Color::Transparent) {
-					detachSand(x, y, Vector2D(0, 0), true);
-				}
-			}
-		}
+        if (staticSand[x].flag) {
+            staticSand[x].flag = false;
+            for (int y = 1; y < SAND_SYSTEM_Y; y++) {
+                if (staticSand[x][y] != sf::Color::Transparent) {
+                    if (staticSand[x][y - 1] == sf::Color::Transparent) {
+                        staticSand[x].flag = true;
+                        detachSand(x, y, Vector2D(0, 0), true);
+                    }
+                }
+            }
+        }
 	}
-
 	//std::cout << "STATIC UPDATE took " << updateClock.getElapsedTime().asMicroseconds() << " micros.\n";
 
 	return activeSandParts.size() > 0;
@@ -128,7 +131,6 @@ Vector2D getCalderaForce(Vector2D src, int x, int y, double power) {
 	// TODO: This is probably broken. Should be replaced by a linear power calc.
 	Vector2D dirVec = (Vector2D(x,y) - src);
 	return Vector2D(dirVec.x, power/dirVec.GetSqrMag());
-	//return (dirVec)*(power/dirVec.GetSqrMag());
 }
 
 void sandSystem::detonate(Vector2D loc, double power, double range, explosionType type) {
