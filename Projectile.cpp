@@ -17,9 +17,12 @@ explosion Projectile::result() {
 std::vector<Projectile>* Projectile::split() {
 	std::vector<Projectile> * res = new std::vector<Projectile>;
 	for (int i = 0; i < weap->splitNumber; i++) {
-		if (weap->splType == splitType::MIRV) res->push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap->splitResult));
-		if (weap->splType == splitType::napalm) res->push_back(Projectile(pos, Vector2D(vel.x*0.05,vel.y), weap->splitResult));
-		if (weap->splType == splitType::flechette) res->push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap->splitResult));
+		if (weap->splType == splitType::MIRV)
+			res->push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap->splitResult));
+		if (weap->splType == splitType::napalm)
+			res->push_back(Projectile(pos, Vector2D(vel.x*0.05,vel.y), weap->splitResult));
+		if (weap->splType == splitType::flechette)
+			res->push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap->splitResult));
 	}
 	return res;
 }
