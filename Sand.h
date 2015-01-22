@@ -24,7 +24,11 @@ struct sandPart {
 
 struct sandPile {
 	sf::Color data[SAND_SYSTEM_Y];
-	bool flag = false;
+	bool flag;
+
+	sandPile() {
+		flag = false;
+	}
 
 	sf::Color& operator[](const int i);
 };
