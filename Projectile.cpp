@@ -17,7 +17,9 @@ explosion Projectile::result() {
 std::vector<Projectile>* Projectile::split() {
 	std::vector<Projectile> * res = new std::vector<Projectile>;
 	for (int i = 0; i < weap->splitNumber; i++) {
-		res->push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap));
+		if (weap->splType == splitType::MIRV) res->push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap));
+		if (weap->splType == splitType::napalm) res->push_back(Projectile(pos, Vector2D(vel.x*0.05,vel.y), weap));
+		if (weap->splType == splitType::flechette) res->push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap));
 	}
 	return res;
 }
@@ -34,12 +36,12 @@ int Projectile::update(sandSystem * world, Vector2D influence) {
 		if (!splitting && birth.getElapsedTime().asSeconds() > weap->splitTime) {
 			birth.restart();
 			splitting = true;
-			std::cout << "Starting to split!\n";
+			//std::cout << "Starting to split!\n";
 		}
 		if (splitting && birth.getElapsedTime().asSeconds() > weap->splitInterval) {
 			splitType sp = weap->splType;
-			res += (sp==splitType::napalm ? EXPL_SPL : EXPL_SAD);
-			std::cout << "Splitting!\n";
+			res += (sp==splitType::MIRV ? EXPL_SAD : EXPL_SPL);
+			//std::cout << "Splitting!\n";
 		}
 	}
 

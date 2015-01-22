@@ -12,25 +12,26 @@
 // Comments are for those of weak constitutions and simple minds.
 std::vector<Weapon> weapons;
 
-int playGame(sf::RenderWindow&);
+int playGame(sf::RenderWindow&, int);
 
 int main() {
 	sf::ContextSettings settings;
-    settings.antialiasingLevel = 16;
+    settings.antialiasingLevel = 1;
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
-	playGame(window);
+	std::cout << "The winner is player " << playGame(window, 2) << ".\n";
+	system("PAUSE");
 }
 
-int playGame(sf::RenderWindow & window) {
+int playGame(sf::RenderWindow & window, int players) {
 	srand(time(NULL));
 
 
 	Weapon defWeap;
 
-	defWeap.ExplosionSize = 30;
+	defWeap.ExplosionSize = 50;
 	defWeap.MaxDamage = 1000;
 	defWeap.name = "Really tiny nuclear device";
-	defWeap.splitInterval = 0.25;
+	defWeap.splitInterval = 0.2;
 	defWeap.splitMaxSpeed = Vector2D(3,3);
 	defWeap.splitNumber = 2;
 	defWeap.splitTime = 0.5;
@@ -46,7 +47,6 @@ int playGame(sf::RenderWindow & window) {
 
 	sand.populate(150.0, 0.45);
 	
-	int players = 2;
 	int turn = 0;
 
 	// Add tanks!
