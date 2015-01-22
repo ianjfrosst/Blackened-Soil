@@ -14,6 +14,14 @@ explosion Projectile::result() {
 	return explosion(pos, weap->ExplosionSize, weap->MaxDamage, weap);
 }
 
+std::vector<Projectile> Projectile::split() {
+	std::vector<Projectile> res;
+	for (int i = 0; i < weap->splitNumber; i++) {
+		res.push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap));
+	}
+	return res;
+}
+
 int Projectile::update(sandSystem * world, Vector2D influence) {
 	trace.push_back(sf::Vector2f(pos.x, SAND_SYSTEM_Y-pos.y));
 
@@ -23,13 +31,15 @@ int Projectile::update(sandSystem * world, Vector2D influence) {
 	vel += influence;
 
 	if (weap->splType != splitType::normal) {
-		if (birth.getElapsedTime().asSeconds() > weap->splitTime) {
+		if (!splitting && birth.getElapsedTime().asSeconds() > weap->splitTime) {
 			birth.restart();
 			splitting = true;
+			std::cout << "Starting to split!\n";
 		}
 		if (splitting && birth.getElapsedTime().asSeconds() > weap->splitInterval) {
 			splitType sp = weap->splType;
 			res += (sp==splitType::napalm ? EXPL_SPL : EXPL_SAD);
+			std::cout << "Splitting!\n";
 		}
 	}
 

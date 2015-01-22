@@ -87,6 +87,7 @@ bool Tank::controls(int deltaMillis) {
 
 	result.pos.SetXY(pos.x+5,pos.y+5);
 	result.vel.SetDM(angle, power);
+	result.weap = weap;
     
 	return fired;
 }

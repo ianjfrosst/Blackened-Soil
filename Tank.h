@@ -15,6 +15,8 @@ class Tank {
 
 	sf::Clock minTurn;
 
+	Weapon * weap;
+
 public :
 	float health;
 	Projectile result;
@@ -31,7 +33,7 @@ public :
 		power = 0;
 	}
 
-	Tank(int Health, int player) {
+	Tank(int Health, int player, Weapon * w) {
 		pos = Vector2D();
 		rot = 0;
 		result = Projectile();
@@ -41,6 +43,7 @@ public :
 		angle = 0;
 		power = 0;
 		health = Health;
+		weap = w;
 	}
 
 	void startTurn();

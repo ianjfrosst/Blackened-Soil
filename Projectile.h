@@ -41,10 +41,20 @@ struct Projectile {
 		weap = new Weapon();
 	}
 
+	Projectile (Vector2D p, Vector2D v, Weapon * weapon) {
+		splitting = false;
+		pos = p;
+		vel = v;
+		weap = weapon;
+	}
+
 	explosion result();
 
 	// Renders the projectile, modifies the trace, and draws the trace.
 	void render(sf::RenderWindow &window);
+
+	// Returns a vector of projectiles upon splitting.
+	std::vector<Projectile> split ();
 	
 	// Moves the projectile along it's path, and calculates hits.
 	// BIT 0 = explosion.

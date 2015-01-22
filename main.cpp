@@ -24,6 +24,21 @@ int main() {
 int playGame(sf::RenderWindow & window) {
 	srand(time(NULL));
 
+
+	Weapon defWeap;
+
+	defWeap.ExplosionSize = 50;
+	defWeap.MaxDamage = 1000;
+	defWeap.name = "Really tiny nuclear device";
+	defWeap.splitInterval = 0.25;
+	defWeap.splitMaxSpeed = Vector2D(3,3);
+	defWeap.splitNumber = 2;
+	defWeap.splitTime = 0.5;
+	defWeap.splType = splitType::MIRV;
+	defWeap.xplType = explosionType::circular;
+	defWeap.splitResult = &defWeap;
+
+
 	sandSystem sand(&window);
 
 	std::vector<Projectile> projectiles;
@@ -37,7 +52,7 @@ int playGame(sf::RenderWindow & window) {
 	// Add tanks!
 	for (int i = 0; i < players; i++ ) {
 		Tank tank;
-		tank = Tank(MAX_HEALTH, i); // Tank health is 1K. Adjust damage accordingly.
+		tank = Tank(MAX_HEALTH, i, &defWeap); // Tank health is 1K. Adjust damage accordingly.
 		Vector2D pos(rand() % SAND_SYSTEM_X,0);
 		int y = 0;
 		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
@@ -98,6 +113,7 @@ int playGame(sf::RenderWindow & window) {
 		}
 		
 		projectiles.push_back(tanks[turn].result);
+		projectiles[projectiles.size() - 1].birth.restart();
 
 		turn = (turn+1)%tanks.size();
 
@@ -143,11 +159,17 @@ int playGame(sf::RenderWindow & window) {
 				int res = projectiles[i].update(&sand,Vector2D(0,-1));
 				projectiles[i].render(window);
 				std::cout << "Projectile code was" << res << ".\n";
-				if (res == EXPL_OOB) { // Projectile is dead for whatever reason.
+
+				if (res & EXPL_SAD || res & EXPL_SPL) {		// Projeciles is splitting.
+					std::vector<Projectile> newProj = projectiles[i].split();
+					for (int o = 0; o < newProj.size(); o++) projectiles.push_back(newProj[o]);
+				}
+
+				if (res & EXPL_OOB || res & EXPL_SAD) { // Projectile is dead for whatever reason.
 					projectiles.erase(projectiles.begin() + i);
 					i--;
 				}
-				if (res == EXPL_DET) {
+				if (res & EXPL_DET) {
 					std::cout << "BOOM!\n";
 					for (int o = 0; o < tanks.size(); o++) {
 						// DEAL DAMAGE!
