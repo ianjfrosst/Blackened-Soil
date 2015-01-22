@@ -18,7 +18,7 @@ struct Weapon {
 	int			splitNumber;
 	Weapon*		splitResult;
 	int			splitResultInd;	// For use only in creation!
-	Vector2D	splitMaxSpeed;
+	float		splitMaxSpeed;
 
 	bool accessible;
 	int price;
@@ -35,7 +35,7 @@ struct Weapon {
 		splitInterval = 0;
 		splitNumber = 0;
 		splitResult = this;
-		splitMaxSpeed = Vector2D(10,10);
+		splitMaxSpeed = 10;
 	}
 };
 

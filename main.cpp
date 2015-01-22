@@ -15,10 +15,10 @@
 
 
 // Comments are for those of weak constitutions and simple minds.
-std::vector<Weapon> weapons;
+Weapon * weaps;
 
 int playGame(sf::RenderWindow&, int);
-void populateWeapons(std::string filename, std::vector<Weapon> &vec);
+int populateWeapons(std::string filename, Weapon ** weaps);
 
 int main() {
 
@@ -42,7 +42,7 @@ int main() {
 		scores.push_back(0);
 	}
 
-	populateWeapons("weapons.csv");
+	populateWeapons("weapons.csv", weapons);
 
 	while (STOPNOW) {
 		std::cout << "Select an option:\n"
@@ -86,7 +86,7 @@ int playGame(sf::RenderWindow & window, int players) {
 	defWeap.MaxDamage = 1000;
 	defWeap.name = "Really big MOAB";
 	defWeap.splitInterval = 3;
-	defWeap.splitMaxSpeed = Vector2D(10,10);
+	defWeap.splitMaxSpeed = 10;
 	defWeap.splitNumber = 50;
 	defWeap.splitTime = 5;
 	defWeap.splType = splitType::normal;
@@ -247,13 +247,24 @@ int playGame(sf::RenderWindow & window, int players) {
 }
 
 Weapon parseWeap(std::string in) {
-	for (int i = 0; i < in.length(); i++) if (in[i] == ',') in[i] == '\n';
+	for (int i = 0; i < in.length(); i++) {
+		if (in[i] == ' ') in[i] = '-';
+		if (in[i] == ',') in[i] = ' ';
+	}
+
 	std::stringstream ss;
+	ss.clear();
 	ss << in;
+
+	std::cout << in << '\n';
+
 	Weapon newWeapon;
+	std::string temp;
+
 	ss >> newWeapon.name;		// There's always a leading number in the string....
 	ss >> newWeapon.name;
-	ss >> newWeapon.accessible;
+	ss >> temp;
+	newWeapon.accessible = temp[0] = 'Y';
 	ss >> newWeapon.price;
 	ss >> newWeapon.MaxDamage;
 	ss >> newWeapon.ExplosionSize;
@@ -261,33 +272,38 @@ Weapon parseWeap(std::string in) {
 	ss >> newWeapon.splitMaxSpeed;	 // Shite....
 	ss >> newWeapon.splitNumber;
 	ss >> newWeapon.splitTime;
-	std::string temp;
+	
 	ss >> temp;
-	if (temp.compare("normal")) {
+	newWeapon.splType = splitType::normal;
+	if (!temp.compare("normal")) {
 		newWeapon.splType = splitType::normal;
 	}
-	if (temp.compare("MIRV")) {
+	if (!temp.compare("MIRV")) {
 		newWeapon.splType = splitType::MIRV;
 	}
-	if (temp.compare("napalm")) {
+	if (!temp.compare("napalm")) {
 		newWeapon.splType = splitType::napalm;
 	}
-	if (temp.compare("flechette")) {
+	if (!temp.compare("flechette")) {
 		newWeapon.splType = splitType::flechette;
 	}
 
 	ss >> temp;
-	if (temp.compare("circular")) {
+	newWeapon.xplType = explosionType::circular;
+	if (!temp.compare("circular")) {
 		newWeapon.xplType = explosionType::circular;
 	}
-	if (temp.compare("disintegrative")) {
+	if (!temp.compare("disintegrative")) {
 		newWeapon.xplType = explosionType::disintegrative;
 	}
 	ss >> newWeapon.splitResultInd;
 	return newWeapon;
 }
 
-void populateWeapons(std::string filename, std::vector<Weapon> & vec) {
+int populateWeapons(std::string filename, Weapon *& weaps) {
+
+
+
 	// TODO: Get weapons from CSV.
 	// TODO: Find a way to count weapons.
 	std::ifstream fin(filename, std::ios::in);
@@ -295,10 +311,12 @@ void populateWeapons(std::string filename, std::vector<Weapon> & vec) {
 	if (fin.is_open()) {
 		std::string line;
 		while (std::getline(fin, line)) {
-			std::cout << line << "\n";
-			Weapon newWeap = parseWeap(line);
-			newWeap.splitResult = &vec[newWeap.splitResultInd];
-			if (line[0] != '#') vec.push_back(newWeap);
+			if (line[0] != '#') {
+				std::cout << line << "\n";
+				Weapon newWeap = parseWeap(line);
+				vec.push_back(newWeap);
+				vec[vec.size()-1].splitResult = &vec[newWeap.splitResultInd];
+			}
 		}
 		fin.close();
 	} else {

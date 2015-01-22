@@ -1,0 +1,7 @@
+#,Name,Accessible,Price,MAX Damage,ExplosionSize,splitInterval,maxSplitSpd,splitNum,splitTime,splitType,explosionType,splitResult
+0,Really tiny nuclear device,Y,0,200,50,0,0,0,0,normal,circular,0
+1,IRV,N,0,100,30,0,0,0,0,normal,circular,1
+2,MIRV,Y,1000,0,0,0,5,10,10,MIRV,disintegrative,1
+3,Mini Nuke,Y,750,750,75,0,0,0,0,normal,disintegrative,3
+4,Napalm,Y,750,0,0,1,0,0,5,napalm,disintegrative,4
+5,Napalm,Y,750,0,0,1,0,0,5,napalm,disintegrative,4
