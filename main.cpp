@@ -36,7 +36,7 @@ int playGame(sf::RenderWindow & window, int players) {
 	defWeap.splitNumber = 2;
 	defWeap.splitTime = 0.5;
 	defWeap.splType = splitType::MIRV;
-	defWeap.xplType = explosionType::circular;
+	defWeap.xplType = explosionType::disintegrative;
 	defWeap.splitResult = &defWeap;
 
 

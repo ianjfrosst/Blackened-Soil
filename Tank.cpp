@@ -44,13 +44,18 @@ void Tank::setPos(Vector2D p) {
 
 bool Tank::update(sandSystem * sand) {
 	pos += vel;
-	 if (sand->staticSand[(int)pos.x][(int)pos.y] == sf::Color::Transparent) {
-		 vel.y -= 1;
-		 return true;
-	 } else {
-		 vel.y =0;
-		 return false;
-	 }
+	
+	if (sand->staticSand[(int)pos.x][(int)pos.y] == sf::Color::Transparent) {
+		vel.y -= 1;
+	} else {
+		vel.y =0;
+	}
+	if (pos.y < 0) {
+		pos.y = 0;
+		vel.y = 0;
+		health = 0;
+	}
+	return vel.y != 0;
 }
 
 void Tank::startTurn() {
@@ -59,10 +64,10 @@ void Tank::startTurn() {
 }
 
 bool Tank::controls(int deltaMillis) {
-	bool key_W = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
-	bool key_S = sf::Keyboard::isKeyPressed(sf::Keyboard::S);
-	bool key_A = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-	bool key_D = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
+	bool key_W = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+	bool key_S = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+	bool key_A = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+	bool key_D = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
 	bool key_Sp = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
 	bool key_Sh = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
