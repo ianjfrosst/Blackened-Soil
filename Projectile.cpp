@@ -34,16 +34,24 @@ int Projectile::update(sandSystem * world, Vector2D influence) {
 
 	pos += vel;
 	vel += influence;
+	std::cout << "->" << framesTill << "\n";
 
 	if (weap->splType != splitType::normal) {
-		if (!splitting && birth.getElapsedTime().asSeconds() > weap->splitTime) {
-			birth.restart();
-			splitting = true;
+		if (!splitting && framesTill > 0) {
+			framesTill--;
+			if (framesTill == 0) {
+				splitting = true;
+				framesTill = weap->splitInterval;
+				
+			}
 			//std::cout << "Starting to split!\n";
 		}
-		if (splitting && birth.getElapsedTime().asSeconds() > weap->splitInterval) {
-			splitType sp = weap->splType;
-			res += (sp==splitType::MIRV ? EXPL_SAD : EXPL_SPL);
+		if (splitting && framesTill > 0) {
+			framesTill--;
+			if (framesTill == 0) {
+				res += (weap->splType==splitType::MIRV ? EXPL_SAD : EXPL_SPL);
+				framesTill = weap->splitInterval;
+			}
 			//std::cout << "Splitting!\n";
 		}
 	}

@@ -12,8 +12,9 @@ struct Weapon {
 	explosionType xplType;
 	splitType	  splType;
 
-	float		splitTime;
-	float		splitInterval;
+	int			splitTime;
+	int			splitInterval;
+
 	int			splitNumber;
 	Weapon*		splitResult;
 	Vector2D	splitMaxSpeed;

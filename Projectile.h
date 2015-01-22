@@ -17,6 +17,7 @@ struct Projectile {
 	Vector2D vel;	// Un-normalized.
 
 	bool splitting;
+	int framesTill;	// Edited live...
 
 	Weapon * weap;
 
@@ -32,6 +33,7 @@ struct Projectile {
 	Projectile () {
 		splitting = false;
 		weap = new Weapon();
+		framesTill = weap->splitTime;
 	}
 
 	Projectile (Vector2D p, Vector2D v) {
@@ -39,6 +41,7 @@ struct Projectile {
 		pos = p;
 		vel = v;
 		weap = new Weapon();
+		framesTill = weap->splitTime;
 	}
 
 	Projectile (Vector2D p, Vector2D v, Weapon * weapon) {
@@ -46,6 +49,7 @@ struct Projectile {
 		pos = p;
 		vel = v;
 		weap = weapon;
+		framesTill = weap->splitTime;
 	}
 
 	explosion result();
