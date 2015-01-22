@@ -262,7 +262,7 @@ void sandSystem::affixSand(int &i) {
 		p -= v;
 	}
 
-	staticSand[(int)p.x][(int)p.y] = activeSandParts[i].col;
+	if (p.y > 0 && p.x < SAND_SYSTEM_X && p.x > 0) staticSand[(int)p.x][(int)p.y] = activeSandParts[i].col;
 
 	activeSandParts.erase(activeSandParts.begin() + i);
 	--i;

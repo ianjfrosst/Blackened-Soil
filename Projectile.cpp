@@ -14,10 +14,10 @@ explosion Projectile::result() {
 	return explosion(pos, weap->ExplosionSize, weap->MaxDamage, weap);
 }
 
-std::vector<Projectile> Projectile::split() {
-	std::vector<Projectile> res;
+std::vector<Projectile>* Projectile::split() {
+	std::vector<Projectile> * res = new std::vector<Projectile>;
 	for (int i = 0; i < weap->splitNumber; i++) {
-		res.push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap));
+		res->push_back(Projectile(pos, vel + weap->splitMaxSpeed * ((rand()%100)/100.0), weap));
 	}
 	return res;
 }

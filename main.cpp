@@ -27,7 +27,7 @@ int playGame(sf::RenderWindow & window) {
 
 	Weapon defWeap;
 
-	defWeap.ExplosionSize = 50;
+	defWeap.ExplosionSize = 30;
 	defWeap.MaxDamage = 1000;
 	defWeap.name = "Really tiny nuclear device";
 	defWeap.splitInterval = 0.25;
@@ -158,23 +158,23 @@ int playGame(sf::RenderWindow & window) {
 				//std::cout << "Running projectile " << i << ".\n";
 				int res = projectiles[i].update(&sand,Vector2D(0,-1));
 				projectiles[i].render(window);
-				std::cout << "Projectile code was" << res << ".\n";
+				//std::cout << "Projectile code was" << res << ".\n";
 
 				if (res & EXPL_SAD || res & EXPL_SPL) {		// Projeciles is splitting.
-					std::vector<Projectile> newProj = projectiles[i].split();
-					for (int o = 0; o < newProj.size(); o++) projectiles.push_back(newProj[o]);
+					std::vector<Projectile> * newProj = projectiles[i].split();
+					for (int o = 0; o < newProj->size(); o++) projectiles.push_back((*newProj)[o]);
+					delete newProj;
 				}
 
-				if (res & EXPL_OOB || res & EXPL_SAD) { // Projectile is dead for whatever reason.
-					projectiles.erase(projectiles.begin() + i);
-					i--;
-				}
 				if (res & EXPL_DET) {
-					std::cout << "BOOM!\n";
+					//std::cout << "BOOM!\n";
 					for (int o = 0; o < tanks.size(); o++) {
 						// DEAL DAMAGE!
 						tanks[o].takeDamage(projectiles[i].result());
 					}
+				}
+
+				if (res & EXPL_OOB || res & EXPL_SAD || res & EXPL_DET) { // Projectile is dead for whatever reason.
 					projectiles.erase(projectiles.begin() + i);
 					i--;
 				}

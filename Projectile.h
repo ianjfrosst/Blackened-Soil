@@ -54,7 +54,7 @@ struct Projectile {
 	void render(sf::RenderWindow &window);
 
 	// Returns a vector of projectiles upon splitting.
-	std::vector<Projectile> split ();
+	std::vector<Projectile>* split ();
 	
 	// Moves the projectile along it's path, and calculates hits.
 	// BIT 0 = explosion.
