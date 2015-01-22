@@ -20,6 +20,7 @@ public :
 	Projectile result;
 	Vector2D pos;		// Position, in world-space-pixels
 	Vector2D vel;		// Trust me on this one.
+	int playerNumber;
 
 	Tank() {
 		pos = Vector2D();
@@ -30,14 +31,16 @@ public :
 		power = 0;
 	}
 
-	Tank(int h) {
+	Tank(int Health, int player) {
 		pos = Vector2D();
 		rot = 0;
 		result = Projectile();
 
+		playerNumber = player;
+
 		angle = 0;
 		power = 0;
-		health = h;
+		health = Health;
 	}
 
 	void startTurn();

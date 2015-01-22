@@ -22,12 +22,22 @@ int Projectile::update(sandSystem * world, Vector2D influence) {
 	pos += vel;
 	vel += influence;
 
+	if (weap->splType != splitType::normal) {
+		if (birth.getElapsedTime().asSeconds() > weap->splitTime) {
+			birth.restart();
+			splitting = true;
+		}
+		if (splitting && birth.getElapsedTime().asSeconds() > weap->splitInterval) {
+			splitType sp = weap->splType;
+			res += (sp==splitType::napalm ? EXPL_SPL : EXPL_SAD);
+		}
+	}
 
 	if (pos.y < SAND_SYSTEM_Y && pos.y > 0 && pos.x > 0 && pos.x < SAND_SYSTEM_X) {
 		if (world->staticSand[(int)pos.x][(int)pos.y] != sf::Color::Transparent) {
 			world->detonate(pos, weap->ExplosionSize, weap->ExplosionSize, weap->xplType);
-			//res = res | EXPL_DET;
-			return EXPL_DET;
+			res += EXPL_DET;
+			//return EXPL_DET;
 		}
 	}
 
@@ -35,6 +45,6 @@ int Projectile::update(sandSystem * world, Vector2D influence) {
 	if (pos.x < 0 || pos.x > SAND_SYSTEM_X || pos.y < 0) return EXPL_OOB;//res = res | EXPL_OOB;
 
 
-	return 0;
+	return res;
 }
 

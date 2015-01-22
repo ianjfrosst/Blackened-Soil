@@ -37,7 +37,7 @@ int playGame(sf::RenderWindow & window) {
 	// Add tanks!
 	for (int i = 0; i < players; i++ ) {
 		Tank tank;
-		tank = Tank(MAX_HEALTH); // Tank health is 1K. Adjust damage accordingly.
+		tank = Tank(MAX_HEALTH, i); // Tank health is 1K. Adjust damage accordingly.
 		Vector2D pos(rand() % SAND_SYSTEM_X,0);
 		int y = 0;
 		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
@@ -48,6 +48,7 @@ int playGame(sf::RenderWindow & window) {
 	sf::Clock timer;
 
 	int lastMouseState = 0;
+
 
     while (window.isOpen()) {
 		sf::Clock deltaTimer;
@@ -134,6 +135,7 @@ int playGame(sf::RenderWindow & window) {
 					i--;
 					if (turn >= i) turn = (turn-1)%tanks.size();  
 				}
+				if (tanks.size() == 1) return tanks[0].playerNumber;
 			}
 			
 			for (int i = 0; i < projectiles.size(); i++) {
@@ -157,6 +159,8 @@ int playGame(sf::RenderWindow & window) {
 			}
 			window.display();
 			timer.restart();
+			if (tanks.size() == 1) return tanks[0].playerNumber;
+			if (tanks.size() == 0) return -1; // We've killed them all....
 		}
     }
     return EXIT_SUCCESS;

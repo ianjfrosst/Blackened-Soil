@@ -12,6 +12,7 @@
 #define SAND_SYSTEM_X 500
 #define SAND_SYSTEM_Y 500
 
+
 struct sandPart {
 	Vector2D pos;
 	Vector2D vel;
