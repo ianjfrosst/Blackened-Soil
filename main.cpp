@@ -33,21 +33,20 @@ int playGame(sf::RenderWindow & window, int players) {
 	defWeap.name = "Really big MIRV";
 	defWeap.splitInterval = 3;
 	defWeap.splitMaxSpeed = Vector2D(10,10);
-	defWeap.splitNumber = 30;
+	defWeap.splitNumber = 50;
 	defWeap.splitTime = 5;
 	defWeap.splType = splitType::MIRV;
 	defWeap.xplType = explosionType::disintegrative;
 	defWeap.splitResult = &resWeap;
 
 	resWeap.ExplosionSize = 50;
-	resWeap.MaxDamage = 100;
+	resWeap.MaxDamage = 1000;
 	resWeap.name = "Really tiny nuclear device";
 	resWeap.splitInterval = 0.2;
 	resWeap.splitMaxSpeed = Vector2D(3,3);
 	resWeap.splitNumber = 0;
-	resWeap.splitTime = 0.5;
 	resWeap.splType = splitType::normal;
-	resWeap.xplType = explosionType::disintegrative;
+	resWeap.xplType = explosionType::bunkerbuster;
 	resWeap.splitResult = &defWeap;
 
 
