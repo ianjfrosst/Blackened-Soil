@@ -19,7 +19,6 @@ int main() {
     settings.antialiasingLevel = 1;
     sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
 	std::cout << "The winner is player " << playGame(window, 2) << ".\n";
-	system("PAUSE");
 }
 
 int playGame(sf::RenderWindow & window, int players) {
