@@ -2,6 +2,11 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Network.hpp>
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
 #include "Vector2D.h"
 #include "Projectile.h"
 #include "Sand.h"
@@ -13,6 +18,7 @@
 std::vector<Weapon> weapons;
 
 int playGame(sf::RenderWindow&, int);
+void populateWeapons(std::string);
 
 int main() {
 
@@ -35,6 +41,8 @@ int main() {
 	for (int i = 0; i < players; i++) {
 		scores.push_back(0);
 	}
+
+	//populateWeapons("weapons.csv");
 
 	while (STOPNOW) {
 		std::cout << "Select an option:\n"
@@ -241,4 +249,15 @@ int playGame(sf::RenderWindow & window, int players) {
 void populateWeapons(std::string filename) {
 	// TODO: Get weapons from CSV.
 	// TODO: Find a way to count weapons.
+	std::ifstream fin(filename, std::ios::in);
+
+	if (fin.is_open()) {
+		std::string line;
+		while (std::getline(fin, line)) {
+			std::cout << line << "\n";
+		}
+		fin.close();
+	} else {
+		std::cout << "File missing!\n";
+	}
 }
