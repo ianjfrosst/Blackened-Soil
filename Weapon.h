@@ -17,7 +17,11 @@ struct Weapon {
 
 	int			splitNumber;
 	Weapon*		splitResult;
+	int			splitResultInd;	// For use only in creation!
 	Vector2D	splitMaxSpeed;
+
+	bool accessible;
+	int price;
 
 	Weapon () {
 		name = "M240 \"Boring weapon\"";

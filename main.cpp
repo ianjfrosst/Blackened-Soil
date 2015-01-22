@@ -18,7 +18,7 @@
 std::vector<Weapon> weapons;
 
 int playGame(sf::RenderWindow&, int);
-void populateWeapons(std::string);
+void populateWeapons(std::string filename, std::vector<Weapon> &vec);
 
 int main() {
 
@@ -29,7 +29,7 @@ int main() {
 	<< "\n"
 	<< "For an ICS4UG summative.\n"
 	<< "2014-2015\n"
-	<< "---------------------------\n\n\n";
+	<< "---------------------------\n\n";
 
 	// Ends execution when set to false.
 	bool STOPNOW = true;
@@ -42,7 +42,7 @@ int main() {
 		scores.push_back(0);
 	}
 
-	//populateWeapons("weapons.csv");
+	populateWeapons("weapons.csv");
 
 	while (STOPNOW) {
 		std::cout << "Select an option:\n"
@@ -246,7 +246,48 @@ int playGame(sf::RenderWindow & window, int players) {
     return EXIT_SUCCESS;
 }
 
-void populateWeapons(std::string filename) {
+Weapon parseWeap(std::string in) {
+	for (int i = 0; i < in.length(); i++) if (in[i] == ',') in[i] == '\n';
+	std::stringstream ss;
+	ss << in;
+	Weapon newWeapon;
+	ss >> newWeapon.name;		// There's always a leading number in the string....
+	ss >> newWeapon.name;
+	ss >> newWeapon.accessible;
+	ss >> newWeapon.price;
+	ss >> newWeapon.MaxDamage;
+	ss >> newWeapon.ExplosionSize;
+	ss >> newWeapon.splitInterval;
+	ss >> newWeapon.splitMaxSpeed;	 // Shite....
+	ss >> newWeapon.splitNumber;
+	ss >> newWeapon.splitTime;
+	std::string temp;
+	ss >> temp;
+	if (temp.compare("normal")) {
+		newWeapon.splType = splitType::normal;
+	}
+	if (temp.compare("MIRV")) {
+		newWeapon.splType = splitType::MIRV;
+	}
+	if (temp.compare("napalm")) {
+		newWeapon.splType = splitType::napalm;
+	}
+	if (temp.compare("flechette")) {
+		newWeapon.splType = splitType::flechette;
+	}
+
+	ss >> temp;
+	if (temp.compare("circular")) {
+		newWeapon.xplType = explosionType::circular;
+	}
+	if (temp.compare("disintegrative")) {
+		newWeapon.xplType = explosionType::disintegrative;
+	}
+	ss >> newWeapon.splitResultInd;
+	return newWeapon;
+}
+
+void populateWeapons(std::string filename, std::vector<Weapon> & vec) {
 	// TODO: Get weapons from CSV.
 	// TODO: Find a way to count weapons.
 	std::ifstream fin(filename, std::ios::in);
@@ -255,9 +296,12 @@ void populateWeapons(std::string filename) {
 		std::string line;
 		while (std::getline(fin, line)) {
 			std::cout << line << "\n";
+			Weapon newWeap = parseWeap(line);
+			newWeap.splitResult = &vec[newWeap.splitResultInd];
+			if (line[0] != '#') vec.push_back(newWeap);
 		}
 		fin.close();
 	} else {
-		std::cout << "File missing!\n";
+		std::cout << "File missing!\n\n";
 	}
 }
