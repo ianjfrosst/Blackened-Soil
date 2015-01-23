@@ -76,10 +76,11 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 
 	if (key_PgDn || key_PgUp) {
 		weaponSelection = (weaponSelection%(key_PgDn ? -1:1)) % player->nWeapons;
+		std::cout << "Selected " << weapons[weaponSelection].name << ". " << player->ammo[weaponSelection] << " ammo available.\n";
 	}
 
 
-	bool fired = key_Sp && minTurn.getElapsedTime().asSeconds() > 1;
+	bool fired = key_Sp && minTurn.getElapsedTime().asSeconds() > 1 && player->ammo[weaponSelection] > 0;
 
 	if (key_Sh) {
 		if (key_W) power += (deltaMillis/100.0);
@@ -101,9 +102,11 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 
 	result.pos.SetXY(pos.x+5,pos.y+5);
 	result.vel.SetDM(angle, power);
-	result.weap = weap;
-	result.framesTill = weap->splitTime;
+	result.weap = &(weapons[weaponSelection]);
+	result.framesTill = result.weap->splitTime;
     
+	if (fired) player->ammo[weaponSelection] --;
+
 	return fired;
 }
 

@@ -12,14 +12,14 @@
 #include "Sand.h"
 #include "ExplosionType.h"
 #include "Tank.h"
-#include "Player.h"
+//#include "Player.h"
 
 #define KILL_POINTS 500
 
 
 // Comments are for those of weak constitutions and simple minds.
 
-int playGame(sf::RenderWindow&, int, Player *);
+int playGame(sf::RenderWindow&, int, Player *, Weapon * );
 
 // Returns pointer to new array of weapons.
 // nW is the number of weapons in the new array.
@@ -68,7 +68,7 @@ int main() {
             sf::ContextSettings settings;
             settings.antialiasingLevel = 1;
             sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
-            int winner = playGame(window, nPlayers, players);
+            int winner = playGame(window, nPlayers, players, weapons);
             if (winner >= 0) {
                 players[winner].wins++;
                 std::cout << "Player " << winner << " wins!\n";
@@ -101,28 +101,8 @@ int main() {
 }
 
 
-int playGame(sf::RenderWindow & window, int players, Player * scores) {
+int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * weapons) {
 	srand(time(NULL));
-
-	Weapon defWeap, resWeap;
-
-	defWeap.ExplosionSize = 25;
-	defWeap.MaxDamage = 1000;
-	defWeap.name = "Really big MOAB";
-	defWeap.splitInterval = 3;
-	defWeap.splitMaxSpeed = 10;
-	defWeap.splitNumber = 50;
-	defWeap.splitTime = 5;
-	defWeap.splType = splitType::normal;
-	defWeap.xplType = explosionType::circular;
-	defWeap.splitResult = &resWeap;
-
-	resWeap.ExplosionSize = 50;
-	resWeap.MaxDamage = 1000;
-	resWeap.name = "Really tiny nuclear device";
-	resWeap.splitNumber = 0;
-	resWeap.splType = splitType::normal;
-	resWeap.xplType = explosionType::bunkerbuster;
 
 	sandSystem sand(&window);
 
@@ -136,7 +116,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores) {
 	// Add tanks!
 	for (int i = 0; i < players; i++ ) {
 		Tank tank;
-		tank = Tank(MAX_HEALTH, i, &defWeap); // Tank health is 1K. Adjust damage accordingly.
+		tank = Tank(MAX_HEALTH); // Tank health is 1K. Adjust damage accordingly.
 		Vector2D pos(rand() % SAND_SYSTEM_X,0);
 		int y = 0;
 		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
@@ -158,7 +138,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores) {
 		int tankRes = 0;
 
 		while (!tankRes && window.isOpen()) {
-			tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds());
+			tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds(), weapons);
 			deltaTimer.restart();
 			timer.restart();
 			// Executes until the player shoots.
@@ -370,7 +350,7 @@ Weapon * populateWeapons(std::string filename, int * newNW) {
 
 	*newNW = nW;
 	std::cout << "Weapons loaded!\n\n";
-	return 0;
+	return weaps;
 }
 
 Player * populatePlayers(int nPlayers, int nWeapons) {
