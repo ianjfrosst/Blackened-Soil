@@ -33,7 +33,7 @@ public :
 		result = Projectile();
 
 		angle = 0;
-		power = 0;
+		power = 20;
 		weaponSelection = 0;
 	}
 
