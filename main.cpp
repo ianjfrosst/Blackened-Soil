@@ -342,6 +342,10 @@ Weapon * populateWeapons(std::string filename, int * newNW) {
 		std::cout << "File missing!\n\n";
 	}
 
+	for (int i = 0; i < nW; i++) {
+		weaps[i].splitResult = &weaps[weaps[i].splitResultInd];
+	}
+
 	*newNW = nW;
 
 	return 0;
