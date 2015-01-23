@@ -1,16 +1,11 @@
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
 #include <SFML/Network.hpp>
 
 #include <iostream>
 #include <fstream>
-#include <string>
 
 #include "Vector2D.h"
 #include "Projectile.h"
-#include "Sand.h"
-#include "ExplosionType.h"
 #include "Tank.h"
 //#include "Player.h"
 
@@ -187,8 +182,6 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 
 		//std::cout << "Switching to other mode! Projectiles: " << projectiles.size() << '\n';
 
-		int updateResult = 1;
-
 		// --------------------------------------------------
 		// UPDATE LOOP
 		// No player input!
@@ -320,7 +313,6 @@ Weapon * populateWeapons(std::string filename, int * newNW) {
 	int nW = 0;
 	Weapon * weaps = new Weapon[0];
 
-	// TODO: Get weapons from CSV.
 	// TODO: Find a way to count weapons.
 	std::ifstream fin(filename, std::ios::in);
 

@@ -10,7 +10,7 @@ set(${PROJECT_NAME}_VERSION_FIX   0)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 
-file(GLOB_RECURSE SOURCE_FILES ${CMAKE_SOURCE_DIR} *.cpp )
+file(GLOB_RECURSE SOURCE_FILES ${CMAKE_SOURCE_DIR} *.cpp)
 
 include_directories("./")
 

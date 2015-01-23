@@ -275,7 +275,6 @@ void sandSystem::affixSand(int &i) {
 }
 
 void sandSystem::detachSand(int x, int y, Vector2D vel, bool force) {
-	// TODO: We need some sort of power cutoff, so that we stop creating excess useless particles.
 	if ((vel.GetSqrMag() >= 1 || force) && staticSand[x][y] != sf::Color::Transparent) {
 	//if (staticSand[x][y] != sf::Color::Transparent) {
 		/*if (vel.GetSqrMag() <= 1) staticSand[x][y] = sf::Color::Red;
@@ -310,14 +309,10 @@ void sandSystem::render() {
 	// Since we want cartesian (0,0 = Lower-left) coordinates, we need to flip the pixel array before we render it.
 	out.flipVertically(); // Takes about 3 ms
 
-	// TODO: Create delta-based output. See other file.
-
 	sf::Texture outTex;
 	outTex.loadFromImage(out);
 	sf::Sprite outSpr;
 	outSpr.setTexture(outTex, true);
 	outSpr.setPosition(sf::Vector2f(0,0));
 	window->draw(outSpr);
-	// Okay fuck all this. Anywhere between 0.9 ms and 50 ms
 }
-
