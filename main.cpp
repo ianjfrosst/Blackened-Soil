@@ -118,7 +118,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 	std::vector<Projectile> projectiles;
 	std::vector<Tank> tanks;
 
-	sand.populate(150.0, 0.45);
+	sand.populate(200.0, 0.45);
 	
 	int turn = 0;
 

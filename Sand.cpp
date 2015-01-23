@@ -45,8 +45,10 @@ std::vector<double> sandSystem::genHeightMap(int width, double range, double smo
 	int size = isPow2(width - 1) ? width : goUp(width);
 	std::vector<double> hMap(size);
 	smooth = std::max(std::min(1.0, smooth), 0.0);
-	hMap[0] = fRand(150, 250);
-	hMap[hMap.size() - 1] = fRand(150, 250);
+    int minS = 0.30 * SAND_SYSTEM_Y;
+    int maxS = 0.60 * SAND_SYSTEM_Y;
+	hMap[0] = fRand(minS, maxS);
+	hMap[hMap.size() - 1] = fRand(minS, maxS);
 	genHeight_recur(hMap, 0, hMap.size() - 1, range, smooth);
 	return hMap;
 }
@@ -69,8 +71,6 @@ void sandSystem::populate(double range, double smooth) {
 
 bool sandSystem::update(Vector2D grav) {
 	sf::Clock updateClock;
-
-	int p = activeSandParts.size();
 
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
@@ -291,6 +291,7 @@ void sandSystem::detachSand(int x, int y, Vector2D vel, bool force) {
 
 void sandSystem::render() {
 	sf::Image out;
+    sf::Clock t;
 	out.create(SAND_SYSTEM_X,SAND_SYSTEM_Y);
 
 	// From here

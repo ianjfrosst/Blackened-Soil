@@ -110,8 +110,8 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 }
 
 bool Tank::takeDamage(explosion expl) {
-	std::cout << "Checking bullet hit...\n";
-	std::cout << "Am " << (expl.pos - pos).GetMag() << " pixels away.\n";
+	//std::cout << "Checking bullet hit...\n";
+	//std::cout << "Am " << (expl.pos - pos).GetMag() << " pixels away.\n";
 	if ((expl.pos - pos).GetMag() < expl.size) {
 		float dmg = ((expl.size-(expl.pos - pos).GetMag())/expl.size) * expl.maxDMG;
 		std::cout << "Shot with " << expl.weap->name << ".\n";
