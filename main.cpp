@@ -275,7 +275,7 @@ Weapon parseWeap(std::string in) {
 	ss >> newWeapon.name;		// There's always a leading number in the string....
 	ss >> newWeapon.name;
 	ss >> temp;
-	newWeapon.accessible = temp[0] = 'Y';
+	newWeapon.accessible = temp[0] == 'Y';
 	ss >> newWeapon.price;
 	ss >> newWeapon.MaxDamage;
 	ss >> newWeapon.ExplosionSize;
