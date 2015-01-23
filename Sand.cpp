@@ -264,7 +264,8 @@ void sandSystem::affixSand(int &i) {
 
 	// TODO: Ian, this while loop is horrifying. It's also your problem.
 
-	while (staticSand[(int)p.x][(int)p.y] != sf::Color::Transparent) {
+	while (p.x-v.x > 0 && p.x-v.x < SAND_SYSTEM_X && p.y-v.y > 0 && p.y-v.y < SAND_SYSTEM_Y &&
+			staticSand[(int)p.x][(int)p.y] != sf::Color::Transparent) {
 		p -= v;
 	}
 

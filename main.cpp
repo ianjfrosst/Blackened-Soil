@@ -205,9 +205,10 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 				tanksUpdated = tanksUpdated || tanks[i].update(&sand);
 				tanks[i].render(window, false);
 				if (tanks[i].health <= 0) {
+					scores[(tanks[turn].playerNumber+players-1)%players].score += KILL_POINTS;
 					tanks.erase(tanks.begin() + i);
 					i--;
-					scores[(tanks[turn].playerNumber-1)%players].score += KILL_POINTS;
+
 					if (turn >= i) turn = (turn-1)%tanks.size();
 				}
 				if (tanks.size() == 1) return tanks[0].playerNumber;

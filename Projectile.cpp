@@ -25,7 +25,7 @@ std::vector<Projectile>* Projectile::split() {
 		if (weap->splType == splitType::napalm)
 			res->push_back(Projectile(pos, Vector2D(vel.x*0.05,vel.y), weap->splitResult));
 		if (weap->splType == splitType::flechette)
-			res->push_back(Projectile(pos, vel + randspeed, weap->splitResult));
+			res->push_back(Projectile(pos, (vel*0.5) + randspeed, weap->splitResult));
 	}
 	return res;
 }

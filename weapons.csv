@@ -5,5 +5,6 @@
 3,Mini Nuke,Y,750,750,75,0,0,0,0,normal,disintegrative,3
 4,Napalm Particle,N,0,100,20,1,0,0,5,normal,disintegrative,4
 5,Napalm,Y,750,0,0,1,0,1,5,napalm,disintegrative,4
-6,Flechette missile,N,0,300,30,0,0,0,10,normal,circular,6
-7,Flechette missile,Y,1000,500,40,4,3,5,4,flechette,circular,6
+6,Flechette missile,N,50,750,30,0,0,0,10,normal,circular,6
+7,Flechette missile,Y,0,0,40,4,3,5,4,flechette,circular,6
+8,SniperCannon,Y,100,2000,10,0,0,0,0,normal,circular,8
