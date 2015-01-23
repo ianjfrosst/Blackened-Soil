@@ -82,14 +82,14 @@ bool sandSystem::update(Vector2D grav) {
 
 			if (activeSandParts[i].pos.y < 0) {
 				activeSandParts[i].pos.y = 0;
-				affixSand(i);
                 staticSand[(int)activeSandParts[i].pos.x].flag = true;
+                affixSand(i);
 				continue;
 			}
 
 			if (staticSand[(int) activeSandParts[i].pos.x][(int) activeSandParts[i].pos.y] != sf::Color::Transparent) {
-				affixSand(i);
                 staticSand[(int)activeSandParts[i].pos.x].flag = true;
+                affixSand(i);
                 continue;
 			}
 		} else activeSandParts.erase(activeSandParts.begin() + i);
