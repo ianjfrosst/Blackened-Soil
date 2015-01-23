@@ -37,10 +37,12 @@ public :
 		weaponSelection = 0;
 	}
 
-	Tank(int Health) {
+	Tank(int Health, Player * p) {
 		pos = Vector2D();
 		rot = 0;
 		result = Projectile();
+
+		player = p;
 
 		angle = 0;
 		power = 0;

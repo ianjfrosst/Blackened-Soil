@@ -51,6 +51,8 @@ int main() {
 
 	weapons = populateWeapons("weapons.csv", &nWeapons);
 
+	//std::cout << nWeapons << '\n';
+
 	players = populatePlayers(nPlayers, nWeapons);
 
 
@@ -116,7 +118,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 	// Add tanks!
 	for (int i = 0; i < players; i++ ) {
 		Tank tank;
-		tank = Tank(MAX_HEALTH); // Tank health is 1K. Adjust damage accordingly.
+		tank = Tank(MAX_HEALTH, &(scores[i])); // Tank health is 1K. Adjust damage accordingly.
 		Vector2D pos(rand() % SAND_SYSTEM_X,0);
 		int y = 0;
 		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
@@ -345,6 +347,8 @@ Weapon * populateWeapons(std::string filename, int * newNW) {
 Player * populatePlayers(int nPlayers, int nWeapons) {
 	Player * p = new Player[nPlayers];
 	for (int i = 0; i < nPlayers; i++) {
+		p[i].score = 0;
+		p[i].wins = 0;
 		p[i].ammo = new int[nWeapons];
 		for (int o = 0; o < nWeapons; o++) p[i].ammo[o] = 0; 
 		p[i].nWeapons = nWeapons;
