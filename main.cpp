@@ -350,7 +350,7 @@ Player * populatePlayers(int nPlayers, int nWeapons) {
 		p[i].score = 0;
 		p[i].wins = 0;
 		p[i].ammo = new int[nWeapons];
-		for (int o = 0; o < nWeapons; o++) p[i].ammo[o] = 0; 
+		for (int o = 0; o < nWeapons; o++) p[i].ammo[o] = 100;	// DEBUG
 		p[i].nWeapons = nWeapons;
 	}
 	return p;

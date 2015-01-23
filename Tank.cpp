@@ -75,7 +75,7 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 	bool key_PgDn = sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown);
 
 	if (key_PgDn || key_PgUp) {
-		weaponSelection = (weaponSelection%(key_PgDn ? -1:1)) % player->nWeapons;
+		weaponSelection = (weaponSelection+(key_PgDn ? -1:1)) % player->nWeapons;
 		std::cout << "Selected " << weapons[weaponSelection].name << ". " << player->ammo[weaponSelection] << " ammo available.\n";
 	}
 
