@@ -90,7 +90,7 @@ int main() {
 				<< "Controls:\n\n"
 				<< "Aim/power:\t\tArrow keys\n"
 				<< "Fire:\t\t\tSpace\n"
-				<< "Change weapon:\t\tPage up\n"
+				<< "Change weapon:\t\t[\n"
 				<< "Precision aim:\t\tLeft shift\n\n";
 
 		} else if (sel == 4) {
