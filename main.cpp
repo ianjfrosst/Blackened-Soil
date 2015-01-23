@@ -61,7 +61,8 @@ int main() {
                 << "1 - Play game!\n"
 		        << "2 - Configure\n"
 		        << "3 - Controls\n"
-                << "4 - Quit\n";
+				<< "4 - Scoreboard\n"
+                << "5 - Quit\n";
 
 		int sel = 0;
 		std::cin >> sel;
@@ -93,7 +94,13 @@ int main() {
 			}
         } else if (sel == 3) {
             // Controls
-        } else if (sel == 4) {
+		} else if (sel == 4) {
+            std::cout
+				<< "Scores:\n"
+				<< "Player:\t\tScore:\t\tWins:\n";
+
+			for (int i = 0; i < nPlayers; i++) std::cout << i << "\t\t" << players[i].score << "\t\t" << players[i].wins << '\n';
+        } else if (sel == 5) {
             STOPNOW = false;
         } else {
             continue;
@@ -118,7 +125,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 	// Add tanks!
 	for (int i = 0; i < players; i++ ) {
 		Tank tank;
-		tank = Tank(MAX_HEALTH, &(scores[i])); // Tank health is 1K. Adjust damage accordingly.
+		tank = Tank(MAX_HEALTH, &(scores[i]), i); // Tank health is 1K. Adjust damage accordingly.
 		Vector2D pos(rand() % SAND_SYSTEM_X,0);
 		int y = 0;
 		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
@@ -240,7 +247,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			if (tanks.size() == 0) return -1; // We've killed them all....
 		}
     }
-    return EXIT_SUCCESS;
+    return -1;
 }
 
 Weapon parseWeap(std::string in) {
@@ -350,7 +357,7 @@ Player * populatePlayers(int nPlayers, int nWeapons) {
 		p[i].score = 0;
 		p[i].wins = 0;
 		p[i].ammo = new int[nWeapons];
-		for (int o = 0; o < nWeapons; o++) p[i].ammo[o] = 100;	// DEBUG
+		for (int o = 0; o < nWeapons; o++) p[i].ammo[o] = 5;	// DEBUG
 		p[i].nWeapons = nWeapons;
 	}
 	return p;
