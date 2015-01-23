@@ -58,9 +58,10 @@ bool Tank::update(sandSystem * sand) {
 	return vel.y != 0;
 }
 
-void Tank::startTurn() {
+void Tank::startTurn(Weapon * weapons) {
 	minTurn.restart();
 	result = Projectile(pos, Vector2D(0,0));
+	std::cout << "\nCurrently weilding " << weapons[weaponSelection].name << ". " << player->ammo[weaponSelection] << " ammo available.\n";
 }
 
 int Tank::controls(int deltaMillis, Weapon * weapons) {
@@ -75,6 +76,7 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 
 	if (key_PgUp) {
 		weaponSelection = (weaponSelection+1) % player->nWeapons;
+		while (!weapons[weaponSelection].accessible) weaponSelection = (weaponSelection+1) % player->nWeapons;
 		std::cout << "Selected " << weapons[weaponSelection].name << ". " << player->ammo[weaponSelection] << " ammo available.\n";
 	}
 

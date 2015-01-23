@@ -94,6 +94,13 @@ int main() {
 			}
         } else if (sel == 3) {
             // Controls
+			std::cout
+				<< "Controls:\n\n"
+				<< "Aim/power:\t\tArrow keys\n"
+				<< "Fire:\t\t\tSpace\n"
+				<< "Change weapon:\t\tPage up\n"
+				<< "Precision aim:\t\tLeft shift\n\n";
+
 		} else if (sel == 4) {
             std::cout
 				<< "Scores:\n"
@@ -138,7 +145,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 
     while (window.isOpen()) {
 		sf::Clock deltaTimer;
-		tanks[turn].startTurn();
+		tanks[turn].startTurn(weapons);
 
 		// --------------------------------------------------
 		// GAMEPLAY LOOP

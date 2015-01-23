@@ -51,7 +51,7 @@ public :
 		weaponSelection = 0;
 	}
 
-	void startTurn();
+	void startTurn(Weapon *);
 
 	// Returns survival.
 	bool takeDamage(explosion);
