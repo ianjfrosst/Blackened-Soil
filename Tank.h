@@ -1,6 +1,7 @@
 #include "Vector2D.h"
 #include "Projectile.h"
 #include "Explosion.h"
+#include "Player.h"
 #include <SFML/Window.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <sstream>
@@ -15,7 +16,9 @@ class Tank {
 
 	sf::Clock minTurn;
 
-	Weapon * weap;
+	int weaponSelection;
+
+	Player * player;
 
 public :
 	float health;
@@ -31,19 +34,18 @@ public :
 
 		angle = 0;
 		power = 0;
+		weaponSelection = 0;
 	}
 
-	Tank(int Health, int player, Weapon * w) {
+	Tank(int Health) {
 		pos = Vector2D();
 		rot = 0;
 		result = Projectile();
 
-		playerNumber = player;
-
 		angle = 0;
 		power = 0;
 		health = Health;
-		weap = w;
+		weaponSelection = 0;
 	}
 
 	void startTurn();
@@ -58,7 +60,10 @@ public :
 
 	// Returns whether the tank is still moving.
 	bool update(sandSystem * sand);
-	bool controls(int deltaMillis);
+
+	// Returns index of weapon fired in the weapons array.
+	int controls(int deltaMillis, Weapon *);
+
 	void netUpdate();
 	void netBroadcast();
 };

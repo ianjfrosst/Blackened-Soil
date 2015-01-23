@@ -63,13 +63,20 @@ void Tank::startTurn() {
 	result = Projectile(pos, Vector2D(0,0));
 }
 
-int Tank::controls(int deltaMillis) {
+int Tank::controls(int deltaMillis, Weapon * weapons) {
 	bool key_W = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
 	bool key_S = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
 	bool key_A = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
 	bool key_D = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
 	bool key_Sp = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
 	bool key_Sh = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+
+	bool key_PgUp = sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp);
+	bool key_PgDn = sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown);
+
+	if (key_PgDn || key_PgUp) {
+		weaponSelection = (weaponSelection%(key_PgDn ? -1:1)) % player->nWeapons;
+	}
 
 
 	bool fired = key_Sp && minTurn.getElapsedTime().asSeconds() > 1;
