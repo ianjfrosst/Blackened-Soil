@@ -61,6 +61,7 @@ bool Tank::update(sandSystem * sand) {
 void Tank::startTurn(Weapon * weapons) {
 	minTurn.restart();
 	result = Projectile(pos, Vector2D(0,0));
+	std::cout << "Player " << playerNumber+1 << "'s turn!\n";
 	std::cout << "\nCurrently weilding " << weapons[weaponSelection].name << ". " << player->ammo[weaponSelection] << " ammo available.\n";
 }
 

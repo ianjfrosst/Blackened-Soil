@@ -66,7 +66,7 @@ int main() {
             int winner = playGame(window, nPlayers, players, weapons);
             if (winner >= 0) {
                 players[winner].wins++;
-                std::cout << "Player " << winner << " wins!\n";
+                std::cout << "Player " << winner+1 << " wins!\n";
             } else std::cout << "TIE!\n";
         } else if (sel == 2) {
             // Configure
@@ -98,7 +98,7 @@ int main() {
 				<< "Scores:\n"
 				<< "Player:\t\tScore:\t\tWins:\n";
 
-			for (int i = 0; i < nPlayers; i++) std::cout << i << "\t\t" << players[i].score << "\t\t" << players[i].wins << '\n';
+			for (int i = 0; i < nPlayers; i++) std::cout << i+1 << "\t\t" << players[i].score << "\t\t" << players[i].wins << '\n';
         } else if (sel == 5) {
             STOPNOW = false;
         } else {
