@@ -32,7 +32,7 @@ std::vector<Projectile>* Projectile::split() {
 
 int Projectile::update(sandSystem * world, Vector2D influence) {
 	trace.push_back(sf::Vector2f(pos.x, SAND_SYSTEM_Y-pos.y));
-
+	
 	int res = 0;
 
 	pos += vel;
