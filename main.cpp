@@ -196,7 +196,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			
 			timer.restart();
 
-			std::thread renderThread(sandSystem::render, sand);
+			std::thread renderThread(&sandSystem::render, sand);
 
 			renderThread.detach();
 
