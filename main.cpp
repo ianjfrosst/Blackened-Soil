@@ -40,7 +40,6 @@ int main() {
 	Player * players;
 	int nPlayers = 4;
 
-
 	Weapon * weapons;
 	int nWeapons;
 
@@ -80,7 +79,6 @@ int main() {
 
 				delete[] players;
 				players = populatePlayers(nPlayers, nWeapons);
-
 
 				// ADD OTHER OPTIONS AND SETTINGS HERE
 			}
@@ -147,7 +145,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 
 		while (!tankRes && window.isOpen()) {
 			tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds(), weapons);
-			deltaTimer.restart();
+            deltaTimer.restart();
 			timer.restart();
 			// Executes until the player shoots.
 

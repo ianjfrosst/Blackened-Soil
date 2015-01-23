@@ -73,7 +73,7 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 	bool key_Sp = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
 	bool key_Sh = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
-	bool key_PgUp = sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp);
+	bool key_PgUp = sf::Keyboard::isKeyPressed(sf::Keyboard::LBracket);
 
 	if (key_PgUp) {
 		weaponSelection = (weaponSelection+1) % player->nWeapons;
