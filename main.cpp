@@ -17,7 +17,11 @@
 // Comments are for those of weak constitutions and simple minds.
 
 int playGame(sf::RenderWindow&, int);
-int populateWeapons(std::string filename, Weapon ** weaps);
+
+// Returns pointer to new array of weapons.
+// nW is the number of weapons in the new array.
+// Weaps is a pointer to element 0 of the current array.
+Weapon * populateWeapons(std::string, int *);
 
 int main() {
 
@@ -37,13 +41,14 @@ int main() {
 
 	std::vector<int> scores;
 
-	Weapon * weapons = new Weapon[1];
+	Weapon * weapons;
+	int nWeapons;
 
 	for (int i = 0; i < players; i++) {
 		scores.push_back(0);
 	}
 
-	populateWeapons("weapons.csv", &weapons);
+	weapons = populateWeapons("weapons.csv", &nWeapons);
 
 	while (STOPNOW) {
 		std::cout << "Select an option:\n"
@@ -301,13 +306,12 @@ Weapon parseWeap(std::string in) {
 	return newWeapon;
 }
 
-// Return number of weapons.
-// Reallocates weaps, leaves no trace of former items.
-int populateWeapons(std::string filename, Weapon ** weaps) {
+Weapon * populateWeapons(std::string filename, int * newNW) {
 
-	delete weaps;
+	//delete *weaps;
 
 	int nW = 0;
+	Weapon * weaps = new Weapon[0];
 
 	// TODO: Get weapons from CSV.
 	// TODO: Find a way to count weapons.
@@ -320,13 +324,14 @@ int populateWeapons(std::string filename, Weapon ** weaps) {
 				// Create and store as temp new weapon.
 				Weapon newWeap = parseWeap(line);
 
-				Weapon*old = *weaps;
-				*weaps = new Weapon[nW+1];
+				Weapon*old = weaps;
+				weaps = new Weapon[nW+1];
 				for (int i = 0; i < nW; i++) {
-					(*weaps)[i] = old[i];
+					weaps[i] = old[i];
 				}
-				(*weaps)[nW] = newWeap;
+				weaps[nW] = newWeap;
 				nW++;
+				delete[] old;
 
 				// Store old array as temp pointer.
 				// Allocate larger array.
@@ -337,5 +342,7 @@ int populateWeapons(std::string filename, Weapon ** weaps) {
 		std::cout << "File missing!\n\n";
 	}
 
-	return nW;
+	*newNW = nW;
+
+	return 0;
 }
