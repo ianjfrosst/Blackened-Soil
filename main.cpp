@@ -46,10 +46,7 @@ int main() {
 
 	weapons = populateWeapons("weapons.csv", &nWeapons);
 
-	//std::cout << nWeapons << '\n';
-
 	players = populatePlayers(nPlayers, nWeapons);
-
 
 	while (STOPNOW) {
 		std::cout << "Select an option:\n"

@@ -290,10 +290,9 @@ void sandSystem::detachSand(int x, int y, Vector2D vel, bool force) {
 
 void sandSystem::render() {
 	sf::Image out;
-    sf::Clock t;
 	out.create(SAND_SYSTEM_X,SAND_SYSTEM_Y);
 
-	// From here
+    // From here
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int o = 0; o < SAND_SYSTEM_Y; ++o) {
 			out.setPixel(i, o, staticSand[i][o]);
