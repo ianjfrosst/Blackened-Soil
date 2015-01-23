@@ -83,12 +83,14 @@ bool sandSystem::update(Vector2D grav) {
 			if (activeSandParts[i].pos.y < 0) {
 				activeSandParts[i].pos.y = 0;
 				affixSand(i);
+                staticSand[(int)activeSandParts[i].pos.x].flag = true;
 				continue;
 			}
 
 			if (staticSand[(int) activeSandParts[i].pos.x][(int) activeSandParts[i].pos.y] != sf::Color::Transparent) {
 				affixSand(i);
-				continue;
+                staticSand[(int)activeSandParts[i].pos.x].flag = true;
+                continue;
 			}
 		} else activeSandParts.erase(activeSandParts.begin() + i);
 	}
@@ -163,6 +165,7 @@ void sandSystem::detonateDisintegrate(Vector2D loc, double power, double range) 
 	// Right (positive) side
 	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
 	for (int x = loc.x; x < RHScap; x++) {
+        staticSand[x].flag = true;
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
@@ -175,7 +178,8 @@ void sandSystem::detonateDisintegrate(Vector2D loc, double power, double range) 
 	// Left (minus) side
 	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
 	for (int x = loc.x; x > LHScap; x--) {
-		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
+        staticSand[x].flag = true;
+        for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;
 			if (a*a + b*b <= range*range) {
@@ -193,6 +197,7 @@ void sandSystem::detonateCircular(Vector2D loc, double power, double range) {
 	// Right (positive) side
 	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
 	for (int x = loc.x; x < RHScap; x++) {
+        staticSand[x].flag = true;
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
@@ -205,6 +210,7 @@ void sandSystem::detonateCircular(Vector2D loc, double power, double range) {
 	// Left (minus) side
 	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
 	for (int x = loc.x; x > LHScap; x--) {
+        staticSand[x].flag = true;
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;
@@ -224,6 +230,7 @@ void sandSystem::detonateCalderic(Vector2D loc, double power, double range) {
 	// Right (positive) side
 	int RHScap = (loc.x+range > SAND_SYSTEM_X ? SAND_SYSTEM_X : loc.x+range);
 	for (int x = loc.x; x < RHScap; x++) {
+        staticSand[x].flag = true;
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
@@ -236,6 +243,7 @@ void sandSystem::detonateCalderic(Vector2D loc, double power, double range) {
 	// Left (minus) side
 	int LHScap = loc.x-range < 0 ? 0 : loc.x-range;
 	for (int x = loc.x; x > LHScap; x--) {
+        staticSand[x].flag = true;
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;
@@ -244,10 +252,6 @@ void sandSystem::detonateCalderic(Vector2D loc, double power, double range) {
 			}
 		}
 	}
-}
-
-void sandSystem::createSand(int x, int y, sf::Color c) {
-	staticSand[x][y] = c;
 }
 
 void sandSystem::affixSand(int &i) {

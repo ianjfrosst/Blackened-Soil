@@ -63,7 +63,4 @@ public :
 
 	// Returns index of weapon fired in the weapons array.
 	int controls(int deltaMillis, Weapon *);
-
-	void netUpdate();
-	void netBroadcast();
 };

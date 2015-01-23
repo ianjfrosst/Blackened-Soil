@@ -63,5 +63,4 @@ public :
 
 	void affixSand(int &i);
 	void detachSand(int x, int y, Vector2D vel, bool force = false);
-	void createSand(int x, int y, sf::Color c);
- };
+};
