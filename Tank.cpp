@@ -64,10 +64,10 @@ void Tank::startTurn() {
 }
 
 int Tank::controls(int deltaMillis, Weapon * weapons) {
-	bool key_W = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
-	bool key_S = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
-	bool key_A = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
-	bool key_D = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+	bool key_Up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+	bool key_Dn = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+	bool key_L = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+	bool key_R = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
 	bool key_Sp = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
 	bool key_Sh = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
@@ -78,21 +78,20 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 		std::cout << "Selected " << weapons[weaponSelection].name << ". " << player->ammo[weaponSelection] << " ammo available.\n";
 	}
 
-
 	bool fired = key_Sp && minTurn.getElapsedTime().asSeconds() > 1 && player->ammo[weaponSelection] > 0;
 
 	if (key_Sh) {
-		if (key_W) power += (deltaMillis/100.0);
-		if (key_S) power -= (deltaMillis/100.0);
+		if (key_Up) power += (deltaMillis/100.0);
+		if (key_Dn) power -= (deltaMillis/100.0);
 
-		if (key_A) angle += 3.14159*(deltaMillis/5000.0);
-		if (key_D) angle -= 3.14159*(deltaMillis/5000.0);
+		if (key_L) angle += 3.14159*(deltaMillis/5000.0);
+		if (key_R) angle -= 3.14159*(deltaMillis/5000.0);
 	} else {
-		if (key_W) power += (deltaMillis/20.0);
-		if (key_S) power -= (deltaMillis/20.0);
+		if (key_Up) power += (deltaMillis/20.0);
+		if (key_Dn) power -= (deltaMillis/20.0);
 
-		if (key_A) angle += 3.14159*(deltaMillis/1000.0);
-		if (key_D) angle -= 3.14159*(deltaMillis/1000.0);
+		if (key_L) angle += 3.14159*(deltaMillis/1000.0);
+		if (key_R) angle -= 3.14159*(deltaMillis/1000.0);
 	}
     int maxPower = 35;
     if (power > maxPower) power = maxPower;
