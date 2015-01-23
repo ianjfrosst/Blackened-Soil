@@ -1,5 +1,5 @@
 #,Name,Accessible,Price,MAX Damage,ExplosionSize,splitInterval,maxSplitSpd,splitNum,splitTime,splitType,explosionType,splitResult
-0,Really tiny nuclear device,Y,0,750,35,0,0,0,0,normal,circular,0
+0,Really tiny nuclear device,Y,0,1000,35,0,0,0,0,normal,circular,0
 1,IRV,N,0,100,30,0,0,0,0,normal,circular,1
 2,MIRV,Y,1000,0,0,1,5,10,10,MIRV,disintegrative,1
 3,Mini Nuke,Y,750,750,75,0,0,0,0,normal,disintegrative,3
@@ -8,3 +8,5 @@
 6,Flechette missile,N,50,750,30,0,0,0,10,normal,circular,6
 7,Flechette missile,Y,0,0,40,4,3,5,4,flechette,circular,6
 8,SniperCannon,Y,100,2000,10,0,0,0,0,normal,circular,8
+9,FWOOSH!,Y,0,300,40,0,0,0,0,normal,calderic,9
+10,MUAHAHA,Y,0,0,250,0,0,0,0,normal,disintegrative,10

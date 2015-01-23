@@ -296,6 +296,9 @@ Weapon parseWeap(std::string in) {
 	if (!temp.compare("disintegrative")) {
 		newWeapon.xplType = explosionType::disintegrative;
 	}
+	if (!temp.compare("calderic")) {
+		newWeapon.xplType = explosionType::calderic;
+	}
 	ss >> newWeapon.splitResultInd;
 	return newWeapon;
 }
