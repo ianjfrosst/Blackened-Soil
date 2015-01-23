@@ -25,11 +25,6 @@ struct Projectile {
     
 	std::vector<sf::Vector2f> trace;
 
-	// Needs to receive access to all players on the field to allow for damage.
-	void detonate();
-
-	sf::Vector2u getInverse(sf::Vector2u in);
-
 	Projectile () {
 		splitting = false;
 		weap = new Weapon();
