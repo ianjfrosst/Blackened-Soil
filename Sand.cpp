@@ -293,6 +293,7 @@ void sandSystem::render() {
 	sf::Image out;
 	out.create(SAND_SYSTEM_X,SAND_SYSTEM_Y);
 
+
     // From here
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int o = 0; o < SAND_SYSTEM_Y; ++o) {

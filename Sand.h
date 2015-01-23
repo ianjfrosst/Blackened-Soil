@@ -41,7 +41,7 @@ public :
 
 	sandSystem() {}
 	sandSystem(sf::RenderWindow * w) {
-		window = w;
+		window = w; 
         staticSand = new sandPile[SAND_SYSTEM_X];
 	}
 

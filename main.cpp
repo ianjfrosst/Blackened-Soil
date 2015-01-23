@@ -106,7 +106,6 @@ int main() {
     return 0;
 }
 
-
 int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * weapons) {
 	srand(time(NULL));
 
