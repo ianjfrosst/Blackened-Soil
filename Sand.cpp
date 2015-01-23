@@ -278,7 +278,7 @@ void sandSystem::detachSand(int x, int y, Vector2D vel, bool force) {
 	if ((vel.GetSqrMag() >= 1 || force) && staticSand[x][y] != sf::Color::Transparent) {
 	//if (staticSand[x][y] != sf::Color::Transparent) {
 		/*if (vel.GetSqrMag() <= 1) staticSand[x][y] = sf::Color::Red;
-		else staticSand[x][y] = sf::Color::Blue;*/
+		else staticSand[x][y] = sf::Color::;*/
 		sandPart sp;
 		sp.pos = Vector2D(x, y);
 		sp.col = staticSand[x][y];
