@@ -63,13 +63,14 @@ void Tank::startTurn() {
 	result = Projectile(pos, Vector2D(0,0));
 }
 
-bool Tank::controls(int deltaMillis) {
+int Tank::controls(int deltaMillis) {
 	bool key_W = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
 	bool key_S = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
 	bool key_A = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
 	bool key_D = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
 	bool key_Sp = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
 	bool key_Sh = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+
 
 	bool fired = key_Sp && minTurn.getElapsedTime().asSeconds() > 1;
 

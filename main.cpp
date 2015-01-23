@@ -12,16 +12,21 @@
 #include "Sand.h"
 #include "ExplosionType.h"
 #include "Tank.h"
+#include "Player.h"
+
+#define KILL_POINTS 500
 
 
 // Comments are for those of weak constitutions and simple minds.
 
-int playGame(sf::RenderWindow&, int);
+int playGame(sf::RenderWindow&, int, Player *);
 
 // Returns pointer to new array of weapons.
 // nW is the number of weapons in the new array.
 // Weaps is a pointer to element 0 of the current array.
 Weapon * populateWeapons(std::string, int *);
+
+Player * populatePlayers(int, int);
 
 int main() {
 
@@ -37,18 +42,17 @@ int main() {
 	// Ends execution when set to false.
 	bool STOPNOW = true;
 
-	int players = 4;
+	Player * players;
+	int nPlayers = 4;
 
-	std::vector<int> scores;
 
 	Weapon * weapons;
 	int nWeapons;
 
-	for (int i = 0; i < players; i++) {
-		scores.push_back(0);
-	}
-
 	weapons = populateWeapons("weapons.csv", &nWeapons);
+
+	players = populatePlayers(nPlayers, nWeapons);
+
 
 	while (STOPNOW) {
 		std::cout << "Select an option:\n"
@@ -64,13 +68,27 @@ int main() {
             sf::ContextSettings settings;
             settings.antialiasingLevel = 1;
             sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
-            int winner = playGame(window, players);
+            int winner = playGame(window, nPlayers, players);
             if (winner >= 0) {
-                scores[winner]++;
-                std::cout << "Player " << winner + 1 << " wins!\n";
+                players[winner].wins++;
+                std::cout << "Player " << winner << " wins!\n";
             } else std::cout << "TIE!\n";
         } else if (sel == 2) {
             // Configure
+			std::cout << "This will remove all saved data! Are you sure you wish to continue? (Yes/No): ";
+			std::string YesNo;
+			std::cin >> YesNo;
+			if (YesNo.compare("Yes")) std::cout << "\nExiting configuration.\n";
+			else {
+				std::cout << "Enter a number of players:\n";
+				std::cin >> nPlayers;
+
+				delete[] players;
+				players = populatePlayers(nPlayers, nWeapons);
+
+
+				// ADD OTHER OPTIONS AND SETTINGS HERE
+			}
         } else if (sel == 3) {
             // Controls
         } else if (sel == 4) {
@@ -83,7 +101,7 @@ int main() {
 }
 
 
-int playGame(sf::RenderWindow & window, int players) {
+int playGame(sf::RenderWindow & window, int players, Player * scores) {
 	srand(time(NULL));
 
 	Weapon defWeap, resWeap;
@@ -137,9 +155,10 @@ int playGame(sf::RenderWindow & window, int players) {
 		// GAMEPLAY LOOP
 		// --------------------------------------------------
 
-		bool eBrake = true;
+		int tankRes = 0;
 
-		while (!tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds()) && window.isOpen() && eBrake) {
+		while (!tankRes && window.isOpen()) {
+			tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds());
 			deltaTimer.restart();
 			timer.restart();
 			// Executes until the player shoots.
@@ -213,7 +232,8 @@ int playGame(sf::RenderWindow & window, int players) {
 				if (tanks[i].health <= 0) {
 					tanks.erase(tanks.begin() + i);
 					i--;
-					if (turn >= i) turn = (turn-1)%tanks.size();  
+					scores[turn].score += KILL_POINTS;
+					if (turn >= i) turn = (turn-1)%tanks.size();
 				}
 				if (tanks.size() == 1) return tanks[0].playerNumber;
 			}
@@ -308,6 +328,8 @@ Weapon parseWeap(std::string in) {
 
 Weapon * populateWeapons(std::string filename, int * newNW) {
 
+	std::cout << "Loading weapons...\n";
+
 	//delete *weaps;
 
 	int nW = 0;
@@ -347,6 +369,15 @@ Weapon * populateWeapons(std::string filename, int * newNW) {
 	}
 
 	*newNW = nW;
-
+	std::cout << "Weapons loaded!\n\n";
 	return 0;
+}
+
+Player * populatePlayers(int nPlayers, int nWeapons) {
+	Player * p = new Player[nPlayers];
+	for (int i = 0; i < nPlayers; i++) {
+		p[i].ammo = new int[nWeapons];
+		for (int o = 0; o < nWeapons; o++) p[i].ammo[o] = 0; 
+	}
+	return p;
 }
