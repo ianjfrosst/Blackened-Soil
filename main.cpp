@@ -198,9 +198,9 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 
 			std::thread renderThread(&sandSystem::render, sand);
 
-			renderThread.detach();
+			renderThread.join();
 
-			//sand.render();
+			sand.render();
 			//std::cout << "Sand render took " << timer.getElapsedTime().asMilliseconds() << " millis with active particles.\n";
 
 			for (int i = 0; i < tanks.size(); i++) {
