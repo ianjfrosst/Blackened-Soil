@@ -10,6 +10,7 @@
 //#include "Player.h"
 
 #define KILL_POINTS 500
+#define SUICIDE_DEDUCTION 1000
 
 
 // Comments are for those of weak constitutions and simple minds.
@@ -94,9 +95,11 @@ int main() {
 		} else if (sel == 4) {
             std::cout
 				<< "Scores:\n"
-				<< "Player:\t\tScore:\t\tWins:\n";
+				<< "#\t|Score:\t|Kills:\t|Deaths:|Self-kills:\t|Wins:\n"
+				<< "____________________________________________________________\n";
 
-			for (int i = 0; i < nPlayers; i++) std::cout << i+1 << "\t\t" << players[i].score << "\t\t" << players[i].wins << '\n';
+			for (int i = 0; i < nPlayers; i++) std::cout << i+1 << "\t|" << players[i].score << "\t|"<< players[i].kills <<"\t|"<< players[i].kills <<"\t|" <<players[i].suicides
+				<<"\t\t|" <<players[i].wins<<'\n';
         } else if (sel == 5) {
             STOPNOW = false;
         } else {
@@ -142,8 +145,13 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 
 		int tankRes = 0;
 
+		int curPlayer = tanks[turn].playerNumber;
+
+		bool windowHasFocus = true;
+
 		while (!tankRes && window.isOpen()) {
-			tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds(), weapons);
+			if (windowHasFocus) tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds(), weapons);
+			else tankRes = 0;
             deltaTimer.restart();
 			timer.restart();
 			// Executes until the player shoots.
@@ -153,6 +161,10 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			while (window.pollEvent(event)) {
 				if (event.type == sf::Event::Closed)
 					window.close();
+				if (event.type == sf::Event::LostFocus)
+					windowHasFocus = false;
+				if (event.type == sf::Event::GainedFocus)
+					windowHasFocus = true;
 			}
 
 			window.clear();
@@ -191,6 +203,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			while (window.pollEvent(event)) {
 				if (event.type == sf::Event::Closed)
 					window.close();
+				
 			}
 			window.clear();
 			
@@ -207,7 +220,13 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 				tanksUpdated = tanksUpdated || tanks[i].update(&sand);
 				tanks[i].render(window, false);
 				if (tanks[i].health <= 0) {
-					scores[(tanks[turn].playerNumber+players-1)%players].score += KILL_POINTS;
+					std::cout << "Player " << curPlayer+1 << " killed player " << tanks[i].playerNumber+1 << '\n';
+					scores[curPlayer].score += (curPlayer==tanks[i].playerNumber?-SUICIDE_DEDUCTION:KILL_POINTS);
+					if (curPlayer==tanks[i].playerNumber) scores[curPlayer].suicides++;
+					else scores[curPlayer].kills++;
+					scores[tanks[i].playerNumber].deaths++;
+
+
 					tanks.erase(tanks.begin() + i);
 					i--;
 
@@ -246,6 +265,9 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			if (tanks.size() == 1) return tanks[0].playerNumber;
 			if (tanks.size() == 0) return -1; // We've killed them all....
 		}
+
+
+
     }
     return -1;
 }
@@ -358,6 +380,11 @@ Player * populatePlayers(int nPlayers, int nWeapons) {
 	for (int i = 0; i < nPlayers; i++) {
 		p[i].score = 0;
 		p[i].wins = 0;
+
+		p[i].kills = 0;
+		p[i].suicides = 0;
+		p[i].deaths = 0;
+
 		p[i].ammo = new int[nWeapons];
 		for (int o = 0; o < nWeapons; o++) p[i].ammo[o] = 5;	// DEBUG
 		p[i].nWeapons = nWeapons;

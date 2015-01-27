@@ -64,6 +64,6 @@ public :
 	// Returns whether the tank is still moving.
 	bool update(sandSystem * sand);
 
-	// Returns index of weapon fired in the weapons array.
+	// Returns whether the tank fired.
 	int controls(int deltaMillis, Weapon *);
 };
