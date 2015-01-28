@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Vector2D.h"
 #include "Projectile.h"
 #include "Explosion.h"
@@ -66,4 +68,7 @@ public :
 
 	// Returns whether the tank fired.
 	int controls(int deltaMillis, Weapon *);
+
+	// Returns whether the projectile has been destroyed.
+	bool checkProjectile(Projectile);
 };

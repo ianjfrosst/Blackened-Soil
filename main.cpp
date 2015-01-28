@@ -26,6 +26,16 @@ Player * populatePlayers(int, int);
 
 int main() {
 
+	// TEST================================
+
+	Vector2D a(0,10);
+	Vector2D b(10,0);
+	Vector2D c(5,5);
+
+	std::cout << c.GetSegmentDist(b,a) << '\n';
+
+	// TEST================================
+
 	std::cout
 	<< "BLACKENED SOIL\n"
 	<< "By Charles Holtforster\n"
@@ -241,13 +251,18 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 				projectiles[i].render(window);
 				//std::cout << "Projectile code was" << res << ".\n";
 
+				bool hitTank = false;
+				for (int o = 0; o < tanks.size(); o++) {
+					if (curPlayer != tanks[o].playerNumber) hitTank = hitTank || tanks[o].checkProjectile(projectiles[i]);
+				}
+
 				if (res & EXPL_SAD || res & EXPL_SPL) {		// Projeciles is splitting.
 					std::vector<Projectile> * newProj = projectiles[i].split();
 					for (int o = 0; o < newProj->size(); o++) projectiles.push_back((*newProj)[o]);
 					delete newProj;
 				}
 
-				if (res & EXPL_DET) {
+				if (res & EXPL_DET || hitTank) {
 					//std::cout << "BOOM!\n";
 					for (int o = 0; o < tanks.size(); o++) {
 						// DEAL DAMAGE!
@@ -255,7 +270,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 					}
 				}
 
-				if (res & EXPL_OOB || res & EXPL_SAD || res & EXPL_DET) { // Projectile is dead for whatever reason.
+				if (res & EXPL_OOB || res & EXPL_SAD || res & EXPL_DET || hitTank) { // Projectile is dead for whatever reason.
 					projectiles.erase(projectiles.begin() + i);
 					i--;
 				}
@@ -282,7 +297,7 @@ Weapon parseWeap(std::string in) {
 	ss.clear();
 	ss << in;
 
-	std::cout << in << '\n';
+	//std::cout << in << '\n';
 
 	Weapon newWeapon;
 	std::string temp;
