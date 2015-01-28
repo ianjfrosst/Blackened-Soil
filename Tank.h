@@ -22,6 +22,8 @@ class Tank {
 
 	Player * player;
 
+    bool lastChangeKey;
+
 public :
 	float health;
 	Projectile result;
@@ -51,6 +53,7 @@ public :
 		power = 0;
 		health = Health;
 		weaponSelection = 0;
+        lastChangeKey = false;
 	}
 
 	void startTurn(Weapon *);

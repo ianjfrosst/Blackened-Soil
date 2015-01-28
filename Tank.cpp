@@ -77,11 +77,12 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 
 	bool key_PgUp = sf::Keyboard::isKeyPressed(sf::Keyboard::LBracket);
 
-	if (key_PgUp) {
+	if (key_PgUp && !lastChangeKey) {
 		weaponSelection = (weaponSelection+1) % player->nWeapons;
 		while (!weapons[weaponSelection].accessible) weaponSelection = (weaponSelection+1) % player->nWeapons;
 		std::cout << "Selected " << weapons[weaponSelection].name << ". " << player->ammo[weaponSelection] << " ammo available.\n";
 	}
+    lastChangeKey = key_PgUp;
 
 	bool fired = key_Sp && minTurn.getElapsedTime().asSeconds() > 1 && player->ammo[weaponSelection] > 0;
 
@@ -92,8 +93,8 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 		if (key_L) angle += 3.14159*(deltaMillis/5000.0);
 		if (key_R) angle -= 3.14159*(deltaMillis/5000.0);
 	} else {
-		if (key_Up) power += (deltaMillis/20.0);
-		if (key_Dn) power -= (deltaMillis/20.0);
+		if (key_Up) power += (deltaMillis/10.0);
+		if (key_Dn) power -= (deltaMillis/10.0);
 
 		if (key_L) angle += 3.14159*(deltaMillis/1000.0);
 		if (key_R) angle -= 3.14159*(deltaMillis/1000.0);
@@ -126,6 +127,7 @@ bool Tank::takeDamage(explosion expl) {
 }
 
 bool Tank::checkProjectile(Projectile incoming) {
+    return false; //. DEBUG!
 	//if (incoming.vel.x > TANK_RADIUS || incoming.vel.y > TANK_RADIUS)
 	double dist = (pos+Vector2D(5,5)).GetSegmentDist(incoming.pos, incoming.pos+incoming.vel);
 	std::cout << "Projectile is " << dist << " px away.\n";
