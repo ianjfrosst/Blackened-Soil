@@ -31,15 +31,12 @@ double Vector2D::GetSqrMag() {
 }
 
 bool Vector2D::CheckCollision(Vector2D a, Vector2D b, float d) {
-	return GetSegmentDist(a,b) < d;
+	return abs(GetSegmentDist(a,b)) < d;
 }
 
 // Called on the point, with ab being the segment.
 double Vector2D::GetSegmentDist(Vector2D a, Vector2D b) {
-	Vector2D N = (b-a).Normal();
-	N.Normalize();
-
-     return ((*this)-a).DotProduct(N); /// (*this-a).GetMag();
+     return ((*this)-a).DotProduct((b-a).Normal()); /// (*this-a).GetMag();
 }
 
 // Returns the dot product of this and b.

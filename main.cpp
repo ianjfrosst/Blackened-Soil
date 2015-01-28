@@ -28,13 +28,13 @@ int main() {
 
 	// TEST================================
 
-	Vector2D a(0,0);
+	Vector2D a(10,0);
 	Vector2D b(0,10);
-	Vector2D c(5,-100);
+	Vector2D c(5,0);
 
 	Vector2D Nba = (b-a).Normal();
 
-	std::cout << "Dot product of "  << (c-a) << " and " << Nba << ": " << (c-a).DotProduct(Nba) << '\n';
+	std::cout << "Dot product of "  << (c-a) << " and " << Nba << ": " << abs((c-a).DotProduct(Nba)) << '\n';
 
 	//std::cout << c.GetSegmentDist(a,b) << '\n';
 
