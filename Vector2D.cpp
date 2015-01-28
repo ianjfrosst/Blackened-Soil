@@ -30,6 +30,36 @@ double Vector2D::GetSqrMag() {
 	return (x*x) + (y*y);
 }
 
+bool Vector2D::CheckCollision(Vector2D a, Vector2D b, float d) {
+	return GetSegmentDist(a,b) < d;
+}
+
+// Called on the point, with ab being the segment.
+double Vector2D::GetSegmentDist(Vector2D a, Vector2D b) {
+     return ((*this)-a).DotProduct((b-a).Normal())/(b-a).GetMag();
+}
+
+// Returns the dot product of this and b.
+double Vector2D::DotProduct(Vector2D b) {
+	return (x*b.x)+(y*b.y);
+}
+
+// Return the magnitude of b projected onto this.
+double Vector2D::Project(Vector2D b) {
+	return DotProduct(b)/GetMag();
+}
+
+void Vector2D::Normalize() {
+	double mag = GetMag();
+	x = x/mag;
+	y = y/mag;
+}
+
+Vector2D Vector2D::Normal() {
+	return Vector2D(y,x)/GetMag();
+}
+
+
 Vector2D& Vector2D::operator+=(const Vector2D& v) {
     x += v.x;
     y += v.y;

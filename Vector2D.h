@@ -16,9 +16,21 @@ public:
     void SetXY(double nX, double nY);
     void SetDM(double dir, double mag);
 
+	void Normalize();
+
+	Vector2D Normal();
+
     double GetDir();
     double GetMag();
 	double GetSqrMag();
+
+	bool CheckCollision(Vector2D a, Vector2D b, float d);
+
+	double GetSegmentDist(Vector2D a, Vector2D b);
+
+	double DotProduct(Vector2D b);
+	double Project(Vector2D b);
+
 
     Vector2D& operator+=(const Vector2D& v);
     Vector2D& operator-=(const Vector2D& v);

@@ -1,11 +1,13 @@
 #include "Tank.h"
 
+#define TANK_RADIUS 5
+
 sf::Vector2f Tank::transformPoint(Vector2D in) {
 	return sf::Vector2f(pos.x + in.x,SAND_SYSTEM_Y-pos.y+in.y);
 }
 
 void Tank::render(sf::RenderWindow &window, bool isMyTurn){
-	sf::CircleShape shape = sf::CircleShape(5);
+	sf::CircleShape shape = sf::CircleShape(TANK_RADIUS);
 	shape.setPosition(pos.x, SAND_SYSTEM_Y-pos.y-10);
 	if (isMyTurn) {
 		// Aim
@@ -112,11 +114,12 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 }
 
 bool Tank::takeDamage(explosion expl) {
-	//std::cout << "Checking bullet hit...\n";
-	//std::cout << "Am " << (expl.pos - pos).GetMag() << " pixels away.\n";
-	if ((expl.pos - pos).GetMag() < expl.size) {
-		float dmg = ((expl.size-(expl.pos - pos).GetMag())/expl.size) * expl.maxDMG;
-		std::cout << "Shot with " << expl.weap->name << ".\n";
+	float dist = (expl.pos - (pos+Vector2D(TANK_RADIUS,TANK_RADIUS))).GetMag();
+	if (dist < expl.size) {
+		dist = (dist > TANK_RADIUS ? dist : 0);
+		float dmg = ((expl.size-dist)/expl.size) * expl.maxDMG;
+		std::cout << "Shot with " << expl.weap->name << " at " << dist << '/' << expl.weap->ExplosionSize
+			<< " pixels, dealing " << dmg << " damage.\n";
 		health -= dmg;
 	}
 	return health > 0;
