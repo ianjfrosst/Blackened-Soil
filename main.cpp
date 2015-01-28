@@ -32,6 +32,8 @@ int main() {
 	Vector2D b(0,10);
 	Vector2D c(5,0);
 
+	// Nba * (c-a).Nba should be within the bounding box of b <-> a + 1 in either direction.
+
 	Vector2D Nba = (b-a).Normal();
 
 	std::cout << "Dot product of "  << (c-a) << " and " << Nba << ": " << abs((c-a).DotProduct(Nba)) << '\n';
