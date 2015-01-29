@@ -36,7 +36,8 @@ bool Vector2D::CheckCollision(Vector2D a, Vector2D b, float d) {
 
 // Called on the point, with ab being the segment.
 double Vector2D::GetSegmentDist(Vector2D a, Vector2D b) {
-     return ((*this)-a).DotProduct((b-a).Normal()); /// (*this-a).GetMag();
+     return abs(((*this)-a).DotProduct((b-a).Normal())); /// (*this-a).GetMag();
+	 //double DP = abs((c-a).DotProduct(Nba));
 }
 
 // Returns the dot product of this and b.

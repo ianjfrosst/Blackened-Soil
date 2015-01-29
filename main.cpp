@@ -36,7 +36,11 @@ int main() {
 
 	Vector2D Nba = (b-a).Normal();
 
-	std::cout << "Dot product of "  << (c-a) << " and " << Nba << ": " << abs((c-a).DotProduct(Nba)) << '\n';
+	double DP = abs((c-a).DotProduct(Nba));
+
+	std::cout << "Dot product of "  << (c-a) << " and " << Nba << ": " << DP << " = " << DP/sqrt(2) << "\n";
+	std::cout << "Proximity of " << c << " to " << a << " and " << b << ": " << c.GetSegmentDist(a,b) << "\n";
+	// This bit works. Now for actually proximity to segment.
 
 	//std::cout << c.GetSegmentDist(a,b) << '\n';
 
