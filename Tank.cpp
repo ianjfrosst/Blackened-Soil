@@ -130,7 +130,7 @@ bool Tank::checkProjectile(Projectile * incoming) {
     //return false; //. DEBUG!
 	//if (incoming.vel.x > TANK_RADIUS || incoming.vel.y > TANK_RADIUS)
 
-	float dist = (pos+Vector2D(TANK_RADIUS,TANK_RADIUS)).GetSegmentDist(incoming->pos, incoming->pos+incoming->vel);
+	float dist = sqrt((pos+Vector2D(TANK_RADIUS,TANK_RADIUS)).GetSegmentDist(incoming->pos, incoming->pos+incoming->vel));
 
 	std::cout << "Projectile is " << dist << " px away.\n";
 	if (dist < TANK_RADIUS) {
