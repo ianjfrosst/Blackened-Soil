@@ -126,14 +126,17 @@ bool Tank::takeDamage(explosion expl) {
 	return health > 0;
 }
 
-bool Tank::checkProjectile(Projectile incoming) {
+bool Tank::checkProjectile(Projectile * incoming) {
     //return false; //. DEBUG!
 	//if (incoming.vel.x > TANK_RADIUS || incoming.vel.y > TANK_RADIUS)
 
-	double dist = (pos+Vector2D(5,5)).GetSegmentDist(incoming.pos, incoming.pos+incoming.vel);
+	float dist = (pos+Vector2D(TANK_RADIUS,TANK_RADIUS)).GetSegmentDist(incoming->pos, incoming->pos+incoming->vel);
+
 	std::cout << "Projectile is " << dist << " px away.\n";
 	if (dist < TANK_RADIUS) {
-		health -= incoming.weap->MaxDamage;
+		std::cout << "Hit with projectile!\n";
+		incoming->pos = pos+Vector2D(TANK_RADIUS,TANK_RADIUS);
+		//health -= incoming->weap->MaxDamage;
 		return true;
 	}
 	return false;

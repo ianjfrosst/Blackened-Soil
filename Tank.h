@@ -73,5 +73,5 @@ public :
 	int controls(int deltaMillis, Weapon *);
 
 	// Returns whether the projectile has been destroyed.
-	bool checkProjectile(Projectile);
+	bool checkProjectile(Projectile*);
 };

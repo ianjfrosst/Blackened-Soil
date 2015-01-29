@@ -28,9 +28,9 @@ int main() {
 
 	// TEST================================
 
-	Vector2D a(10,0);
+	Vector2D a(0,0);
 	Vector2D b(0,10);
-	Vector2D c(5,0);
+	Vector2D c(20,20);
 
 	// Nba * (c-a).Nba should be within the bounding box of b <-> a + 1 in either direction.
 
@@ -40,6 +40,7 @@ int main() {
 
 	std::cout << "Dot product of "  << (c-a) << " and " << Nba << ": " << DP << " = " << DP/sqrt(2) << "\n";
 	std::cout << "Proximity of " << c << " to " << a << " and " << b << ": " << c.GetSegmentDist(a,b) << "\n";
+	
 	// This bit works. Now for actually proximity to segment.
 
 	//std::cout << c.GetSegmentDist(a,b) << '\n';
@@ -263,7 +264,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 
 				bool hitTank = false;
 				for (int o = 0; o < tanks.size(); o++) {
-					if (curPlayer != tanks[o].playerNumber) hitTank = hitTank || tanks[o].checkProjectile(projectiles[i]);
+					if (curPlayer != tanks[o].playerNumber) hitTank = hitTank || tanks[o].checkProjectile(&(projectiles[i]));
 				}
 
 				if (res & EXPL_SAD || res & EXPL_SPL) {		// Projeciles is splitting.
