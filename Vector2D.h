@@ -26,7 +26,7 @@ public:
 
 	bool CheckCollision(Vector2D a, Vector2D b, float d);
 
-	double GetSegmentDist(Vector2D a, Vector2D b);
+	float GetSegmentDist(Vector2D, Vector2D);
 
 	double DotProduct(Vector2D b);
 	double Project(Vector2D b);
