@@ -237,24 +237,6 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			sand.render();
 			//std::cout << "Sand render took " << timer.getElapsedTime().asMilliseconds() << " millis with active particles.\n";
 
-			for (int i = 0; i < tanks.size(); i++) {
-				tanksUpdated = tanksUpdated || tanks[i].update(&sand);
-				tanks[i].render(window, false);
-				if (tanks[i].health <= 0) {
-					std::cout << "Player " << curPlayer+1 << " killed player " << tanks[i].playerNumber+1 << '\n';
-					scores[curPlayer].score += (curPlayer==tanks[i].playerNumber?-SUICIDE_DEDUCTION:KILL_POINTS);
-					if (curPlayer==tanks[i].playerNumber) scores[curPlayer].suicides++;
-					else scores[curPlayer].kills++;
-					scores[tanks[i].playerNumber].deaths++;
-
-
-					tanks.erase(tanks.begin() + i);
-					i--;
-
-					if (turn >= i) turn = (turn-1)%tanks.size();
-				}
-				if (tanks.size() == 1) return tanks[0].playerNumber;
-			}
 			
 			for (int i = 0; i < projectiles.size(); i++) {
 				//std::cout << "Running projectile " << i << ".\n";
@@ -286,6 +268,27 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 					i--;
 				}
 			}
+
+			for (int i = 0; i < tanks.size(); i++) {
+				tanksUpdated = tanksUpdated || tanks[i].update(&sand);
+				tanks[i].render(window, false);
+				if (tanks[i].health <= 0) {
+					std::cout << "Player " << curPlayer+1 << " killed player " << tanks[i].playerNumber+1 << '\n';
+					scores[curPlayer].score += (curPlayer==tanks[i].playerNumber?-SUICIDE_DEDUCTION:KILL_POINTS);
+					if (curPlayer==tanks[i].playerNumber) scores[curPlayer].suicides++;
+					else scores[curPlayer].kills++;
+					scores[tanks[i].playerNumber].deaths++;
+
+
+					tanks.erase(tanks.begin() + i);
+					i--;
+
+					if (turn >= i) turn = (turn-1)%tanks.size();
+				}
+				if (tanks.size() == 1) return tanks[0].playerNumber;
+			}
+
+
 			window.display();
 			timer.restart();
 			if (tanks.size() == 1) return tanks[0].playerNumber;
