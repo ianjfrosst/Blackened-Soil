@@ -38,3 +38,6 @@
 .DS_Store
 
 *.dll
+BlackenedSoil.cbp
+BlackenedSoil.depend
+BlackenedSoil.layout

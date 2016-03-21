@@ -84,6 +84,8 @@ int main() {
             sf::ContextSettings settings;
             settings.antialiasingLevel = 1;
             sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
+            window.setFramerateLimit(60);
+
             int winner = playGame(window, nPlayers, players, weapons);
             if (winner >= 0) {
                 players[winner].wins++;
@@ -173,6 +175,9 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 		while (!tankRes && window.isOpen()) {
 			if (windowHasFocus) tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds(), weapons);
 			else tankRes = 0;
+			if (deltaTimer.getElapsedTime().asMilliseconds() > (1000/45)) {
+                std::cout << "Detla Time exceeded 1000/45 milliseconds!\n";
+			}
             deltaTimer.restart();
 			timer.restart();
 			// Executes until the player shoots.
@@ -189,7 +194,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			}
 
 			window.clear();
-			
+
 			timer.restart();
 			sand.render();
 			//std::cout << "Sand render took " << timer.getElapsedTime().asMicroseconds() << " microseconds.\n";
@@ -237,7 +242,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			sand.render();
 			//std::cout << "Sand render took " << timer.getElapsedTime().asMilliseconds() << " millis with active particles.\n";
 
-			
+
 			for (int i = 0; i < projectiles.size(); i++) {
 				//std::cout << "Running projectile " << i << ".\n";
 				int res = projectiles[i].update(&sand,Vector2D(0,-1));
@@ -327,7 +332,7 @@ Weapon parseWeap(std::string in) {
 	ss >> newWeapon.splitMaxSpeed;	 // Shite....
 	ss >> newWeapon.splitNumber;
 	ss >> newWeapon.splitTime;
-	
+
 	ss >> temp;
 	newWeapon.splType = splitType::normal;
 	if (!temp.compare("normal")) {
