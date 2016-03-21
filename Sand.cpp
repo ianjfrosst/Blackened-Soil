@@ -75,6 +75,7 @@ bool sandSystem::update(Vector2D grav) {
 	for (int i = 0; i < activeSandParts.size(); i++) {
 		activeSandParts[i].pos += activeSandParts[i].vel;
 		activeSandParts[i].vel += grav;
+		activeSandParts[i].vel *= 0.999;
 
 		// Is the sand on the screen?
 		if (activeSandParts[i].pos.x < SAND_SYSTEM_X && activeSandParts[i].pos.y < SAND_SYSTEM_Y &&
@@ -317,3 +318,7 @@ void sandSystem::render() {
 	outSpr.setPosition(sf::Vector2f(0,0));
 	window->draw(outSpr);
 }
+
+
+
+

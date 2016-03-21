@@ -40,7 +40,7 @@ int main() {
 
 	std::cout << "Dot product of "  << (c-a) << " and " << Nba << ": " << DP << " = " << DP/sqrt(2) << "\n";
 	std::cout << "Proximity of " << c << " to " << a << " and " << b << ": " << c.GetSegmentDist(a,b) << "\n";
-	
+
 	// This bit works. Now for actually proximity to segment.
 
 	//std::cout << c.GetSegmentDist(a,b) << '\n';
@@ -84,7 +84,7 @@ int main() {
             sf::ContextSettings settings;
             settings.antialiasingLevel = 1;
             sf::RenderWindow window(sf::VideoMode(SAND_SYSTEM_X, SAND_SYSTEM_Y, 32), "Blackened Soil", sf::Style::Default, settings);
-            window.setFramerateLimit(60);
+            window.setFramerateLimit(30);
 
             int winner = playGame(window, nPlayers, players, weapons);
             if (winner >= 0) {
@@ -141,7 +141,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 	std::vector<Tank> tanks;
 
 	sand.populate(200.0, 0.45);
-	
+
 	int turn = 0;
 
 	// Add tanks!
@@ -175,9 +175,9 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 		while (!tankRes && window.isOpen()) {
 			if (windowHasFocus) tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds(), weapons);
 			else tankRes = 0;
-			if (deltaTimer.getElapsedTime().asMilliseconds() > (1000/45)) {
-                std::cout << "Detla Time exceeded 1000/45 milliseconds!\n";
-			}
+			//if (deltaTimer.getElapsedTime().asMilliseconds() > (1000/45)) {
+            //    std::cout << "Detla Time exceeded 1000/45 milliseconds!\n";
+			//}
             deltaTimer.restart();
 			timer.restart();
 			// Executes until the player shoots.
@@ -206,7 +206,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			window.display();
 			// TODO: Add frame rate lock.
 		}
-		
+
 		projectiles.push_back(tanks[turn].result);
 		projectiles[projectiles.size() - 1].birth.restart();
 
@@ -220,8 +220,10 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 		// --------------------------------------------------
 		bool tanksUpdated = true;
 
-		while ((sand.update(Vector2D(0,-1)) || projectiles.size() > 0 || tanksUpdated) && window.isOpen()) {
-			//std::cout << "UPDATE took " << timer.getElapsedTime().asMilliseconds() << " milliss.\n";
+        while ((sand.update(Vector2D(0,-1)) || projectiles.size() > 0 || tanksUpdated) && window.isOpen()) {
+
+		//while ((sand.update(Vector2D(0,-0.01)) || projectiles.size() > 0 || tanksUpdated) && window.isOpen()) {
+			//std::cout << "UPDATE took " << timer.getElapsedTime().asMilliseconds() << " millis.\n";
 			tanksUpdated = false;
 			// This loop will execute until there is no active sand, no projectiles, and no closed window.
 
@@ -229,10 +231,10 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			while (window.pollEvent(event)) {
 				if (event.type == sf::Event::Closed)
 					window.close();
-				
+
 			}
 			window.clear();
-			
+
 			timer.restart();
 
 			//std::thread renderThread(&sandSystem::render, sand);
@@ -425,3 +427,10 @@ Player * populatePlayers(int nPlayers, int nWeapons) {
 	}
 	return p;
 }
+
+
+
+
+
+
+
