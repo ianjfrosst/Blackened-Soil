@@ -7,7 +7,9 @@ struct Player {
 	int kills;
 	int deaths;
 	int suicides;
-
+	
+	sf::Color col;
+	
 	int * ammo;
 	int nWeapons;
 

@@ -30,6 +30,8 @@ public :
 	Vector2D pos;		// Position, in world-space-pixels
 	Vector2D vel;		// Trust me on this one.
 	int playerNumber;
+	
+	sf::Color col;
 
 	Tank() {
 		pos = Vector2D();
