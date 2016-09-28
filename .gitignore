@@ -37,6 +37,9 @@
 *.vcxproj*
 .DS_Store
 
+# Makefile
+*.win
+
 *.dll
 BlackenedSoil.cbp
 BlackenedSoil.depend
