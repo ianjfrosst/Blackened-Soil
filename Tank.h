@@ -72,7 +72,7 @@ public :
 	bool update(sandSystem * sand);
 
 	// Returns whether the tank fired.
-	int controls(int deltaMillis, Weapon *);
+	int controls(int deltaMillis, Weapon *,bool useAmmo = true);
 
 	// Returns whether the projectile has been destroyed.
 	bool checkProjectile(Projectile*);

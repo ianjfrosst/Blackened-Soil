@@ -14,7 +14,7 @@
 
 // Comments are for those of weak constitutions and simple minds.
 
-int playGame(sf::RenderWindow&, int, Player *, Weapon * );
+int playGame(sf::RenderWindow&, int, Player *, Weapon *);
 
 // Returns pointer to new array of weapons.
 // nW is the number of weapons in the new array.
@@ -157,7 +157,10 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 	}
 
 	sf::Clock timer;
-
+	
+	bool gameOver = false;
+	sf::Clock endgame;
+	
     while (window.isOpen()) {
 		sf::Clock deltaTimer;
 		tanks[turn].startTurn(weapons);
@@ -171,9 +174,10 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 		int curPlayer = tanks[turn].playerNumber;
 
 		bool windowHasFocus = true;
+		
 
-		while (!tankRes && window.isOpen()) {
-			if (windowHasFocus) tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds(), weapons);
+		while (!tankRes && window.isOpen()  && tanks.size()> 0 && !gameOver) {
+			if (windowHasFocus) tankRes = tanks[turn].controls(deltaTimer.getElapsedTime().asMilliseconds(), weapons,!gameOver);
 			else tankRes = 0;
 			//if (deltaTimer.getElapsedTime().asMilliseconds() > (1000/45)) {
             //    std::cout << "Detla Time exceeded 1000/45 milliseconds!\n";
@@ -205,6 +209,10 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 
 			window.display();
 			// TODO: Add frame rate lock.
+			
+			if (endgame.getElapsedTime().asSeconds() > 20 && gameOver) return tanks[0].playerNumber;
+			
+			if (gameOver) std::cout << "Game over! (Play loop)" << std::endl;
 		}
 
 		projectiles.push_back(tanks[turn].result);
@@ -253,7 +261,9 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 
 				bool hitTank = false;
 				for (int o = 0; o < tanks.size(); o++) {
-					if (curPlayer != tanks[o].playerNumber) hitTank = hitTank || tanks[o].checkProjectile(&(projectiles[i]));
+					if (curPlayer != tanks[o].playerNumber) {
+						hitTank = hitTank || tanks[o].checkProjectile(&(projectiles[i]));
+					}
 				}
 
 				if (res & EXPL_SAD || res & EXPL_SPL) {		// Projeciles is splitting.
@@ -266,7 +276,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 					//std::cout << "BOOM!\n";
 					for (int o = 0; o < tanks.size(); o++) {
 						// DEAL DAMAGE!
-						tanks[o].takeDamage(projectiles[i].result());
+						if (!gameOver) tanks[o].takeDamage(projectiles[i].result());
 					}
 				}
 
@@ -277,9 +287,11 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 			}
 
 			for (int i = 0; i < tanks.size(); i++) {
+				
 				tanksUpdated = tanksUpdated || tanks[i].update(&sand);
 				tanks[i].render(window, false);
-				if (tanks[i].health <= 0) {
+				if (tanks[i].health <= 0 && !gameOver) {
+					
 					std::cout << "Player " << curPlayer+1 << " killed player " << tanks[i].playerNumber+1 << '\n';
 					scores[curPlayer].score += (curPlayer==tanks[i].playerNumber?-SUICIDE_DEDUCTION:KILL_POINTS);
 					if (curPlayer==tanks[i].playerNumber) scores[curPlayer].suicides++;
@@ -292,14 +304,27 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 
 					if (turn >= i) turn = (turn-1)%tanks.size();
 				}
-				if (tanks.size() == 1) return tanks[0].playerNumber;
+				if (tanks.size() == 1) gameOver = true;//return tanks[0].playerNumber;
 			}
 
 
 			window.display();
 			timer.restart();
-			if (tanks.size() == 1) return tanks[0].playerNumber;
-			if (tanks.size() == 0) return -1; // We've killed them all....
+			
+			if (tanks.size() < 2 && !gameOver) {
+				endgame.restart();
+				gameOver = true;
+			}
+			
+			if (gameOver) {
+				if (rand()%100 < 10) sand.detonateCircular(Vector2D(rand()%SAND_SYSTEM_X,rand()%SAND_SYSTEM_X),100,20);
+			}
+			
+			if (tanks.size() == 1 && endgame.getElapsedTime().asSeconds() > 20 && gameOver) return tanks[0].playerNumber;
+			if (tanks.size() == 0 && endgame.getElapsedTime().asSeconds() > 20 && gameOver) return -1; // We've killed them all. Ooops.
+			
+			if (gameOver) std::cout << "Game over!" << std::endl;
+			
 		}
 
 
@@ -323,7 +348,7 @@ Weapon parseWeap(std::string in) {
 	Weapon newWeapon;
 	std::string temp;
 
-	ss >> newWeapon.name;		// There's always a leading number in the string....
+	ss >> newWeapon.name;		// There's always a leading number in the string
 	ss >> newWeapon.name;
 	ss >> temp;
 	newWeapon.accessible = temp[0] == 'Y';
@@ -380,7 +405,7 @@ Weapon * populateWeapons(std::string filename, int * newNW) {
 	if (fin.is_open()) {
 		std::string line;
 		while (std::getline(fin, line)) {
-			if (line[0] != '#') {
+			if (line[0] != '!') {
 				// Create and store as temp new weapon.
 				Weapon newWeap = parseWeap(line);
 

@@ -52,23 +52,28 @@ bool Tank::update(sandSystem * sand) {
 		vel.y -= 1;
 	} else {
 		vel.y = 0;
+		vel.x = 0;
 	}
 	if (pos.y < 0) {
 		pos.y = 0;
 		vel.y = 0;
 		if (sand->staticSand[(int)pos.x][0] == sf::Color::Transparent) health = 0;
 	}
-	return vel.y != 0;
+	if (pos.x > SAND_SYSTEM_X || pos.x < 0) {
+		health = 0;	
+	}
+	
+	return vel.y != 0 && vel.x != 0;
 }
 
 void Tank::startTurn(Weapon * weapons) {
-	minTurn.restart();
+	minTurn.restart(); // This is to precent the next player's shot getting fired if the spacebar is still held.
 	result = Projectile(pos, Vector2D(0,0));
 	std::cout << "Player " << playerNumber+1 << "'s turn!\n";
 	std::cout << "\nCurrently weilding " << weapons[weaponSelection].name << ". " << player->ammo[weaponSelection] << " ammo available.\n";
 }
 
-int Tank::controls(int deltaMillis, Weapon * weapons) {
+int Tank::controls(int deltaMillis, Weapon * weapons, bool useAmmo) {
 	bool key_Up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
 	bool key_Dn = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
 	bool key_L = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
@@ -77,7 +82,7 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 	bool key_Sh = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
 	bool key_PgUp = sf::Keyboard::isKeyPressed(sf::Keyboard::LBracket);
-
+	
 	if (key_PgUp && !lastChangeKey) {
 		weaponSelection = (weaponSelection+1) % player->nWeapons;
 		while (!weapons[weaponSelection].accessible) weaponSelection = (weaponSelection+1) % player->nWeapons;
@@ -86,7 +91,7 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
     lastChangeKey = key_PgUp;
 
 	bool fired = key_Sp && minTurn.getElapsedTime().asSeconds() > 1 && player->ammo[weaponSelection] > 0;
-
+	
 	if (key_Sh) {
 		if (key_Up) power += (deltaMillis/100.0);
 		if (key_Dn) power -= (deltaMillis/100.0);
@@ -110,7 +115,7 @@ int Tank::controls(int deltaMillis, Weapon * weapons) {
 	result.weap = &(weapons[weaponSelection]);
 	result.framesTill = result.weap->splitTime;
     
-	if (fired) player->ammo[weaponSelection] --;
+	if (fired && useAmmo) player->ammo[weaponSelection] --;
 
 	return fired;
 }
