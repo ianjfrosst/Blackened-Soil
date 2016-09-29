@@ -130,6 +130,7 @@ int playGame(sf::RenderWindow & window, int players, Player * scores, Weapon * w
 		int y = 0;
 		while (sand.staticSand[(int)pos.x][y] != sf::Color::Transparent) y++;
 		pos.y = y;
+		tank.col = scores[i].col;
 		tank.setPos(pos);
 		tanks.push_back(tank);
 	}
@@ -398,7 +399,9 @@ Player * populatePlayers(int nPlayers, int nWeapons) {
 		p[i].kills = 0;
 		p[i].suicides = 0;
 		p[i].deaths = 0;
-
+		
+		p[i].col = sf::Color(std::rand() % 255, std::rand() % 255, std::rand() % 255);
+		
 		p[i].ammo = new int[nWeapons];
 		for (int o = 0; o < nWeapons; o++) p[i].ammo[o] = 5;	// DEBUG
 		p[i].nWeapons = nWeapons;

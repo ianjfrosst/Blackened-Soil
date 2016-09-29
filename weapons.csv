@@ -1,4 +1,4 @@
-#,Name,Accessible,Price,MAX Damage,ExplosionSize,splitInterval,maxSplitSpd,splitNum,splitTime,splitType,explosionType,splitResult
+Number,Name,Accessible,Price,MAX Damage,ExplosionSize,splitInterval,maxSplitSpd,splitNum,splitTime,splitType,explosionType,splitResult
 0,Really tiny nuclear device,Y,0,1000,35,0,0,0,0,normal,circular,0
 1,IRV,N,0,100,30,0,0,0,0,normal,circular,1
 2,MIRV,Y,1000,0,0,1,5,10,10,MIRV,disintegrative,1
@@ -9,3 +9,4 @@
 7,Flechette missile,Y,0,0,40,4,3,5,4,flechette,disintegrative,6
 8,SniperCannon,Y,100,2000,10,0,0,0,0,normal,circular,8
 9,LAW,Y,100,1000,50,0,0,0,0,normal,calderic,9
+10,WEAREBACK,Y,0,10,50,1,5,5,2,flechette,disintegrative,10

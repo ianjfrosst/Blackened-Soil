@@ -9,6 +9,7 @@ sf::Vector2f Tank::transformPoint(Vector2D in) {
 void Tank::render(sf::RenderWindow &window, bool isMyTurn){
 	sf::CircleShape shape = sf::CircleShape(TANK_RADIUS);
 	shape.setPosition(pos.x, SAND_SYSTEM_Y-pos.y-10);
+	shape.setFillColor(col);
 	if (isMyTurn) {
 		// Aim
 		Vector2D relPos;

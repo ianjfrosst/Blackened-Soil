@@ -38,6 +38,9 @@ bin/
 *.vcxproj*
 .DS_Store
 
+# Makefile
+*.win
+
 BlackenedSoil.cbp
 BlackenedSoil.depend
 BlackenedSoil.layout
