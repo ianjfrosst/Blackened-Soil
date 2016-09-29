@@ -33,11 +33,11 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+bin/
 
 *.vcxproj*
 .DS_Store
 
-*.dll
 BlackenedSoil.cbp
 BlackenedSoil.depend
 BlackenedSoil.layout
