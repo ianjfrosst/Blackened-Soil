@@ -54,16 +54,38 @@ std::vector<double> sandSystem::genHeightMap(int width, double range, double smo
 }
 
 void sandSystem::populate(double range, double smooth) {
+	// Generate heightmap via Ian's witchcraft.
 	std::vector<double> hMap = genHeightMap(SAND_SYSTEM_X, range, smooth);
+	
+	// Infill the map with the heightmap and semi-random colours
 	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
 		for (int j = 0; j < SAND_SYSTEM_Y; ++j) {
 			if (j < hMap[i]) {
-				if (j < hMap[i] - 10) {
-					if (j < hMap[i] - 30) staticSand[i][j] = sf::Color(140, 110, 60, 255);
-					else staticSand[i][j] = (rand() % (int)(hMap[i] - j) > 10) ?
+				
+					
+					if (j < 70) {
+						// Lava/bedrock band
+						
+						int seed = rand()%100 - 50;
+						staticSand[i][j] = (j+seed/5 < 50) ?
+							sf::Color(10+100*(rand()%2), 60, 55+(rand()%20)) :
+							sf::Color(128, 132, 140-20*(rand()%2), 255);
+						
+						// Rock
+					} else if (j < hMap[i] - 70) {
+						int seed = rand()%100 - 50;
+						staticSand[i][j] = (j+seed/2> hMap[i] - 90) ?
+							sf::Color(140, 110, 60, 255) :
+							sf::Color(128, 132, 140-20*(rand()%2), 255);
+						
+					} else if (j < hMap[i] - 10)
+						staticSand[i][j] = sf::Color(140, 110, 60, 255);
+					else if (j > hMap[i] - 5) { 	// DeGrass.
+						staticSand[i][j] = sf::Color(60, 140+(rand()%100), 60, 255);
+					} else staticSand[i][j] = (rand() % (int)(hMap[i] - j) > 5) ?
 						sf::Color(140, 110, 60, 255) :
-						sf::Color(60, 140+(rand()%100), 60, 255);	// Brown or a gradient
-				} else staticSand[i][j] = sf::Color(60, 140+(rand()%100), 60, 255);			// Two different shades of green.
+						sf::Color(60, 140+(rand()%100), 60, 255);	// Brown or a "gradient"
+						// Pixels above h-30 are either ditherer brown-green, or dithered green-othergreen.
 			} else staticSand[i][j] = sf::Color::Transparent;
 		}
 	}
@@ -202,7 +224,10 @@ void sandSystem::detonateCircular(Vector2D loc, double power, double range) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
+			
 			if (a*a + b*b <= range*range) {
+				//staticSand[x][y] += sf::Color(0,0,10,0);
+				//staticSand[x][y] -= sf::Color(0,32,0,0);
 				detachSand(x, y, getInvSq(loc, x, y, range*power));
 			}
 		}
@@ -215,11 +240,15 @@ void sandSystem::detonateCircular(Vector2D loc, double power, double range) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;
+			
 			if (a*a + b*b <= range*range) {
+				//staticSand[x][y] += sf::Color(0,0,10,0);
+				//staticSand[x][y] -= sf::Color(0,32,0);
 				detachSand(x, y, getInvSq(loc, x, y, range*power));
 			}
 		}
 	}
+	
 }
 
 
@@ -235,6 +264,7 @@ void sandSystem::detonateCalderic(Vector2D loc, double power, double range) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;	// Also, we could probably cut out a few operations with a more imprecise calculation of circles.
+			
 			if (a*a + b*b <= range*range) {
 				detachSand(x, y, getCalderaForce(loc, x, y, range*power));
 			}
@@ -248,6 +278,7 @@ void sandSystem::detonateCalderic(Vector2D loc, double power, double range) {
 		for (int y = loc.y-range < 0 ? 0 : loc.y-range; y < (loc.y > SAND_SYSTEM_Y ? SAND_SYSTEM_Y : loc.y+range); y++) {
 			int a = x - loc.x;
 			int b = y - loc.y;
+			
 			if (a*a + b*b <= range*range) {
 				detachSand(x, y, getCalderaForce(loc, x, y, range*power));
 			}
@@ -294,11 +325,17 @@ void sandSystem::render() {
 	sf::Image out;
 	out.create(SAND_SYSTEM_X,SAND_SYSTEM_Y);
 
-
-    // From here
-	for (int i = 0; i < SAND_SYSTEM_X; ++i) {
-		for (int o = 0; o < SAND_SYSTEM_Y; ++o) {
-			out.setPixel(i, o, staticSand[i][o]);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab)) {    // From here
+		for (int i = 0; i < SAND_SYSTEM_X; ++i) {
+			for (int o = 0; o < SAND_SYSTEM_Y; ++o) {
+				out.setPixel(i, o, staticSand[i][o] != sf::Color::Transparent ? sf::Color::White:sf::Color::Red);//staticSand[i][o]);
+			}
+		}
+	} else {
+		for (int i = 0; i < SAND_SYSTEM_X; ++i) {
+			for (int o = 0; o < SAND_SYSTEM_Y; ++o) {
+				out.setPixel(i, o, staticSand[i][o]);
+			}
 		}
 	}
 
