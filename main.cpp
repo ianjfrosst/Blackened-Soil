@@ -25,28 +25,7 @@ Player * populatePlayers(int, int);
 
 int main() {
 
-	// TEST================================
-
-	Vector2D a(0,0);
-	Vector2D b(0,10);
-	Vector2D c(20,20);
-
-	// Nba * (c-a).Nba should be within the bounding box of b <-> a + 1 in either direction.
-
-	Vector2D Nba = (b-a).Normal();
-
-	double DP = abs((c-a).DotProduct(Nba));
-
-	std::cout << "Dot product of "  << (c-a) << " and " << Nba << ": " << DP << " = " << DP/sqrt(2) << "\n";
-	std::cout << "Proximity of " << c << " to " << a << " and " << b << ": " << c.GetSegmentDist(a,b) << "\n";
-
-	// This bit works. Now for actually proximity to segment.
-
-	//std::cout << c.GetSegmentDist(a,b) << '\n';
-
-	// TEST================================
-
-	std::cout
+    std::cout
 	<< "BLACKENED SOIL\n"
 	<< "By Charles Holtforster\n"
 	<< " & Ian Frosst\n"
