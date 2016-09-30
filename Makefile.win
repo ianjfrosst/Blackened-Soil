@@ -1,8 +1,17 @@
 # Project: Blackened-Soil
 # Makefile created by Dev-C++ 5.11
 
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
+OBJ      = main.o Projectile.o Sand.o Tank.o Vector2D.o
+LINKOBJ  = main.o Projectile.o Sand.o Tank.o Vector2D.o
+LIBS     = -L"D:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"D:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -L"D:/libs/SFML-2.4.0/lib" ../../../libs/SFML-2.4.0/lib/libFLAC.a ../../../libs/SFML-2.4.0/lib/libfreetype.a ../../../libs/SFML-2.4.0/lib/libjpeg.a ../../../libs/SFML-2.4.0/lib/libogg.a ../../../libs/SFML-2.4.0/lib/libopenal32.a ../../../libs/SFML-2.4.0/lib/libsfml-audio.a ../../../libs/SFML-2.4.0/lib/libsfml-audio-d.a ../../../libs/SFML-2.4.0/lib/libsfml-audio-s.a ../../../libs/SFML-2.4.0/lib/libsfml-audio-s-d.a ../../../libs/SFML-2.4.0/lib/libsfml-graphics.a ../../../libs/SFML-2.4.0/lib/libsfml-graphics-d.a ../../../libs/SFML-2.4.0/lib/libsfml-graphics-s.a ../../../libs/SFML-2.4.0/lib/libsfml-graphics-s-d.a ../../../libs/SFML-2.4.0/lib/libsfml-main.a ../../../libs/SFML-2.4.0/lib/libsfml-main-d.a ../../../libs/SFML-2.4.0/lib/libsfml-network.a ../../../libs/SFML-2.4.0/lib/libsfml-network-d.a ../../../libs/SFML-2.4.0/lib/libsfml-network-s.a ../../../libs/SFML-2.4.0/lib/libsfml-network-s-d.a ../../../libs/SFML-2.4.0/lib/libsfml-system.a ../../../libs/SFML-2.4.0/lib/libsfml-system-d.a ../../../libs/SFML-2.4.0/lib/libsfml-system-s.a ../../../libs/SFML-2.4.0/lib/libsfml-system-s-d.a ../../../libs/SFML-2.4.0/lib/libsfml-window.a ../../../libs/SFML-2.4.0/lib/libsfml-window-d.a ../../../libs/SFML-2.4.0/lib/libsfml-window-s.a ../../../libs/SFML-2.4.0/lib/libsfml-window-s-d.a ../../../libs/SFML-2.4.0/lib/libvorbis.a ../../../libs/SFML-2.4.0/lib/libvorbisenc.a ../../../libs/SFML-2.4.0/lib/libvorbisfile.a -g3
+INCS     = -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/libs/SFML-2.4.0/include"
+CXXINCS  = -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"D:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"D:/libs/SFML-2.4.0/include"
 BIN      = Blackened-Soil.exe
+CXXFLAGS = $(CXXINCS) -std=gnu++11 -g3
+CFLAGS   = $(INCS) -std=gnu++11 -g3
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
